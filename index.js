@@ -12,5 +12,12 @@ client.on("messageCreate", async message => {
         message.channel.send("works")
     }
 })
+client.commands = new Discord.Collection();
+client.events = new Discord.Collection();
+client.aliases = new Discord.Collection();
+client.slashcommands = new Discord.Collection();    
+['Command_handler', 'event_handler', 'slashcommands'].forEach(handler => {
+  require(`./functions/${handler}`)(client, Discord)
+});
 
 client.login(process.env.token);
