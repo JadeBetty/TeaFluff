@@ -32,4 +32,5 @@ module.exports = (client, Discord) => {
     } 
     
 } 
+console.log(`Successfully loaded ${client.commands.size} commands!`)
 }
