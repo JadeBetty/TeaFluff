@@ -10,6 +10,7 @@ module.exports = {
             { name: `Imagine Gaming Play`, type: Discord.ActivityType.Watching}, //[1]
             { name: `Halloween`, type: Discord.ActivityType.Watching }, //[2]
             { name: `your C: Drive`, type: Discord.ActivityType.Watching}, //[3]
+            { name: `IGP in a nutshell`, type: Discord.ActivityType.Watching}, //[4]
           ];
         
           setInterval(() => {
@@ -18,7 +19,7 @@ module.exports = {
            // client.user.setStatus('invisible');
         
         
-          }, 9000)
+          }, 3000)
 
     }
 

@@ -1,5 +1,6 @@
 const fs = require('fs');
 module.exports = (client, Discord) => {
+    /*
     let command_folders = fs.readdirSync("./Commands").forEach(folder => {
         const command_files = fs.readdirSync("./Commands").filter(file => file.endsWith('.js'));
         command_files.forEach(f => {
@@ -14,7 +15,7 @@ module.exports = (client, Discord) => {
     })
     console.log(`Successfully loaded ${client.commands.size} commands!`)
 
-    /*
+    */
     const command_files = fs.readdirSync("./Commands").filter(file => file.endsWith('.js'));
     for(const file of command_files){
         const command = require(`../Commands/${folder}`);
@@ -27,6 +28,8 @@ module.exports = (client, Discord) => {
         } else {
             continue;
         }
-    }
-} */
+
+    } 
+    console.log(`Successfully loaded ${client.commands.size} commands!`)
+} 
 }
