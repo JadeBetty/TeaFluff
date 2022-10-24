@@ -6,10 +6,11 @@ const client = new Discord.Client({
     intents: ["Guilds", "GuildMessages", "MessageContent"]
 })
 
-const { prefix, token, clientId} = require("./config.json")
+const { prefix, clientId } = require("./config.json")
 client.on("messageCreate", async message => {
     if(message.content === "testig") {
         message.channel.send("works")
     }
 })
 
+client.login(process.env.token);
