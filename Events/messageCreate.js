@@ -1,8 +1,9 @@
 module.exports = {
     name: `messageCreate`,
-    async run(message, { client, Discord, snipe, prefix }) {
-        console.log(prefix.join(" "))
-        if (message.content.startsWith(prefix)) {
+    async run(message, { client, Discord, snipe}) {
+        let prefix = "-"
+        let prefix2 = "."
+        if (message.content.startsWith(prefix) || message.content.startsWith(prefix2))  {
             const args = message.content.slice(prefix.length).trim().split(/ +/g)
             const commandName = args.shift()
             const command = client.commands.get(commandName) || client.aliases.get(commandName)
