@@ -3,10 +3,9 @@ module.exports = {
     async run(message, { client, Discord, snipe, prefix }) {
         
         console.log(`Logged in as ${client.user.tag}`)
-
         
         const activities = [
-            { name: `${prefix}help`, type: Discord.ActivityType.Watching }, //[0]
+            { name: `-help`, type: Discord.ActivityType.Watching }, //[0]
             { name: `Imagine Gaming Play`, type: Discord.ActivityType.Watching}, //[1]
             { name: `Halloween`, type: Discord.ActivityType.Watching }, //[2]
             { name: `your C: Drive`, type: Discord.ActivityType.Watching}, //[3]

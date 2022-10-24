@@ -8,6 +8,9 @@ module.exports = {
             if (!command) return
             command.run(client, message, args)
         }
+        if(message.content === "imagine is not cool") {
+            message.channel.send("How dare you consider imagine is not cool?! You gotta get banned <:JimDullerDinglson:974359587136344064>.")
+        }
     }
 
 }

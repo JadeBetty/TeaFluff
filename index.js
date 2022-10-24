@@ -7,11 +7,6 @@ const client = new Discord.Client({
 })
 
 const { prefix, clientId } = require("./config.json")
-client.on("messageCreate", async message => {
-    if(message.content === "testig") {
-        message.channel.send("works")
-    }
-})
 client.commands = new Discord.Collection();
 client.events = new Discord.Collection();
 client.aliases = new Discord.Collection();
