@@ -8,7 +8,13 @@ module.exports = {
             const commandName = args.shift()
             const command = client.commands.get(commandName) || client.aliases.get(commandName)
             if (!command) return
-            command.run(client, message, args)
+            try{ 
+                command.run(client, message, args)
+            } catch(error) {
+                console.error(error);
+                message.reply("There was an error while executing this command!")
+            }
+
 
         }
         if(message.content === "imagine is not cool") {
