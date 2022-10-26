@@ -11,7 +11,7 @@ client.commands = new Discord.Collection();
 client.events = new Discord.Collection();
 client.aliases = new Discord.Collection();
 client.slashcommands = new Discord.Collection();    
-['Command_handler', 'event_handler', 'slashcommands'].forEach(handler => {
+['Command_handler', 'event_handler', 'slashcommands', 'mongoConnection'].forEach(handler => {
   require(`./functions/${handler}`)(client, Discord)
 });
 
