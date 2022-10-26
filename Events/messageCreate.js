@@ -9,7 +9,7 @@ module.exports = {
             const command = client.commands.get(commandName) || client.aliases.get(commandName)
             if (!command) return
             try{ 
-                command.run(client, message, args)
+                command.run(client, message, args, Discord)
             } catch(error) {
                 console.error(error);
                 message.reply("There was an error while executing this command!")

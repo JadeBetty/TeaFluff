@@ -3,7 +3,8 @@ require('dotenv').config();
 const Discord = require("discord.js");
 
 const client = new Discord.Client({
-    intents: ["Guilds", "GuildMessages", "MessageContent"]
+    intents: ["Guilds", "GuildMessages", "MessageContent"],
+    
 })
 
 const { prefix, clientId } = require("./config.json")
