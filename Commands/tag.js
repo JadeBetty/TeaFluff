@@ -119,7 +119,7 @@ module.exports = {
             _id: tag._id,
         })
         }
-        /*
+
         if(args[0] === "delete") {
             if(!args[1]){
                 return message.channel.send({
@@ -196,7 +196,5 @@ module.exports = {
                 ],
               });
             }
-        */
-
         }
     }
