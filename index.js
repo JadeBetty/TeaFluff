@@ -16,4 +16,13 @@ client.slashcommands = new Discord.Collection();
   require(`./functions/${handler}`)(client, Discord)
 });
 
+client.config = {
+  colors: {
+    primary: '#5865F2', // blurple
+    success: '#2ECC71', // green
+    error: '#E74C3C', // red
+    warning: '#E67E22', // orange
+  }
+}
+
 client.login(process.env.token);

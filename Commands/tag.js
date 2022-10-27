@@ -19,7 +19,7 @@ module.exports = {
             })
 
         }
-        if(!args[0] === "create") {
+        if(args[0] === "create") {
             if(!args[1] || !args[2]) {
                 return message.channel.send({
                     embeds: [
@@ -93,7 +93,7 @@ module.exports = {
                 {name: `Owner`, value: message.author.toString()}
 
             )
-            channel.send({
+           let msg = channel.send({
                 embeds: [newTagEmbed],
                 components: [
                   new Discord.ActionRowBuilder().addComponents(
@@ -119,6 +119,28 @@ module.exports = {
             _id: tag._id,
         })
         }
+      let collector = msg.createMessageComponentCollector({
+        componentType: ComponentType.Button
+      })
+      collector.on('collect', async c => {
+        let [enable, id] = c.customId.split("-")
+        let tag = Array.from(tagsCache.values()).find(
+          (tag) => tag._id?.valueOf() === id
+        )
+        if(!tag) {
+          return message.channel.send("Tag not found")
+        }
+        if(
+          !c.member.permissions.has(
+            Discord.PermissionFlagsBits.KickMembers
+          )
+        ) {
+          return message.channel.send("You don't have permission to do this!")
+        }
+        if(enable === "a") {
+          message.channel.send("it works lets go")
+        }
+      })
 
         if(args[0] === "delete") {
             if(!args[1]){
@@ -196,5 +218,7 @@ module.exports = {
                 ],
               });
             }
+
+
         }
     }
