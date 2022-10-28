@@ -1,5 +1,7 @@
 {
     "prefix": [".", "-"],
     "clientId": "",
-    "thankslog": ""
+    "thankslog": "",
+    "mmcategory": "",
+    "guildId": ""
 }

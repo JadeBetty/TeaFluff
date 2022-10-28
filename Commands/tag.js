@@ -137,7 +137,7 @@ module.exports = {
         ) {
           return message.channel.send("You don't have permission to do this!")
         }
-        if(enable === "a") {
+        if(c.customId === "a") {
           message.channel.send("it works lets go")
         }
       })

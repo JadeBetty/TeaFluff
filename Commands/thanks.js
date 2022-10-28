@@ -80,7 +80,7 @@ module.exports = {
                     .setColor("Blurple")
                     .setTitle("Thanks added!")
                     .setDescription(
-                        `${user} now has ${thanks.thanks} \n\n **By:** ${message.author} | ||${message.author.id}|| \n **Thanks count** ${thanks.thanks}`,
+                        `${user} now has ${thanks.thanks} thanks \n\n **By:** ${message.author} | ||${message.author.id}|| \n **Thanks count** ${thanks.thanks}`,
                     )
                     .setFooter({
                         text: "use -ty to thanks others"

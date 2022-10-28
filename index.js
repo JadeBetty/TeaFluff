@@ -3,7 +3,8 @@ require('dotenv').config();
 const Discord = require("discord.js");
 
 const client = new Discord.Client({
-    intents: ["Guilds", "GuildMessages", "MessageContent"],
+  intents: ["Guilds", "GuildMessages", "MessageContent", "GuildVoiceStates", "GuildMembers", "DirectMessages"],
+  partials: [Discord.Partials.Message, Discord.Partials.Channel, Discord.Partials.Reaction],
     
 })
 
@@ -18,11 +19,30 @@ client.slashcommands = new Discord.Collection();
 
 client.config = {
   colors: {
-    primary: '#5865F2', // blurple
-    success: '#2ECC71', // green
-    error: '#E74C3C', // red
-    warning: '#E67E22', // orange
-  }
+    primary: Discord.resolveColor("#5865F2"), // blurple
+    success: Discord.resolveColor("#2ECC71"),// green
+    error: Discord.resolveColor('#E74C3C'), // red
+    warning: Discord.resolveColor('#E67E22'), // orange
+  },
+  errEmbed: (message, title, description) => {
+    return message.reply({
+      embeds: [
+        {
+          title: title,
+          description: description,
+          color: client.config.colors.error,
+        },
+      ],
+    });
+  },
+  handleError: (error, message) => {
+    return client.config.errEmbed(
+      message,
+      'Error!',
+      `An error has occured, please try again later.\n\n**Error: **\`\`\`js\n${error}\`\`\``,
+    );
+  },
+
 }
 
 client.login(process.env.token);
