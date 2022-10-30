@@ -1,4 +1,4 @@
-
+/*
 
 module.exports = {
     name: `messageCreate`,
@@ -19,3 +19,4 @@ module.exports = {
       }
  
      }
+*/

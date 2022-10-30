@@ -13,7 +13,6 @@ module.exports = (client, Discord, interaction, InteractionType) => {
     client.events.forEach(event => {
       if (event.ws) {
         client.ws.on(event.name, item => {
-          console.log("")
           event.run(item, { client, Discord, interaction, InteractionType })
         })
       } else {

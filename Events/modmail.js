@@ -16,20 +16,21 @@ module.exports = {
     name: `messageCreate`,
     async run(message, { client, Discord, snipe }) {
        
-        const user = client.users.cache.get(message.channel.topic);
-        const guild = await client.guilds.cache.get(guildId);
-        const category = mmcategory
-        const logsChannel = guild.channels.cache.get(thankslog);
+        const user = client.users.cache.get(message.channel.topic); //getting the user
+        const guild = await client.guilds.cache.get(guildId);//getting the guild by using guildID
+        const category = mmcategory // mod mail category
+        const logsChannel = guild.channels.cache.get(thankslog); //getting the logs channel
 
-        if (message.channel.type === ChannelType.DM) {
-            if (message.author?.bot) return;
-            checkAndSave(message)
+        if (message.channel.type === ChannelType.DM) { // if the message.channel.type is a dm
+            if (message.author?.bot) return; // if the message.author is a bot it will return
+            checkAndSave(message) // don't fucking understand what the fuck is this.
 
             const checking = !!guild.channels.cache.find(
                 c => c.topic === message.author.id,
-            )
+            ) //checking if the guild channel is already have one 
             console.log(checking)
-            if (checking === true) {
+            const mailChannel = guild.channels.cache.find( c => c.topic === message.author.id)
+            if (mailChannel) {
                 const mailChannel = await guild.channels.cache.find(
                     ch => ch.topic === message.author.id,
                 );
@@ -83,7 +84,8 @@ module.exports = {
                     {
                         name: message.author.username,
                         type: 0,
-                        parent: category
+                        parent: category,
+                        topic: message.author.id
                     }
                 )
                 mailChannel.permissionOverwrites.create(mailChannel.guild.roles.everyone, { ViewChannel: false });
@@ -131,7 +133,8 @@ module.exports = {
                 }
             }
         }
-       // if (!message.guild) return;
+       if (!message.guild) return;
+   //    console.log(guild)
         if (
             message.guild.id === guild.id &&
             message.channel.parentID === category
@@ -179,9 +182,9 @@ module.exports = {
                             ],
                         });
                     }
-                    sendTranscriptiAndDelete(message, logsChannel);
+                    sendTranscriptAndDelete(message, logsChannel);
                     message.channel
-                        .delete([`modmail thread delte. Action By: ${message.author.tag}`])
+                        .delete([`modmail thread delete. Action By: ${message.author.tag}`])
                         .then(ch => {
                             guild.channels.cache.get(thankslogs).send({
                                 embeds: [
@@ -316,6 +319,21 @@ module.exports = {
             }
         }
 
+        const member = await client.users.cache.get(message.channel.topic)
+        if(!member) return console.log("member not found goofy");
+        if(message.author.bot) return;
+        member.send({
+            embeds: [
+                new EmbedBuilder()
+                .setAuthor({
+                    name: message.author.name,
+                    iconURL: message.author.displayAvatarURL()
+                })
+                .setColor("Green")
+                .setDescription(message.content)
+                .setTimestamp()
+            ]
+        })
     }
 }
 

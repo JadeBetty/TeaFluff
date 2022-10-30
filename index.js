@@ -7,6 +7,7 @@ const client = new Discord.Client({
   partials: [Discord.Partials.Message, Discord.Partials.Channel, Discord.Partials.Reaction],
     
 })
+const fs = require("fs")
 
 const { prefix, clientId } = require("./config.json")
 client.commands = new Discord.Collection();
@@ -16,6 +17,19 @@ client.slashcommands = new Discord.Collection();
 ['Command_handler', 'event_handler', 'slashcommands', 'mongoConnection'].forEach(handler => {
   require(`./functions/${handler}`)(client, Discord)
 });
+
+console.log(`————————————————— Slash Commands ———————————————————`)
+
+fs.readdirSync(`./slashcommands`).forEach(subfolder => {
+  
+const slashcommandsFiles = fs.readdirSync(`./slashcommands/${subfolder}`).filter(file => file.endsWith('js'));
+  
+for (const file of slashcommandsFiles) {
+  const slash = require(`./slashcommands/${subfolder}/${file}`)
+  console.log(`Slash Commands - ${file} loaded.`)
+  client.slashcommands.set(slash.data.name, slash)
+}
+})
 
 client.config = {
   colors: {
