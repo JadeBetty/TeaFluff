@@ -6,6 +6,7 @@ module.exports = {
     name: "thanks",
     description: "Thank a user for their help!",
     aliases: ["thank", 'ty'],
+    category: 'General',
     run: async (client, message, args) => {
         let user = message.mentions.members.first();
         if (!user) {

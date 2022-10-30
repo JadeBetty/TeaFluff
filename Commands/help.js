@@ -9,8 +9,9 @@ module.exports = {
   name: 'help',
   description: 'Help Command',
   aliases: ['Help', 'HELP'],
+  category: 'General',
   run: async ( client, message, args ) => {
-
+const prefix = require("../config.json")
 
 
 //console.log(message)
@@ -40,7 +41,7 @@ module.exports = {
     const d = []
     for (let file of SC) {
       const commandName = file.split(".")[0]
-      const command = require(`../slashcommands/pign/${commandName}`)
+      const command = require(`../slashcommands/stuff/${commandName}`)
       Client.c.set(commandName, command);
       d.push(commandName)
 
@@ -93,7 +94,7 @@ module.exports = {
     let p1 = new EmbedBuilder()
       .setColor('Blue')
       //  .setTitle(`All Commands : ${total} `)
-      .setDescription(` ** Help | ${message.author}** \n All Commands: ${total} \n  Total Commands = ${C.length} \n Total Slash Commands = ${SC.length} \n ${c} \n   `)
+      .setDescription(` ** Help | ${message.author}** \n All Commands: ${total} \n  Total Commands = ${C.length} \n Total Slash Commands = ${SC.length} \n Prefix: **-** or **.**\n ${c} \n   `)
     /*
             message.reply({
               embeds: [p1],

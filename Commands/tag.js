@@ -4,6 +4,7 @@ const { tagsCache } = require("../utils/Cache")
 module.exports = {
     name: "tag",
     description: "Tag System",
+    category: 'Help',
     run: async (client, message, args) => {
         if(!args[0]) {
             return message.channel.send({

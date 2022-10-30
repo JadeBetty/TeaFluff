@@ -5,7 +5,6 @@ module.exports = {
         console.log(`Logged in as ${client.user.tag}`)
         
         const activities = [
-            { name: `-help`, type: Discord.ActivityType.Watching }, //[0]
             { name: `Imagine Gaming Play`, type: Discord.ActivityType.Watching}, //[1]
             { name: `Halloween`, type: Discord.ActivityType.Watching }, //[2]
             { name: `your C: Drive`, type: Discord.ActivityType.Watching}, //[3]

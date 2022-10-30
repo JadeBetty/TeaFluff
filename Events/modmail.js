@@ -7,13 +7,14 @@ const {
     ChannelType,
     ButtonStyle,
     Embed,
-    MessageActivityType
+    MessageActivityType,
+    MessageFlags
 } = require("discord.js")
 const { mmcategory, guildId, thankslog } = require("../config.json")
 const { tagsCache } = require('../utils/Cache');
 
 module.exports = {
-    name: `messageCreate`,
+    name: `mm`,
     async run(message, { client, Discord, snipe }) {
        
         const user = client.users.cache.get(message.channel.topic); //getting the user
@@ -319,14 +320,17 @@ module.exports = {
             }
         }
 
-        const member = await client.users.cache.get(message.channel.topic)
-        if(!member) return console.log("member not found goofy");
-        if(message.author.bot) return;
-        member.send({
+     //   const member = await client.users.cache.get(message.channel.topic)
+     //   if(!member) return console.log("member not found goofy");
+ //       if(message.author.bot) return;
+ if(message.content === "close") {
+
+ }
+        user.send({
             embeds: [
                 new EmbedBuilder()
                 .setAuthor({
-                    name: message.author.name,
+                    name: message.author.tag,
                     iconURL: message.author.displayAvatarURL()
                 })
                 .setColor("Green")
