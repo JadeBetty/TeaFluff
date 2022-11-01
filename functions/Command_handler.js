@@ -1,36 +1,27 @@
-const fs = require('fs');
-module.exports = (client, Discord) => {
-    /*
-    let command_folders = fs.readdirSync("./Commands").forEach(folder => {
-        const command_files = fs.readdirSync("./Commands").filter(file => file.endsWith('.js'));
-        command_files.forEach(f => {
-            const command = require(`../Commands/${folder}/${f}`)
-            client.commands.set(command.name, command)
-            if(command.aliases) {
-                command.aliases.forEach(alias => {
-                    client.aliases.set(alias, command)
-                })
-            }
-        })
-    })
-    console.log(`Successfully loaded ${client.commands.size} commands!`)
+const chalk = require('chalk')
+const glob = require('glob');
+const { promisify } = require('util');
+// const fs = require('fs');
+const AsciiTable = require('ascii-table')
+const table = new AsciiTable()
+table.setHeading('Commands', 'Stats').setBorder('|', '=', "0", "0")
 
-    */
-    const command_files = fs.readdirSync("./Commands").filter(file => file.endsWith('.js'));
-    for(const file of command_files){
-        const command = require(`../Commands/${file}`);
-        if(command.name){
-            client.commands.set(command.name, command);
-            if (command.aliases) {
-                command.aliases.forEach(alias => {
-                    client.aliases.set(alias, command);
-                })
-        } else {
-            continue;
-        }
+const globPromise = promisify(glob);
 
-    } 
-    
-} 
-console.log(`Successfully loaded ${client.commands.size} commands!`)
-}
+module.exports = async (client) => {
+	const commands = await globPromise(`${process.cwd().replace(/\\/g, '/')}/commands/**/*.js`);
+	if (!commands || !commands.length) return console.log(chalk.red('Commands - 0'));
+	commands.forEach((cmd) => {
+		const command = require(cmd);
+		if (!command) return table.addRow(cmd, '⛔');
+		if (!command.name) return console.log(chalk.red(`${cmd} -> Command missing name!`));
+		client.commands.set(command.name, command);
+		if (command.aliases && Array.isArray(command.aliases)) {
+			command.aliases.forEach((alias) => {
+				client.aliases.set(alias, command.name);
+			});
+		}
+		table.addRow(command.name, '✅');
+	})
+	console.log(chalk.blue(table.toString()))
+};

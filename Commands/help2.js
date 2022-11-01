@@ -8,9 +8,9 @@ const {
 
 
 module.exports = {
-    name: "help2",
+    name: "help",
     description: "Beta testing help command",
-    aliases: [],
+    aliases: ["help", "Help"],
     category: "General",
     run: async (client, message, args) => {
         const { default: ms } = await import("pretty-ms")

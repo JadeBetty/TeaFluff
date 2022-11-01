@@ -3,20 +3,16 @@ const {
     EmbedBuilder,
     ActionRowBuilder,
     ButtonBuilder,
-    PermissionsBitField,
     ChannelType,
     ButtonStyle,
-    Embed,
-    MessageActivityType,
-    MessageFlags
 } = require("discord.js")
 const { mmcategory, guildId, thankslog } = require("../config.json")
 const { tagsCache } = require('../utils/Cache');
-
+const client = require("..")
 module.exports = {
-    name: `mm`,
-    async run(message, { client, Discord, snipe }) {
-       
+    event: `messageCreate`,
+    async run(message) {
+   //    console.log(client)
         const user = client.users.cache.get(message.channel.topic); //getting the user
         const guild = await client.guilds.cache.get(guildId);//getting the guild by using guildID
         const category = mmcategory // mod mail category
@@ -29,7 +25,7 @@ module.exports = {
             const checking = !!guild.channels.cache.find(
                 c => c.topic === message.author.id,
             ) //checking if the guild channel is already have one 
-            console.log(checking)
+          //  console.log(checking)
             const mailChannel = guild.channels.cache.find( c => c.topic === message.author.id)
             if (mailChannel) {
                 const mailChannel = await guild.channels.cache.find(
@@ -323,9 +319,7 @@ module.exports = {
      //   const member = await client.users.cache.get(message.channel.topic)
      //   if(!member) return console.log("member not found goofy");
  //       if(message.author.bot) return;
- if(message.content === "close") {
-
- }
+ if(!user) return;
         user.send({
             embeds: [
                 new EmbedBuilder()

@@ -6,7 +6,7 @@ module.exports = {
     aliases: ["away"],
     permissions: [],
     category: "General",
-    run: async (client, message, args ) => {
+    run: async (client, message, args) => {
         if(afkUsers.has(message.author.id)) {
             return message.channel.send({
                 embeds: [

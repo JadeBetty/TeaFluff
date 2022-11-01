@@ -10,9 +10,10 @@ module.exports = {
   description: 'Help Command',
   aliases: ['Help', 'HELP'],
   category: 'General',
-  run: async ( client, message, args ) => {
-const prefix = require("../config.json")
-
+  cooldown: 3000,
+  run: async (client, message, args) => {
+const prefix = require("../../config.json")
+console.log("it runs")
 
 //console.log(message)
 

@@ -3,7 +3,7 @@ require('dotenv').config();
 const Discord = require("discord.js");
 
 const client = new Discord.Client({
-  intents: ["Guilds", "GuildMessages", "MessageContent", "GuildVoiceStates", "GuildMembers", "DirectMessages"],
+  intents: ["Guilds", "GuildMessages", "MessageContent", "GuildVoiceStates", "GuildMembers", "DirectMessages", "GuildPresences"],
   partials: [Discord.Partials.Message, Discord.Partials.Channel, Discord.Partials.Reaction],
     
 })
@@ -17,6 +17,7 @@ client.slashcommands = new Discord.Collection();
 ['Command_handler', 'event_handler', 'slashcommands', 'mongoConnection'].forEach(handler => {
   require(`./functions/${handler}`)(client, Discord)
 });
+module.exports = client;
 
 console.log(`————————————————— Slash Commands ———————————————————`)
 
@@ -58,5 +59,7 @@ client.config = {
   },
 
 }
-
+process.on('unhandledRejection', error => {
+	console.error('Unhandled promise rejection:', error);
+});
 client.login(process.env.token);

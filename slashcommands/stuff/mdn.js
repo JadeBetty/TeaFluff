@@ -9,8 +9,8 @@ module.exports = {
             .setDescription("mdn topic")
             .setRequired(true)
         ),
-    async run(interaction) {
-        const query = interaction.options.getStringOption('topic');
+    async run(client, interaction) {
+        const query = interaction.options.getString('topic');
         const URI = `https://developer.mozilla.org/api/v1/search?q=${encodeURIComponent(
             query,
           )}&locale=en-US`;

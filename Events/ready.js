@@ -1,7 +1,9 @@
+const client = require("..")
+const Discord = require("discord.js")
 module.exports = {
-    name: `ready`,
-    async run(message, { client, Discord, snipe, prefix }) {
-        
+    event: `ready`,
+    async run() {
+      //  console.log(client)
         console.log(`Logged in as ${client.user.tag}`)
         
         const activities = [

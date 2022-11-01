@@ -3,5 +3,8 @@
     "clientId": "",
     "thankslog": "",
     "mmcategory": "",
-    "guildId": ""
+    "guildId": "",
+    "messages": {
+		"COOLDOWN_MESSAGE": "You are on `<duration>` cooldown!"
+	}
 }

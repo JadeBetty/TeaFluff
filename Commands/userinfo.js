@@ -108,7 +108,7 @@ const status = {
           .addFields(
             {
                 name: `Status`,
-                value: `${status[member.presence?.status] ?? "Offline" }`,
+                value: `${member.presence === null ? "Offline" : status[member.presence?.status]}`,
                 inline: true
             },
             {

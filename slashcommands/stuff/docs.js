@@ -9,7 +9,7 @@ module.exports = {
             .setDescription("Documentation topic")
             .setRequired(true)
         ),
-    async run(interaction) {
+    async run(client, interaction) {
         const query = await interaction.options.getString('topic')
         const replaceDisco = str => {
             str
