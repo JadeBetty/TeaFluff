@@ -9,7 +9,7 @@ const client = new Discord.Client({
 })
 const fs = require("fs")
 
-const { prefix, clientId } = require("./config.json")
+const { prefix, clientId, thankslog } = require("./config.json")
 client.commands = new Discord.Collection();
 client.events = new Discord.Collection();
 client.aliases = new Discord.Collection();
@@ -62,4 +62,11 @@ client.config = {
 process.on('unhandledRejection', error => {
 	console.error('Unhandled promise rejection:', error);
 });
+
+process.on('uncaughtException', (err, origin) => {
+  let channel = client.channels.cache.get(thankslog);
+  console.log(err, origin);
+});
+
+
 client.login(process.env.token);

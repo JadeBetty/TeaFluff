@@ -5,6 +5,7 @@
     "mmcategory": "",
     "guildId": "",
     "messages": {
-		"COOLDOWN_MESSAGE": "You are on `<duration>` cooldown!"
+		"COOLDOWN_MESSAGE": "You are on `<duration>` cooldown!",
+    "webhookURL": ""
 	}
 }

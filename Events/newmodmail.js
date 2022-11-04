@@ -5,90 +5,37 @@ const {
     ButtonBuilder,
     ChannelType,
     ButtonStyle,
-    makePlainError,
 } = require("discord.js")
 const { mmcategory, guildId, thankslog } = require("../config.json")
 const { tagsCache } = require('../utils/Cache');
 const client = require("..")
 module.exports = {
-    event: `messageCreate`,
+    event: `messaeCreate`,
     async run(message) {
         //    console.log(client)
         const user = client.users.cache.get(message.channel.topic); //getting the user
         const guild = await client.guilds.cache.get(guildId);//getting the guild by using guildID
         const category = mmcategory // mod mail category
         const logsChannel = guild.channels.cache.get(thankslog); //getting the logs channel
-        const mailChannel = guild.channels.cache.find(c => c.topic === message.author.id)
-   //     theMap.set(message.attachments)
-        if (message.channel.type === ChannelType.DM) { // if the message.channel.type is a dm
 
+        if (message.channel.type === ChannelType.DM) { // if the message.channel.type is a dm
             if (message.author?.bot) return; // if the message.author is a bot it will return
             checkAndSave(message) // don't fucking understand what the fuck is this.
 
-            const checking = !!guild.channels.cache.find(
-                c => c.topic === message.author.id,
-            ) //checking if the guild channel is already have one 
-            //  console.log(checking)
             const mailChannel = guild.channels.cache.find(c => c.topic === message.author.id)
             if (mailChannel) {
                 const mailChannel = await guild.channels.cache.find(
                     ch => ch.topic === message.author.id,
                 );
                 //   if(!message.attachments) return;
+                  // if the user send a message int he mod mail with a message attachment but no message content
 
-                const url = message.attachments.map(url => url.url)
-                if(message.attachments.map(x => x.url).length === 0){
-                    console.log(user)
-                    message.react("✅")
-                    return mailChannel.send({
-                        embeds: [
-                            new EmbedBuilder()
-                            .setAuthor({
-                                name: message.author.tag,
-                                iconURL: message.author.displayAvatarURL()
-                            })
-                            .setColor("Green")
-                            .setDescription(message.content)
-                            .setTimestamp(),
-                        ]
-                    })
-                  } else if(message.attachments.map(x => x.url).length > 1) {
-                    for(const imgs of message.attachments.map(x => x.url)){
-                        message.react("✅")
-                        mailChannel.send({
-                            embeds: [
-                                new EmbedBuilder()
-                                .setAuthor({
-                                    name: message.author.tag,
-                                    iconURL: message.author.displayAvatarURL()
-                                })
-                                .setColor("Green")
-                                .setImage(imgs)
-                                .setTimestamp(),
-                            ]
-                        })
-        
-                      //message.channel.send({attachments: [imgs]})
-                    }
-                  } else {
-                    message.react("✅")
-                    mailChannel.send({
-                        embeds: [
-                            new EmbedBuilder()
-                            .setAuthor({
-                                name: message.author.tag,
-                                iconURL: message.author.displayAvatarURL()
-                            })
-                            .setColor("Green")
-                            .setImage(url.toString())
-                            .setTimestamp(),
-                        ]
-                    })
-                  }
-/*        
+
+                  
+                  if(message.attachments === undefined || null) return console.log("it doesn't have a attachment");
                 if (message.attachments && !message.content) {
-
-                            const user = client.users.cache.get(message.channel.topic); //getting the user
+                    let thething = message.attachments.map(x => x.url)
+console.log(message.attachments)
                     message.react("✅")
                     mailChannel.send({
                         embeds: [
@@ -98,7 +45,7 @@ module.exports = {
                                     iconURL: message.author.displayAvatarURL(),
                                 })
                                 .setColor("Green")
-                                .setImage(message.attachments.first().attachment)
+                                .setImage(thething)
                                 .setTimestamp(),
                         ],
                     });
@@ -134,7 +81,7 @@ module.exports = {
                         ],
                     });
 
-                } */
+                }
             } else {
                 message.reply({
                     embeds: [
@@ -204,59 +151,9 @@ module.exports = {
             }
         }
         if (!message.guild) return;
-        if(message.author?.bot) return;
-        const url = message.attachments.map(url => url.url)
-        if(message.attachments.map(x => x.url).length === 0){
-            message.react("✅");
-            return user.send({
-                embeds: [
-                    new EmbedBuilder()
-                    .setAuthor({
-                        name: message.guild.name,
-                        iconURL: message.guild.iconURL()
-                    })
-                    .setColor("Green")
-                    .setDescription(message.content)
-                    .setTimestamp(),
-                ]
-            })
-          } else if(message.attachments.map(x => x.url).length > 1) {
-            message.react("✅");
-            for(const imgs of message.attachments.map(x => x.url)){
-                user.send({
-                    embeds: [
-                        new EmbedBuilder()
-                        .setAuthor({
-                            name: message.guild.name,
-                            iconURL: message.guild.iconURL()
-                        })
-                        .setColor("Green")
-                        .setImage(imgs)
-                        .setTimestamp(),
-                    ]
-                })
-
-              //message.channel.send({attachments: [imgs]})
-            }
-          } else {
-            message.react("✅");
-            user.send({
-                embeds: [
-                    new EmbedBuilder()
-                    .setAuthor({
-                        name: message.guild.name,
-                        iconURL: message.guild.iconURL()
-                    })
-                    .setColor("Green")
-                    .setImage(url.toString())
-                    .setTimestamp(),
-                ]
-            })
-          }
-
-   //im going to leave by
-           
-
+        //    console.log(message.guild)
+        //    console.log(guild)
+        // console.log("it work but it didn't send message?") 
         if (
             message.guild.id === guild.id &&
             message.channel.parentId === category
@@ -412,10 +309,11 @@ module.exports = {
                     }
                 },
             );
-          //  if (message.attachment === undefined || null) return;
+            //     if(!message.attachments) return;
+            if (!message.attachments) return;
             //    const thething = message.attachments.filter()
 
-            if (!message.attachments && !message.content) {
+            if (message.attachments && !message.content) {
                 message.react("✅");
                 const theEmbed = new EmbedBuilder()
                     .setAuthor({
@@ -428,14 +326,13 @@ module.exports = {
                     if (message.attachments.every(attachisImage)) {
 
 
-                        theEmbed.setImage(message.attachments)
+                        theEmbed.setImage(message.attachments.first().attachment)
                         user.send({
                             embeds: [theEmbed],
                         });
                     }
                 }
             } else if (message.attachments && message.content) {
-                console.log(message.attachments.first())
                 message.react("✅")
                 user.send({
                     embeds: [
