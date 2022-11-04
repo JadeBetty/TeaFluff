@@ -205,6 +205,7 @@ module.exports = {
         }
         if (!message.guild) return;
         if(message.author?.bot) return;
+        if(!user) return;
         const url = message.attachments.map(url => url.url)
         if(message.attachments.map(x => x.url).length === 0){
             message.react("✅");
