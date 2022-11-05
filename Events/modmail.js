@@ -19,7 +19,7 @@ module.exports = {
         const category = mmcategory // mod mail category
         const logsChannel = guild.channels.cache.get(thankslog); //getting the logs channel
         const mailChannel = guild.channels.cache.find(c => c.topic === message.author.id)
-   //     theMap.set(message.attachments)
+        //     theMap.set(message.attachments)
         if (message.channel.type === ChannelType.DM) { // if the message.channel.type is a dm
 
             if (message.author?.bot) return; // if the message.author is a bot it will return
@@ -37,88 +37,39 @@ module.exports = {
                 //   if(!message.attachments) return;
 
                 const url = message.attachments.map(url => url.url)
-                if(message.attachments.map(x => x.url).length === 0){
+                if (message.attachments.map(x => x.url).length === 0) {
                     console.log(user)
                     message.react("✅")
                     return mailChannel.send({
                         embeds: [
                             new EmbedBuilder()
-                            .setAuthor({
-                                name: message.author.tag,
-                                iconURL: message.author.displayAvatarURL()
-                            })
-                            .setColor("Green")
-                            .setDescription(message.content)
-                            .setTimestamp(),
-                        ]
-                    })
-                  } else if(message.attachments.map(x => x.url).length > 1) {
-                    for(const imgs of message.attachments.map(x => x.url)){
-                        message.react("✅")
-                        mailChannel.send({
-                            embeds: [
-                                new EmbedBuilder()
                                 .setAuthor({
                                     name: message.author.tag,
                                     iconURL: message.author.displayAvatarURL()
                                 })
                                 .setColor("Green")
-                                .setImage(imgs)
+                                .setDescription(message.content)
                                 .setTimestamp(),
+                        ]
+                    })
+                } else if (message.attachments.map(x => x.url).length > 1) {
+                    for (const imgs of message.attachments.map(x => x.url)) {
+                        message.react("✅")
+                        mailChannel.send({
+                            embeds: [
+                                new EmbedBuilder()
+                                    .setAuthor({
+                                        name: message.author.tag,
+                                        iconURL: message.author.displayAvatarURL()
+                                    })
+                                    .setColor("Green")
+                                    .setImage(imgs)
+                                    .setTimestamp(),
                             ]
                         })
-        
-                      //message.channel.send({attachments: [imgs]})
+
+                        //message.channel.send({attachments: [imgs]})
                     }
-                  } else {
-                    message.react("✅")
-                    mailChannel.send({
-                        embeds: [
-                            new EmbedBuilder()
-                            .setAuthor({
-                                name: message.author.tag,
-                                iconURL: message.author.displayAvatarURL()
-                            })
-                            .setColor("Green")
-                            .setImage(url.toString())
-                            .setTimestamp(),
-                        ]
-                    })
-                  }
-/*        
-                if (message.attachments && !message.content) {
-
-                            const user = client.users.cache.get(message.channel.topic); //getting the user
-                    message.react("✅")
-                    mailChannel.send({
-                        embeds: [
-                            new EmbedBuilder()
-                                .setAuthor({
-                                    name: message.author.tag,
-                                    iconURL: message.author.displayAvatarURL(),
-                                })
-                                .setColor("Green")
-                                .setImage(message.attachments.first().attachment)
-                                .setTimestamp(),
-                        ],
-                    });
-                } else if (message.attachments && message.content) {
-                    message.react("✅")
-                    console.log(user)
-                    user.send({
-                        embeds: [
-                            new EmbedBuilder()
-                                .setAuthor({
-                                    name: message.guild.name,
-                                    iconURL: message.guild.iconURL()
-                                })
-                                .setColor("Green")
-                                .setTimestamp()
-                                .setImage(thething.attachment)
-                                .setDescription(message.content)
-                        ]
-                    })
-
                 } else {
                     message.react("✅")
                     mailChannel.send({
@@ -126,15 +77,64 @@ module.exports = {
                             new EmbedBuilder()
                                 .setAuthor({
                                     name: message.author.tag,
-                                    iconURL: message.author.displayAvatarURL(),
+                                    iconURL: message.author.displayAvatarURL()
                                 })
                                 .setColor("Green")
-                                .setDescription(message.content)
+                                .setImage(url.toString())
                                 .setTimestamp(),
-                        ],
-                    });
-
-                } */
+                        ]
+                    })
+                }
+                /*        
+                                if (message.attachments && !message.content) {
+                
+                                            const user = client.users.cache.get(message.channel.topic); //getting the user
+                                    message.react("✅")
+                                    mailChannel.send({
+                                        embeds: [
+                                            new EmbedBuilder()
+                                                .setAuthor({
+                                                    name: message.author.tag,
+                                                    iconURL: message.author.displayAvatarURL(),
+                                                })
+                                                .setColor("Green")
+                                                .setImage(message.attachments.first().attachment)
+                                                .setTimestamp(),
+                                        ],
+                                    });
+                                } else if (message.attachments && message.content) {
+                                    message.react("✅")
+                                    console.log(user)
+                                    user.send({
+                                        embeds: [
+                                            new EmbedBuilder()
+                                                .setAuthor({
+                                                    name: message.guild.name,
+                                                    iconURL: message.guild.iconURL()
+                                                })
+                                                .setColor("Green")
+                                                .setTimestamp()
+                                                .setImage(thething.attachment)
+                                                .setDescription(message.content)
+                                        ]
+                                    })
+                
+                                } else {
+                                    message.react("✅")
+                                    mailChannel.send({
+                                        embeds: [
+                                            new EmbedBuilder()
+                                                .setAuthor({
+                                                    name: message.author.tag,
+                                                    iconURL: message.author.displayAvatarURL(),
+                                                })
+                                                .setColor("Green")
+                                                .setDescription(message.content)
+                                                .setTimestamp(),
+                                        ],
+                                    });
+                
+                                } */
             } else {
                 message.reply({
                     embeds: [
@@ -204,59 +204,8 @@ module.exports = {
             }
         }
         if (!message.guild) return;
-        if(message.author?.bot) return;
-        if(!user) return;
-        const url = message.attachments.map(url => url.url)
-        if(message.attachments.map(x => x.url).length === 0){
-            message.react("✅");
-            return user.send({
-                embeds: [
-                    new EmbedBuilder()
-                    .setAuthor({
-                        name: message.guild.name,
-                        iconURL: message.guild.iconURL()
-                    })
-                    .setColor("Green")
-                    .setDescription(message.content)
-                    .setTimestamp(),
-                ]
-            })
-          } else if(message.attachments.map(x => x.url).length > 1) {
-            message.react("✅");
-            for(const imgs of message.attachments.map(x => x.url)){
-                user.send({
-                    embeds: [
-                        new EmbedBuilder()
-                        .setAuthor({
-                            name: message.guild.name,
-                            iconURL: message.guild.iconURL()
-                        })
-                        .setColor("Green")
-                        .setImage(imgs)
-                        .setTimestamp(),
-                    ]
-                })
-
-              //message.channel.send({attachments: [imgs]})
-            }
-          } else {
-            message.react("✅");
-            user.send({
-                embeds: [
-                    new EmbedBuilder()
-                    .setAuthor({
-                        name: message.guild.name,
-                        iconURL: message.guild.iconURL()
-                    })
-                    .setColor("Green")
-                    .setImage(url.toString())
-                    .setTimestamp(),
-                ]
-            })
-          }
-
-   //im going to leave by
-           
+        if (message.author?.bot) return;
+        if (!user) return;
 
         if (
             message.guild.id === guild.id &&
@@ -330,7 +279,62 @@ module.exports = {
                 return;
             } else if (message.content.startsWith("$", "//")) {
                 return;
-            } else if (
+            }
+
+            
+        const url = message.attachments.map(url => url.url)
+        if (message.attachments.map(x => x.url).length === 0) {
+            message.react("✅");
+            return user.send({
+                embeds: [
+                    new EmbedBuilder()
+                        .setAuthor({
+                            name: message.guild.name,
+                            iconURL: message.guild.iconURL()
+                        })
+                        .setColor("Green")
+                        .setDescription(message.content)
+                        .setTimestamp(),
+                ]
+            })
+        } else if (message.attachments.map(x => x.url).length > 1) {
+            message.react("✅");
+            for (const imgs of message.attachments.map(x => x.url)) {
+                user.send({
+                    embeds: [
+                        new EmbedBuilder()
+                            .setAuthor({
+                                name: message.guild.name,
+                                iconURL: message.guild.iconURL()
+                            })
+                            .setColor("Green")
+                            .setImage(imgs)
+                            .setTimestamp(),
+                    ]
+                })
+
+                //message.channel.send({attachments: [imgs]})
+            }
+        } else {
+            message.react("✅");
+            user.send({
+                embeds: [
+                    new EmbedBuilder()
+                        .setAuthor({
+                            name: message.guild.name,
+                            iconURL: message.guild.iconURL()
+                        })
+                        .setColor("Green")
+                        .setImage(url.toString())
+                        .setTimestamp(),
+                ]
+            })
+        }
+
+        //im going to leave by
+
+ /*
+    else if (
                 message.content.startsWith("{") &&
                 message.content.slice(-1) == '}'
             ) {
@@ -395,8 +399,8 @@ module.exports = {
                                     ),
                             ],
                         }),
-                    );
-            }
+                     );
+            } */
             modmailSchema.findOne(
                 { authorId: message.channel.topic },
                 async (err, data) => {
@@ -409,11 +413,11 @@ module.exports = {
                         } else {
                             data.content.push(`${message.author.tag}: ${message.content}`);
                         }
-                        data.save();
+                       await data.save();
                     }
                 },
             );
-          //  if (message.attachment === undefined || null) return;
+            //  if (message.attachment === undefined || null) return;
             //    const thething = message.attachments.filter()
 
             if (!message.attachments && !message.content) {

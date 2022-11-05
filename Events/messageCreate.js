@@ -1,86 +1,86 @@
-let { afkUsers } = require("../utils/Cache")
+let { afkUsers, tagsCache } = require("../utils/Cache")
 const moment = require("moment")
 const Discord = require("discord.js")
+const { prefix } = require("../config.json")
 module.exports = {
     event: `messageCreate`,
     async run(message) {
-        const prefix = "-"
-        const prefix2 = "."
-        const Discord = require("discord.js")
-        const ms = require('ms');
         const client = require('..');
-        const config = require('../config.json');
 
         //   const prefix = client.prefix;
         const cooldown = new Discord.Collection();
 
+        let rPrefix = prefix.reduce((acc, cur) => {
+            if (message.content.startsWith(cur)) acc.push(cur);
+            return acc;
+          }, [])[0];
+
+          if(
+            message.author?.bot ||
+            !message.guild ||
+            !message.content.startsWith(rPrefix)
+          ) 
+          return;
+          const args = message.content.slice(rPrefix.length).trim().split(/ +/);
+          const cmd = args.shift().toLowerCase();
+          const command = 
+          client.commands.get(cmd) ||
+          client.commands.find((a) => a.aliases && a.aliases.includes(cmd))
+          if (!command) {
+            // Check if a tag exists for the similar
+            let a = tagsCache.get(
+              message.content.slice(rPrefix.length).split(/ +/)[0]
+            );
+            if (a && a.enabled) {
+              // Reply witgith the content
+              await message.reply({
+                content: a.content,
+                allowedMentions: { repliedUser: false, everyone: false },
+              });
+            }
+            return;
+          }
+
+          const { member, guild } = message;
+
+          if (
+            command.roles &&
+            command.roles.length > 0 &&
+            !member.roles.cache.has((r) => command.roles.includes(r.name))
+          ) {
+            message.reply("You do not have the required roles to use this command!");
+          }
+    
+          if (command.devOnly && !devs.includes(member.id)) {
+            return message.reply("This command can only be used by developers!");
+          }
+    
+          if (command.ownerOnly && member.id === guild.ownerId) {
+            return message.reply("This command can only be used by the owner!");
+          }
+    
+          if (command.permissions && command.permissions.length > 0) {
+            if (!member.permissions.has(command.permissions))
+              if (!devs.includes(member.id))
+                return message.reply(
+                  "You don't have the required permissions to use this command!"
+                );
+          }
+          if (command.guildOnly && !message.guild)
+            return message.reply("This command can only be used in a guild!");
+      
 
 
-        if (message.author.bot) return;
-        if (message.channel.type !== 0) return;
-        if (message.content.startsWith(prefix) || message.content.startsWith(prefix2)) {
-            const args = message.content.slice(prefix.length || prefix2.length).trim().split(/ +/g);
-            const cmd = args.shift().toLowerCase();
-            if (cmd.length == 0) return;
-            let command = client.commands.get(cmd)
-            if (!command) command = client.commands.get(client.aliases.get(cmd));
-
-            if (command) {
-                if (command.cooldown) {
-                    if (cooldown.has(`${command.name}${message.author.id}`)) return message.channel.send({
-                        content: config.messages["COOLDOWN_MESSAGE"].replace('<duration>', ms(cooldown.get(`${command.name}${message.author.id}`) - Date.now(), {
-                            long: true
-                        }))
-                    });
-                    if (command.userPerms || command.botPerms) {
-                        if (!message.member.permissions.has(Discord.PermissionsBitField.resolve(command.userPerms || []))) {
-                            const userPerms = new Discord.EmbedBuilder()
-                                .setDescription(`🚫 ${message.author}, You don't have \`${command.userPerms}\` permissions to use this command!`)
-                                .setColor('Red')
-                            return message.reply({
-                                embeds: [userPerms]
-                            })
-                        }
-                        if (!message.guild.members.cache.get(client.user.id).permissions.has(Discord.PermissionsBitField.resolve(command.botPerms || []))) {
-                            const botPerms = new Discord.EmbedBuilder()
-                                .setDescription(`🚫 ${message.author}, I don't have \`${command.botPerms}\` permissions to use this command!`)
-                                .setColor('Red')
-                            return message.reply({
-                                embeds: [botPerms]
-                            })
-                        }
-                    }
-
-                    command.run(client, message, args)
-                    cooldown.set(`${command.name}${message.author.id}`, Date.now() + command.cooldown)
-                    setTimeout(() => {
-                        cooldown.delete(`${command.name}${message.author.id}`)
-                    }, command.cooldown);
-                } else {
-                    if (command.userPerms || command.botPerms) {
-                        if (!message.member.permissions.has(Discord.PermissionsBitField.resolve(command.userPerms || []))) {
-                            const userPerms = new Discord.EmbedBuilder()
-                                .setDescription(`🚫 ${message.author}, You don't have \`${command.userPerms}\` permissions to use this command!`)
-                                .setColor('Red')
-                            return message.reply({
-                                embeds: [userPerms]
-                            })
-                        }
-
-                        if (!message.guild.members.cache.get(client.user.id).permissions.has(Discord.PermissionsBitField.resolve(command.botPerms || []))) {
-                            const botPerms = new Discord.EmbedBuilder()
-                                .setDescription(`🚫 ${message.author}, I don't have \`${command.botPerms}\` permissions to use this command!`)
-                                .setColor('Red')
-                            return message.reply({
-                                embeds: [botPerms]
-                            })
-                        }
-                    }
-                    command.run(client, message, args)
+              try {
+              await command.run(client, message, args).then(async (res) => {
+                if (command.deleteTrigger) {
+                  await message.delete().catch((err) => {console.error(err)});
                 }
+              });
+            } catch (err) {
+              console.log(err);
             }
 
-        }
 
 
         if (message.content.includes("imagine is not cool")) {
@@ -109,49 +109,9 @@ module.exports = {
             })
         }
 
-        if (afkUsers.has(message.author.id)) {
-            let user = afkUsers.get(message.author.id)
-            let timeAgo = moment(user.timestamp).fromNow()
+    
+          
 
-            try {
-                await message.member.setNickname(user.username);
-            } catch {
-                afkUsers.delete(message.author.id);
-                message.reply({
-                    embeds: [
-                        new Discord.EmbedBuilder()
-                            .setTitle("AFK Removed")
-                            .setColor("Green")
-                            .setDescription(
-                                `Welcome back ${message.member} I have removed your afk!`
-                            )
-                            .addFields(
-                                { name: `You have afked for:`, value: `${timeAgo}` },
-                                { name: `Your message:`, value: `${user.reason}` }
-                            )
-                    ]
-                })
-            }
-            if (!message.author?.bot) {
-                message.mentions.members.forEach((user) => {
-                    if (afkUsers.has(user.id)) {
-                        let userA = afkUsers.get(user.id);
-                        message.reply({
-                            embeds: [
-                                new Discord.EmbedBuilder()
-                                    .setTitle("User Afk")
-                                    .setColor("Random")
-                                    .addFields(
-                                        { name: `User`, value: user.user.tag },
-                                        { name: `Reason:`, value: userA.reason },
-                                        { name: `Afked for:`, value: timeAgo }
-                                    )
-                                    .setFooter({ text: "Imagine trolling someone" })
-                            ]
-                        })
-                    }
-                })
-            }
         }
+      
     }
-}
