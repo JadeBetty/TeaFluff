@@ -4,15 +4,15 @@ const {
 module.exports = {
     name: "snipe",
     category: "Moderation",
-    descripton: "Snipe a message",
-    deleteTrigger: true,
+    description: "Snipe a message",
+ //   deleteTrigger: true,
     run: async(client, message, args) => {
         const channel =
         message.mentions?.channels?.first() ??
         message.guild?.channels?.cache?.get(args[0]) ??
         message.channel;
-        console.log(client)
-     // const snipes = client.snipes.get(channel.id);
+       // console.log(client)
+     const snipes = client.snipes.get(channel.id);
       let eSnipe = client.eSnipe.get(channel.id);
       if (!snipes && !eSnipe)
         return message.channel.send(`Nothing to snipe in ${channel}`);
@@ -57,7 +57,7 @@ module.exports = {
             embeds.push(embed);
           }
           message.channel.send({
-            embeds,
+            embeds: [embeds]
           });
     }
 }

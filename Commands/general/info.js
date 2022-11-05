@@ -10,7 +10,7 @@ module.exports = {
             embeds: [
                 new Discord.EmbedBuilder()
                     .setTitle(`${client.user.username}'s Info`)
-                    .setDescription(`This is a version of Cheeka in the IGP Server`)
+                    .setDescription(`This is a version of Cheeka in the __[IGP Server](https://discord.gg/igp-s-coding-villa-697495719816462436)__`)
                     .addFields(
                         { name: `Bot Created by`, value: `<@758617912566087681> ( Founder of this version of Cheeka) \n` },
                         { name: `Special Thanks to:`, value: `<@864372060305883136> ( Help fixing the mod mail) \n And also those people who helped me!` }
@@ -20,7 +20,9 @@ module.exports = {
                         name: client.user.tag,
                         iconURL: client.user.displayAvatarURL(),
                     })
-                    .setColor("#2f554f")
+                    .setColor("#426b65")
+                    .setFooter({text: "Make sure to join IGP server!"})
+                    .setTimestamp(),
             ]
         })
     }

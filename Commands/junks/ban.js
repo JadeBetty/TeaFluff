@@ -22,7 +22,7 @@ const { BansModel } = require('../../schema/bans');
 module.exports = {
     name: 'ban',
     description: 'Bans a member',
-    permissions: ['BAN_MEMBERS'],
+    permissions: ['Bans_Member'],
     aliases: ['b'],
     category: 'Moderation',
     deleteTrigger: true,
