@@ -1,5 +1,5 @@
 const { EmbedBuilder } = require("discord.js")
-const { afkUsers } = require("../utils/Cache")
+const { afkUsers } = require("../../utils/Cache")
 module.exports = {
     name: "afk",
     description: "Marks you away from keyboard  aka AFK",

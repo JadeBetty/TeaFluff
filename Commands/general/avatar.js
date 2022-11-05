@@ -1,5 +1,5 @@
 const { EmbedBuilder} = require("discord.js");
-const messageCreate = require("../Events/messageCreate");
+const messageCreate = require("../../Events/messageCreate");
 
 module.exports = {
     name: "avatar",

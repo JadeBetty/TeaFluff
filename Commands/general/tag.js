@@ -1,14 +1,15 @@
 const Discord = require("discord.js");
-const { tagslogs, guildId } = require("../config.json")
-const TagSchema = require("../schema/tag.js")
-const { tagsCache } = require("../utils/Cache")
-const tags = require("../schema/tag");
+const { tagslogs, guildId } = require("../../config.json")
+const TagSchema = require("../../schema/tag.js")
+const { tagsCache } = require("../../utils/Cache")
+const tags = require("../../schema/tag");
 module.exports = {
     name: "tag",
     description: "Tag System",
     category: 'Help',
     run: async (client, message, args) => {
-      console.log(tagsCache.values())
+      //console.log(tagsCache.values())
+      let guild = await client.guilds.cache.get(guildId)
         if(!args[0]) {
             return message.channel.send({
                 embeds: [
@@ -83,7 +84,7 @@ module.exports = {
             enabled: false,
         })
         let id = tag._id.valueOf();
-        client.channels.fetch('1033190983388635136').then(async channel => {
+        client.channels.fetch(tagslogs).then(async channel => {
             let newTagEmbed = new Discord.EmbedBuilder()
             .setTitle("New Tag Submission")
             .setDescription(
@@ -165,7 +166,7 @@ module.exports = {
                       tag.name
                     }\n**Accepted At:** ${tag.verifiedAt.toString()}`
                   );
-          let guild = client.guilds.cache.get(guildId)
+                  
                   guild.channels.cache.get(tagslogs).send({ embeds: [embed2] });
                 let owner = client.users.cache.get(tag.owner);
                 if (owner) {
@@ -187,11 +188,11 @@ module.exports = {
                     })
                     .catch(() => {});
                 }
-                tags.findById(id).then((tag) => {
+                tags.findById(id).then(async (tag)  => {
                   tag.enabled = true;
                   tag.verifiedAt = new Date();
                   tag.verifiedBy = message.member.id;
-                  tag.save();
+                 await tag.save();
                 });
                  
                 } else if(enable === "d")      {
@@ -220,7 +221,7 @@ module.exports = {
                       tag.name
                     }\n**Denied At:** ${new Date().toString()}`
                   );
-                  let guild = client.guilds.cache.get(guildId)
+                
                   guild.channels.cache.get(tagslogs).send({ embeds: [embed2] });
                   let owner = client.users.cache.get(tag.owner);
                   if (owner) {
@@ -396,7 +397,7 @@ module.exports = {
 
           if (args[0] === 'list') {
             const tagsArr = Array.from(
-              require('../utils/Cache').tagsCache.values(),
+              require('../../utils/Cache').tagsCache.values(),
             )
               .map(a => a.name)
               .join('\n');

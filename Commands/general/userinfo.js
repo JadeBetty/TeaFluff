@@ -1,5 +1,5 @@
 const {EmbedBuilder, Permissions} = require('discord.js');
-const {userCache} = require('../utils/Cache');
+const {userCache} = require('../../utils/Cache');
 const moment = require('moment');
 //const messageCreate = require('../Events/messageCreate');
 
