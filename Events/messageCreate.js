@@ -5,22 +5,53 @@ const { prefix } = require("../config.json")
 module.exports = {
     event: `messageCreate`,
     async run(message) {
+      //  console.log("it runs bru")
         const client = require('..');
-
+        let text = [
+            "imagine is not cool",
+            "imagine is un cool",
+            "imagine is stupid",
+            "imagine isn't cool"
+        ]
         //   const prefix = client.prefix;
-        const cooldown = new Discord.Collection();
+   //     const cooldown = new Discord.Collection();
+        if (message.content.includes(text)) {
+            message.channel.send("How dare you consider Imagine is not cool?! You gotta get banned <:JimDullerDinglson:974359587136344064>.")
+        } 
+        if (message.content === "<@1033950258637590619>") {
+            message.reply({
+                embeds: [
+                    new Discord.EmbedBuilder()
+                    .setTitle(`Hello!, I'm ${client.user.username}`)
+                    .setDescription(`Below is how you use a command with my Prefix and Usage!`)
+                    .addFields(
+                        {name: `Prefix:`, value: ` \`-\` || \`.\``, inline: true},
+                        {name: `Usage: `, value: `\`-[command] \` || \`.[command]\``, inline: true}
+                    )
+                    .setColor("#f1a8d4")
+                    .setFooter({
+                    text: `Use -info for more information!`
+                    })
+                    .setThumbnail(client.user.displayAvatarURL())
+                    .setAuthor({
+                        name: client.user.tag,
+                        iconURL: client.user.displayAvatarURL()
+                    })
+                ]
+            })
+        }
+
 
         let rPrefix = prefix.reduce((acc, cur) => {
             if (message.content.startsWith(cur)) acc.push(cur);
             return acc;
           }, [])[0];
-
           if(
             message.author?.bot ||
             !message.guild ||
             !message.content.startsWith(rPrefix)
           ) 
-          return;
+          return; 
           const args = message.content.slice(rPrefix.length).trim().split(/ +/);
           const cmd = args.shift().toLowerCase();
           const command = 
@@ -83,32 +114,7 @@ module.exports = {
 
 
 
-        if (message.content.includes("imagine is not cool")) {
-            message.channel.send("How dare you consider imagine is not cool?! You gotta get banned <:JimDullerDinglson:974359587136344064>.")
-        }
-        if (message.content === "<@1033950258637590619>") {
-            message.reply({
-                embeds: [
-                    new Discord.EmbedBuilder()
-                    .setTitle(`Hello!, I'm ${client.user.username}`)
-                    .setDescription(`Below is how you use a command with my Prefix and Usage!`)
-                    .addFields(
-                        {name: `Prefix:`, value: ` \`-\` || \`.\``, inline: true},
-                        {name: `Usage: `, value: `\`-[command] \` || \`.[command]\``, inline: true}
-                    )
-                    .setColor("#f1a8d4")
-                    .setFooter({
-                    text: `Use -info for more information!`
-                    })
-                    .setThumbnail(client.user.displayAvatarURL())
-                    .setAuthor({
-                        name: client.user.tag,
-                        iconURL: client.user.displayAvatarURL()
-                    })
-                ]
-            })
-        }
-
+   
     
           
 
