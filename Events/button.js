@@ -8,7 +8,7 @@ module.exports = {
             const button = client.buttons.get(interaction.customId);
 
             if (!button) {
-                return await interaction.reply({
+                return await interaction.followUp({
                     content: "Button not handled. Please contact the devs!",
                     ephemeral: true,
                 });
