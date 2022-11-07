@@ -6,7 +6,7 @@ const tags = require("../../schema/tag");
 module.exports = {
     name: "tag",
     description: "Tag System",
-    category: 'Help',
+    category: 'General',
     run: async (client, message, args) => {
       //console.log(tagsCache.values())
       let guild = await client.guilds.cache.get(guildId)
@@ -175,7 +175,7 @@ module.exports = {
                     .send({
                       embeds: [
                         new Discord.EmbedBuilder()
-                        .setColor("#36393F")
+                        .setColor("Green")
                         .setTitle("Tag Accepted")
                         .setDescription(
                           `Tag **${tag.name}** was accepted by <@${message.member.id}>`
@@ -209,6 +209,7 @@ module.exports = {
                   )
                   c.update({
                     embeds: [embed],
+                    components: []
 
                   })
 
@@ -229,6 +230,7 @@ module.exports = {
                     owner
                       .send({
                         embeds: [embed],
+                        compoents: []
                       })
                       .catch(() => {});
                   }
@@ -247,7 +249,7 @@ module.exports = {
         })
         
         }
-
+       // console.log(tagsCache)
 
         if(args[0] === "delete") {
             if(!args[1]){
@@ -294,7 +296,7 @@ module.exports = {
                   name: args[1],
                 }).exec();
     
-              console.log(TagSchema)
+             
                 tagsCache.delete(args[1]);
                 return message.channel.send({
                   embeds: [
@@ -461,6 +463,7 @@ module.exports = {
             });
           }
           // If the tag is in the database, return the content of the tag
+         // console.log(tag)
           return message.reply({
             allowedMentions: {repliedUser: false, everyone: false},
             embeds: [
@@ -475,7 +478,6 @@ module.exports = {
               )
             ],
           });
-          console.log(TagSchema)
-          console.log(tagsCache)
+
         }
     }

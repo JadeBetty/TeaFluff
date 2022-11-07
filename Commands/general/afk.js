@@ -44,7 +44,9 @@ module.exports = {
                     : message.member.displayName
                 }`
             )
-        } catch (ignored) {}
+        } catch (ignored) {
+            console.log(ignored)
+        }
         return message.reply({
             embeds: [
                 new EmbedBuilder()

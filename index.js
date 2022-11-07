@@ -13,8 +13,9 @@ const { prefix, clientId, thankslog } = require("./config.json")
 client.commands = new Discord.Collection();
 client.events = new Discord.Collection();
 client.aliases = new Discord.Collection();
-client.slashcommands = new Discord.Collection();    
-['Command_handler', 'event_handler', 'slashcommands', 'mongoConnection'].forEach(handler => {
+client.slashcommands = new Discord.Collection(); 
+client.buttons = new Discord.Collection();   
+['Command_handler', 'event_handler', 'slashcommands', 'mongoConnection', "buttons"].forEach(handler => {
   require(`./functions/${handler}`)(client, Discord)
 });
 module.exports = client;
@@ -67,6 +68,9 @@ process.on('uncaughtException', (err, origin) => {
   let channel = client.channels.cache.get(thankslog);
   console.log(err, origin);
 });
+process.on('uncaughtExceptionMonitor', (err, origin) => {
+  console.log(err, origin)
+})
 
 
 client.login(process.env.token);

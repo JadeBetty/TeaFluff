@@ -6,8 +6,8 @@ const tagSchema = new Schema({
     createdAt: String,
     guild: String,
     enabled: Boolean,
-    verifiedat: String,
-    verifiedby: String,
+    verifiedAt: String,
+    verifiedBy: String,
 })
 
 module.exports = model("TagSystem", tagSchema)

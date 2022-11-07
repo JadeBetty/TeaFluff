@@ -1,5 +1,8 @@
-const fs = require('fs');
 
+
+
+module.exports = async (client) => {
+  const fs = require('fs');
 const buttonFolders = fs.readdirSync('./buttons').forEach(folder => {
   let buttons = fs
     .readdirSync(`./buttons/${folder}`)
@@ -10,3 +13,4 @@ const buttonFolders = fs.readdirSync('./buttons').forEach(folder => {
     client.buttons.set(button.id, button);
   });
 });
+}
