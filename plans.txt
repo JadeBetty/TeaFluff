@@ -2,13 +2,13 @@
 
 Things for Cheeka version 2
 
-Slash commands
+Slash commands only 2 
 
-Working Mod mail
-Event handler
-Thanks commands / slash commands
-Make cheeka 24/7 
-Discord Version 14
-Advanced Help command
-snipe and e-snipe command
-tag command
+Working Mod mail done
+Event handler done
+Thanks commands / slash commands done
+Make cheeka 24/7 not yet, cus can't find a hoster
+Discord Version 14 done
+Advanced Help command done
+snipe and e-snipe command done
+tag command done
