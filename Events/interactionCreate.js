@@ -17,6 +17,7 @@ const cooldown = new Collection();
 module.exports = {
 	event: 'interactionCreate',
 	async run(interaction) {
+		
 		console.log(`Received interaction: ${interaction.id}`);
 //		await interaction.deferReply()
 		const slashCommand = client.slashcommands.get(interaction.commandName);
