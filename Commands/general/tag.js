@@ -73,6 +73,7 @@ module.exports = {
                 .setDescription(
                     `The tag **${args[1]}** have been create & submmited for verification.`
                 )
+                .setColor("Green")
             ]
         })
         let tag = await TagSchema.create({
@@ -244,8 +245,9 @@ module.exports = {
             enabled: false,
             _id: tag._id,
         })
+        
         }
-    
+
 
         if(args[0] === "delete") {
             if(!args[1]){
@@ -284,13 +286,15 @@ module.exports = {
               });
             }
             if (
-                message.member.permissions.has('Manage_Messages') ||
+                message.member.permissions.has('ManageMessages') ||
                 devs.includes(message.member.id) ||
                 message.author.id === message.guild.ownerId
               ) {
                 TagSchema.deleteOne({
                   name: args[1],
                 }).exec();
+    
+              console.log(TagSchema)
                 tagsCache.delete(args[1]);
                 return message.channel.send({
                   embeds: [
@@ -471,6 +475,7 @@ module.exports = {
               )
             ],
           });
-
+          console.log(TagSchema)
+          console.log(tagsCache)
         }
     }

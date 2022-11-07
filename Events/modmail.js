@@ -38,7 +38,7 @@ module.exports = {
 
                 const url = message.attachments.map(url => url.url)
                 if (message.attachments.map(x => x.url).length === 0) {
-                    console.log(user)
+                    //console.log(user)
                     message.react("✅")
                     return mailChannel.send({
                         embeds: [

@@ -3,7 +3,7 @@ const messageCreate = require("../../Events/messageCreate");
 
 module.exports = {
     name: "avatar",
-    desription: "Get avatar of a user",
+    description: "Get avatar of a user",
     category: "General",
     aliases: ["av"],
     usage: "avatar [user]",

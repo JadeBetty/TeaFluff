@@ -1,7 +1,7 @@
 let { afkUsers, tagsCache } = require("../utils/Cache")
 const moment = require("moment")
 const Discord = require("discord.js")
-const { prefix } = require("../config.json")
+const { prefix, devs } = require("../config.json")
 module.exports = {
     event: `messageCreate`,
     async run(message) {

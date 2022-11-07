@@ -9,7 +9,7 @@ const {
 
 module.exports = {
     name: "help",
-    description: "Beta testing help command",
+    description: "Help command",
     aliases: ["help", "Help"],
     category: "General",
     run: async (client, message, args) => {

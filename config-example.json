@@ -7,6 +7,7 @@
     "messages": {
 		"COOLDOWN_MESSAGE": "You are on `<duration>` cooldown!",
     "webhookURL": "",
-    "tagslogs": ""
+    "tagslogs": "",
+    "devs": ["", ""]
 	}
 }
