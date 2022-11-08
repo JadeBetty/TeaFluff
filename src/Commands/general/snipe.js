@@ -17,7 +17,7 @@ module.exports = {
       if (!snipes && !eSnipe)
         return message.channel.send(`Nothing to snipe in ${channel}`);
       // Check for the snipe in eSnipe
-      let embeds = [];
+      let embeds;
 
       if (snipes) {
         let content = snipes?.message ? `\`${snipes?.message}\`` : '`No content`';
@@ -35,8 +35,8 @@ module.exports = {
             {name: `Time`, value: `${new Date(snipes.time).toUTCString()}`}
           )
        //   .addField('Time', `${new Date(snipes.time).toUTCString()}`);
-  
-        embeds.push(embed);
+  message.channel.send({embeds: [embed]})
+        
           }
           if (eSnipe) {
             // Create a description that'll be formatted in **Current Content:**\n ${content}\n\n **Previous Content:**\n ${eSnipe.prevs.content}
@@ -54,10 +54,11 @@ module.exports = {
                 {name: `Time`, value: `${new Date(eSnipe.time).toUTCString()}`}
               )
             // Send the embed
-            embeds.push(embed);
-          }
-          message.channel.send({
-            embeds: [embeds]
+           // embeds.push(embed);
+           message.channel.send({
+            embeds: [embed]
           });
+          }
+
     }
 }
