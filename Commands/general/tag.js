@@ -263,7 +263,7 @@ module.exports = {
                 embeds: [
                   new Discord.EmbedBuilder()
                     .setTitle('Tag Edited!')
-                    .setDescription(`The tag **${args[1]}** has been edited.`),
+                    .setDescription(`The tag **${args[1]}** has been edited and have been submmited for a verification!`),
                 ],
               });
             } else {

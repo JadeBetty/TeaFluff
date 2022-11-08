@@ -8,16 +8,20 @@ const {
 } = require("discord.js");
 const { Types } = require("mongoose");
 const tipSchema = require("../../schema/tip")
+
 module.exports = {
     name: "tip",
     description: "Edit a tip to the Database",
-    aliaes: ["tip"],
+    aliases: ["tips"],
     category: "Administrator",
     usage: "addtip <tip>",
     permissions: ["Administrator"],
+   
     run: async (client, message, args) => {
+        const tipsCmd = module.exports
+        //console.log(module.exports)
         const method = args[0];
-
+//3
         if (
             !method ||
             !['add', 'create', 'list', 'delete', 'remove', 'del'].includes(method)
@@ -159,7 +163,7 @@ module.exports = {
                     )
                 ]
             })
-/*
+
             let collector = msg.createMessageComponentCollector({
                 componentType: ComponentType.Button,
             })
@@ -169,7 +173,7 @@ module.exports = {
     
                     tipSchema.findOneAndDelete(
                         {
-                            _id: message.tipId
+                            _id: tipsCmd.tipId
                         },
                         async (err, data) => {
                             if (err) throw err;
@@ -198,7 +202,8 @@ module.exports = {
                 }
 
 
-            }) */
+            }) 
         } 
     }
 }
+

@@ -15,6 +15,7 @@ module.exports = {
         ]
         //   const prefix = client.prefix;
    //     const cooldown = new Discord.Collection();
+ //
         if (message.content.includes(text)) {
             message.channel.send("How dare you consider Imagine is not cool?! You gotta get banned <:JimDullerDinglson:974359587136344064>.")
         } 

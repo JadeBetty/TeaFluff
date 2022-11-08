@@ -15,7 +15,7 @@ client.events = new Discord.Collection();
 client.aliases = new Discord.Collection();
 client.slashcommands = new Discord.Collection(); 
 client.buttons = new Discord.Collection();   
-['Command_handler', 'event_handler', 'slashcommands', 'mongoConnection', "buttons"].forEach(handler => {
+['Command_handler', 'event_handler', 'slashcommands', 'mongoConnection'].forEach(handler => {
   require(`./functions/${handler}`)(client, Discord)
 });
 module.exports = client;
@@ -74,3 +74,4 @@ process.on('uncaughtExceptionMonitor', (err, origin) => {
 
 
 client.login(process.env.token);
+
