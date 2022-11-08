@@ -1,8 +1,8 @@
 const Discord = require("discord.js");
-const { tagslogs, guildId } = require("../../config.json")
-const TagSchema = require("../../schema/tag.js")
+const { tagslogs, guildId } = require("../../../config.json")
+const TagSchema = require("../../schema/tag")
 const { tagsCache } = require("../../utils/Cache")
-const tags = require("../../schema/tag");
+//const tags = require("./../schema/tag");
 module.exports = {
     name: "tag",
     description: "Tag System",

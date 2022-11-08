@@ -1,7 +1,7 @@
 const { EmbedBuilder } = require("discord.js");
 const { thankCooldownCache, userCache } = require("../../utils/Cache");
 const UserModel = require("../../schema/user");
-const { thankslog } = require("../../config.json");
+const { thankslog } = require("../../../config.json");
 module.exports = {
     name: "thanks",
     description: "Thank a user for their help!",

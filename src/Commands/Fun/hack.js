@@ -1,4 +1,4 @@
-const devs = require("../../config.json");
+//const devs = require("../../config.json");
 
 module.exports = {
     name:  "hack",

@@ -9,7 +9,7 @@ const client = new Discord.Client({
 })
 const fs = require("fs")
 
-const { prefix, clientId, thankslog } = require("./config.json")
+const { prefix, clientId, thankslog } = require("../config.json")
 client.commands = new Discord.Collection();
 client.events = new Discord.Collection();
 client.aliases = new Discord.Collection();
@@ -22,12 +22,13 @@ module.exports = client;
 
 console.log(`————————————————— Slash Commands ———————————————————`)
 
-fs.readdirSync(`./slashcommands`).forEach(subfolder => {
+fs.readdirSync(`./src/slashcommands`).forEach(subfolder => {
   
-const slashcommandsFiles = fs.readdirSync(`./slashcommands/${subfolder}`).filter(file => file.endsWith('js'));
+const slashcommandsFiles = fs.readdirSync(`./src/slashcommands/${subfolder}`).filter(file => file.endsWith('js'));
   
 for (const file of slashcommandsFiles) {
   const slash = require(`./slashcommands/${subfolder}/${file}`)
+  //const stufff = require(`./`)
   console.log(`Slash Commands - ${file} loaded.`)
   client.slashcommands.set(slash.data.name, slash)
 }

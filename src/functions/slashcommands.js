@@ -1,15 +1,16 @@
 const fs = require("fs")
 const { REST } = require("@discordjs/rest") 
 const { Routes, Discord } = require("discord.js")
-const { clientId } = require("../config.json")
+const { clientId } = require("../../config.json")
 const slashcommands = []
 
-fs.readdirSync(`./slashcommands`).forEach(subfolder => {
+fs.readdirSync(`./src/slashcommands`).forEach(subfolder => {
   
-const slashcommandsFiles = fs.readdirSync(`./slashcommands/${subfolder}`).filter(file => file.endsWith('.js'));
+const slashcommandsFiles = fs.readdirSync(`./src/slashcommands/${subfolder}`).filter(file => file.endsWith('.js'));
 
 for (const file of slashcommandsFiles) {
-  const slash = require(`../slashcommands/${subfolder}/${file}`)
+  const slash = require(`./../slashcommands/${subfolder}/${file}`)
+ // const stuff = require(`./../`)
   slashcommands.push(slash.data.toJSON())
    }
 })
