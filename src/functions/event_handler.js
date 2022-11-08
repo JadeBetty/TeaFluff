@@ -11,7 +11,7 @@ const globPromise = promisify(glob);
  * @param {Client} client
  */
 module.exports = async (client) => {
-  const eventFiles = await globPromise(`${process.cwd().replace(/\\/g, '/')}/events/*.js`);
+  const eventFiles = await globPromise(`${process.cwd().replace(/\\/g, '/')}/src/events/*.js`);
   eventFiles.forEach((ev) => {
     const event = require(ev);
     if (!event?.event || !event?.run) return table.addRow(event.event, '⛔ -> missing event/run')

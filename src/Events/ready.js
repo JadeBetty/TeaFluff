@@ -7,7 +7,7 @@ const {
   tagsCache,
   rulesCache,
   userCache
-} = require("../src/utils/Cache");
+} = require("../utils/Cache");
 module.exports = {
     event: `ready`,
     async run() {

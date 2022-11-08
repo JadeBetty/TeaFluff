@@ -6,7 +6,7 @@ const {
 } = require('discord.js');
 const ms = require('ms');
 const client = require('..');
-const config = require('../config.json');
+const config = require('../../config.json');
 const cooldown = new Collection();
 
 

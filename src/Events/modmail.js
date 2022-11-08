@@ -7,7 +7,7 @@ const {
     ButtonStyle,
     makePlainError,
 } = require("discord.js")
-const { mmcategory, guildId, thankslog } = require("../config.json")
+const { mmcategory, guildId, thankslog } = require("../../config.json")
 const { tagsCache } = require('../utils/Cache');
 const client = require("..")
 module.exports = {

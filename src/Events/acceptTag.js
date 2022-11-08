@@ -1,6 +1,6 @@
 const tags = require("../schema/tag");
 const { tagsCache } = require("../utils/Cache");
-const { tagslogs, guildId } = require("../config.json")
+const { tagslogs, guildId } = require("../../config.json")
 const { EmbedBuilder, PermissionFlagsBits } = require('discord.js');
 module.exports = {
     event: "interactionCreate",

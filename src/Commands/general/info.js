@@ -13,7 +13,7 @@ module.exports = {
                     .setDescription(`This is a version of Cheeka in the __[IGP Server](https://discord.gg/igp-s-coding-villa-697495719816462436)__`)
                     .addFields(
                         { name: `Bot Created by`, value: `<@758617912566087681> ( Founder of this version of Cheeka) \n` },
-                        { name: `Special Thanks to:`, value: `<@864372060305883136> ( Help fixing the mod mail) \n And also those people who helped me!` }
+                        { name: `Special Thanks to:`, value: `<@864372060305883136> ( Help fixing the mod mail) \n <@283312847478325251> For some event handling help! \n And also those people who helped me!` }
                     )
                     .setThumbnail(client.user.displayAvatarURL())
                     .setAuthor({
