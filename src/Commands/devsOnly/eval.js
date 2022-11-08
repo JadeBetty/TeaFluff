@@ -1,4 +1,4 @@
-const { EmbedBuilder } = require("@discordjs/builders");
+
 const Discord = require("discord.js");
 const { devs} = require("../../../config.json")
 module.exports = {
@@ -9,7 +9,7 @@ module.exports = {
     run: async (client, message, args) => {
         const noOwnerEmbed = new Discord.EmbedBuilder()
         .setDescription("Only developers of this cheeka can use this command!")
-        .setColor("DarkOrage")
+        .setColor("DarkOrange")
         if(!devs.includes(message.author.id)) return message.channel.send({embeds: [noOwnerEmbed]});
         const clean = async text => {
             if (typeof text === 'string')
