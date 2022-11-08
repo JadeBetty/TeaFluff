@@ -74,4 +74,3 @@ process.on('uncaughtExceptionMonitor', (err, origin) => {
 
 
 client.login(process.env.token);
-
