@@ -10,6 +10,8 @@ const {
 const { mmcategory, guildId, thankslog } = require("../../config.json")
 const { tagsCache } = require('../utils/Cache');
 const client = require("..")
+const modmailstuff = require("../schema/setup")
+
 module.exports = {
     event: `messageCreate`,
     async run(message) {
