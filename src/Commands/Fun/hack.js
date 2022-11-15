@@ -74,7 +74,7 @@ let address = createAdress()
     if (target.id === message.author.id) return message.reply("```diff\n- TypeError: Cannot hack yourself.```");
     if (target.id === client.user.id) return message.reply("```diff\n- TypeError: Cannot hack this user!.```");
     if (target.user.bot) return message.reply("```diff\n- TypeError: Cannot hack a bot!.```");
-    if (target.id === message.guild.ownerId) return message.reply("```diff\n- TypeError: Cannot hack the owner!.```")
+   //if (target.id === message.guild.ownerId) return message.reply("```diff\n- TypeError: Cannot hack the owner!.```")
     //      if (devs.includes(target.id)) return message.reply("```diff\n- TypeError: Cannot hack the developers!.```")
     let username = target.user.tag;
     const text = [
