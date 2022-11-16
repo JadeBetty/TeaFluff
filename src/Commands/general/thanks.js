@@ -20,7 +20,7 @@ module.exports = {
                 ],
             });
         }
-        if (user.user.bot) 
+        if (user.user.bot)
             return message.channel.send({
                 embeds: [
                     new EmbedBuilder()
@@ -85,11 +85,11 @@ module.exports = {
                     )
                     .setFooter({
                         text: "use -ty to thanks others"
-        })
+                    })
                     .setTimestamp(),
             ],
         });
-    
+
         client.channels.cache.get(thankslog).send({
             embeds: [
                 {

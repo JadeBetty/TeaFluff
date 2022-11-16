@@ -16,12 +16,12 @@ module.exports = {
     category: "Administrator",
     usage: "addtip <tip>",
     permissions: ["Administrator"],
-   
+
     run: async (client, message, args) => {
         const tipsCmd = module.exports
         //console.log(module.exports)
         const method = args[0];
-//3
+        //3
         if (
             !method ||
             !['add', 'create', 'list', 'delete', 'remove', 'del'].includes(method)
@@ -170,7 +170,7 @@ module.exports = {
 
             collector.on("collect", async i => {
                 if (i.customId === "rm-yes") {
-    
+
                     tipSchema.findOneAndDelete(
                         {
                             _id: tipsCmd.tipId
@@ -197,13 +197,13 @@ module.exports = {
                         },
                     )
 
-                } else if(i.customId === "rm-cancel") {
+                } else if (i.customId === "rm-cancel") {
                     i.message.delete()
                 }
 
 
-            }) 
-        } 
+            })
+        }
     }
 }
 

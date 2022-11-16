@@ -1,4 +1,4 @@
-const {EmbedBuilder} = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 const path = require('path');
 const exec = require('child_process').exec;
 const fs = require('fs');

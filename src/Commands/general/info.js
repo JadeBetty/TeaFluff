@@ -21,7 +21,7 @@ module.exports = {
                         iconURL: client.user.displayAvatarURL(),
                     })
                     .setColor("#426b65")
-                    .setFooter({text: "Make sure to join IGP server!"})
+                    .setFooter({ text: "Make sure to join IGP server!" })
                     .setTimestamp(),
             ]
         })

@@ -8,20 +8,20 @@ module.exports = {
   category: "Fun",
   deleteTrigger: true,
   run: async (client, message, args) => {
-const zipCode = generate(1000, 9999)
-const streetNumber = generate(1000, 9999)
-const  streetName = ["Street 69", "Street 423", "Street 056", "Balls eater Street", "Bed Tester Street", "Sex Street", "IGP Street"]
-const cityName = ["NewYork", "LA", "San francisco", "Collection City",  "Paris"]
-const stateName = ["New York", "California", "East US"]
+    const zipCode = generate(1000, 9999)
+    const streetNumber = generate(1000, 9999)
+    const streetName = ["Street 69", "Street 423", "Street 056", "Balls eater Street", "Bed Tester Street", "Sex Street", "IGP Street"]
+    const cityName = ["NewYork", "LA", "San francisco", "Collection City", "Paris"]
+    const stateName = ["New York", "California", "East US"]
 
-function createAdress() {
-  return `${streetNumber} ${getRandom(streetName)} ${getRandom(cityName)} ${getRandom(stateName)} ${zipCode}`;
-}
-function getRandom(input) {
-  return input[Math.floor((Math.random() * input.length))];
-}
+    function createAdress() {
+      return `${streetNumber} ${getRandom(streetName)} ${getRandom(cityName)} ${getRandom(stateName)} ${zipCode}`;
+    }
+    function getRandom(input) {
+      return input[Math.floor((Math.random() * input.length))];
+    }
 
-let address = createAdress()
+    let address = createAdress()
 
 
     const fetch = require('isomorphic-fetch');
@@ -74,7 +74,7 @@ let address = createAdress()
     if (target.id === message.author.id) return message.reply("```diff\n- TypeError: Cannot hack yourself.```");
     if (target.id === client.user.id) return message.reply("```diff\n- TypeError: Cannot hack this user!.```");
     if (target.user.bot) return message.reply("```diff\n- TypeError: Cannot hack a bot!.```");
-   //if (target.id === message.guild.ownerId) return message.reply("```diff\n- TypeError: Cannot hack the owner!.```")
+    //if (target.id === message.guild.ownerId) return message.reply("```diff\n- TypeError: Cannot hack the owner!.```")
     //      if (devs.includes(target.id)) return message.reply("```diff\n- TypeError: Cannot hack the developers!.```")
     let username = target.user.tag;
     const text = [
@@ -120,20 +120,20 @@ let address = createAdress()
     let colro = await target.user.fetch().accentColor
     if (colro === undefined || null) {
       colro = '#000000'.replace(/0/g, function () {
-          return (~~(Math.random() * 16)).toString(16);
-        });
+        return (~~(Math.random() * 16)).toString(16);
+      });
     }
     const randomNum = (min, max) =>
-  Math.floor(Math.random() * (max - min) + min);
+      Math.floor(Math.random() * (max - min) + min);
 
-const randomArr = (length = 10) =>
-  Array.from({ length }, () => randomNum(0, 9));
+    const randomArr = (length = 10) =>
+      Array.from({ length }, () => randomNum(0, 9));
 
-const formatPhoneNumber = (num) =>
-  num.replace(/\D+/g, '').replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3');
+    const formatPhoneNumber = (num) =>
+      num.replace(/\D+/g, '').replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3');
 
-var string = target.user.username;
-let email = string + "@gmail.com";
+    var string = target.user.username;
+    let email = string + "@gmail.com";
 
 
     let disname = target.user.username
@@ -147,9 +147,9 @@ let email = string + "@gmail.com";
         { name: `Virus Ejected`, value: `${virus}`, inline: true },
         { name: `Data Sold for:`, value: `${money}$`, inline: true },
         { name: `Real name:`, value: `${name}`, inline: true },
-        { name: `Username:`, value: `${target.user.username}`, inline: true},
-        { name: `Phone number:`, value: `${formatPhoneNumber(randomArr().join(''))}`, inline: true},
-         {name: `Email:`, value: `${email}`, inline: true},
+        { name: `Username:`, value: `${target.user.username}`, inline: true },
+        { name: `Phone number:`, value: `${formatPhoneNumber(randomArr().join(''))}`, inline: true },
+        { name: `Email:`, value: `${email}`, inline: true },
         //{name: `Username:`, value: }
       )
       .setColor(colro)
@@ -158,7 +158,7 @@ let email = string + "@gmail.com";
         iconURL: target.user.displayAvatarURL(),
       })
       .setThumbnail(target.user.displayAvatarURL())
-      .setFooter({text: `${target.user.tag} was hacked by ${message.author.tag}`})
+      .setFooter({ text: `${target.user.tag} was hacked by ${message.author.tag}` })
       .setTimestamp()
 
     function generate(min, max) {

@@ -74,26 +74,26 @@ module.exports = {
                     ]
                 })
                 .catch(() => { });
-        
-        member.timeout(duration, reason);
-        return message.channel.send({
-            embeds: [
-                new EmbedBuilder()
-                    .setColor("Green")
-                    .setDescription(
-                        `${member.user.tag} has been timed out for ${duration} for the following reason: ${reason}`,
-                    )
-            ]
-        })
-    } else {
-        message.channel.send({
-            embeds: [
-                new EmbedBuilder()
-                .setColor("Red")
-                .setDescription(`You need to specify a duration for the timeout!`),
-            ]
-        })
-    }
 
-}
+            member.timeout(duration, reason);
+            return message.channel.send({
+                embeds: [
+                    new EmbedBuilder()
+                        .setColor("Green")
+                        .setDescription(
+                            `${member.user.tag} has been timed out for ${duration} for the following reason: ${reason}`,
+                        )
+                ]
+            })
+        } else {
+            message.channel.send({
+                embeds: [
+                    new EmbedBuilder()
+                        .setColor("Red")
+                        .setDescription(`You need to specify a duration for the timeout!`),
+                ]
+            })
+        }
+
+    }
 }

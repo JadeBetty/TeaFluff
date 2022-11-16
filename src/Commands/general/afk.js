@@ -7,39 +7,38 @@ module.exports = {
     permissions: [],
     category: "General",
     run: async (client, message, args) => {
-        if(afkUsers.has(message.author.id)) {
+        if (afkUsers.has(message.author.id)) {
             return message.channel.send({
                 embeds: [
                     new EmbedBuilder()
-                    .setColor("Red")
-                    .setDescription("You are already afk!"),
+                        .setColor("Red")
+                        .setDescription("You are already afk!"),
                 ],
             });
         }
         let reason = args.join(" ");
-        if(reason === "") reason =  "No reason provided.";
-        if(reason.length > 60) {
+        if (reason === "") reason = "No reason provided.";
+        if (reason.length > 60) {
             return message.channel.send({
                 embeds: [
                     new EmbedBuilder()
-            
-                    .setColor("Red")
-                    .setDescription(
-                        "Your reason is too long! You can only provide 60 characters!",
-                    ),
+
+                        .setColor("Red")
+                        .setDescription(
+                            "Your reason is too long! You can only provide 60 characters!",
+                        ),
                 ],
             });
         }
 
         afkUsers.set(message.author.id, {
-            reason, 
+            reason,
             username: message.member.displayName,
             timestamp: Date.now()
         })
         try {
             await message.member.setNickname(
-                `[AFK] ${
-                    message.member.displayName.length > 32
+                `[AFK] ${message.member.displayName.length > 32
                     ? message.member.displayName.slice(0, 32)
                     : message.member.displayName
                 }`
@@ -50,15 +49,15 @@ module.exports = {
         return message.reply({
             embeds: [
                 new EmbedBuilder()
-                .setColor("Random")
-                .setTitle("AFK!")
-                .setDescription("I've set you to be AFK.")
-                .addFields(
-                    {name: "User", value: message.member.displayName},
-                    {name: "Reason", value: reason}
+                    .setColor("Random")
+                    .setTitle("AFK!")
+                    .setDescription("I've set you to be AFK.")
+                    .addFields(
+                        { name: "User", value: message.member.displayName },
+                        { name: "Reason", value: reason }
 
-                )
+                    )
             ]
         })
-     }
+    }
 }

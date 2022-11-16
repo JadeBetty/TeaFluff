@@ -283,25 +283,42 @@ module.exports = {
                 return;
             }
 
-            
-        const url = message.attachments.map(url => url.url)
-        if (message.attachments.map(x => x.url).length === 0) {
-            message.react("✅");
-            return user.send({
-                embeds: [
-                    new EmbedBuilder()
-                        .setAuthor({
-                            name: message.guild.name,
-                            iconURL: message.guild.iconURL()
-                        })
-                        .setColor("Green")
-                        .setDescription(message.content)
-                        .setTimestamp(),
-                ]
-            })
-        } else if (message.attachments.map(x => x.url).length > 1) {
-            message.react("✅");
-            for (const imgs of message.attachments.map(x => x.url)) {
+
+            const url = message.attachments.map(url => url.url)
+            if (message.attachments.map(x => x.url).length === 0) {
+                message.react("✅");
+                return user.send({
+                    embeds: [
+                        new EmbedBuilder()
+                            .setAuthor({
+                                name: message.guild.name,
+                                iconURL: message.guild.iconURL()
+                            })
+                            .setColor("Green")
+                            .setDescription(message.content)
+                            .setTimestamp(),
+                    ]
+                })
+            } else if (message.attachments.map(x => x.url).length > 1) {
+                message.react("✅");
+                for (const imgs of message.attachments.map(x => x.url)) {
+                    user.send({
+                        embeds: [
+                            new EmbedBuilder()
+                                .setAuthor({
+                                    name: message.guild.name,
+                                    iconURL: message.guild.iconURL()
+                                })
+                                .setColor("Green")
+                                .setImage(imgs)
+                                .setTimestamp(),
+                        ]
+                    })
+
+                    //message.channel.send({attachments: [imgs]})
+                }
+            } else {
+                message.react("✅");
                 user.send({
                     embeds: [
                         new EmbedBuilder()
@@ -310,99 +327,82 @@ module.exports = {
                                 iconURL: message.guild.iconURL()
                             })
                             .setColor("Green")
-                            .setImage(imgs)
+                            .setImage(url.toString())
                             .setTimestamp(),
                     ]
                 })
-
-                //message.channel.send({attachments: [imgs]})
             }
-        } else {
-            message.react("✅");
-            user.send({
-                embeds: [
-                    new EmbedBuilder()
-                        .setAuthor({
-                            name: message.guild.name,
-                            iconURL: message.guild.iconURL()
-                        })
-                        .setColor("Green")
-                        .setImage(url.toString())
-                        .setTimestamp(),
-                ]
-            })
-        }
 
-        //im going to leave by
+            //im going to leave by
 
- /*
-    else if (
-                message.content.startsWith("{") &&
-                message.content.slice(-1) == '}'
-            ) {
-                const query = message.content.slice(1, -1);
-                const tag = tagsCache.get(query);
-                if (!tag) {
-                    return message.channel.send({
-                        embeds: [
-                            new EmbedBuilder()
-                                .setTitle("Invalid Usage!")
-                                .setDescription(
-                                    `The tag you provided is not in the database, please check the tag name.`,
-                                ),
-                        ],
-                    });
-                }
-
-                if (tag.guild !== message.guild.id) {
-                    return message.channel.send({
-                        embeds: [
-                            new EmbedBuilder()
-                                .setTitle("Invalid Usage!")
-                                .setDescription(
-                                    `The tag you provided is not in this server, please try agan.`,
-                                ),
-                        ],
-                    });
-                }
-                if (!tag.enabled) {
-                    return message.channel.send({
-                        embeds: [
-                            new EmbedBuilder()
-                                .setTitle('Invalid Usage!')
-                                .setDescription(
-                                    "The tag isn't verified by a moderator yet and not ready for use.",
-                                ),
-                        ],
-                    });
-                }
-                return user
-                    .send({
-                        allowedMentions: [{ repliedUser: false, everyone: false }],
-                        embeds: [
-                            new EmbedBuilder()
-                                .setAuthor({
-                                    name: message.guild.name,
-                                    iconUrl: message.guild.iconURL,
-                                })
-                                .setColor("Green")
-                                .setDescription(tag.content)
-                                .setTimestamp(),
-                        ],
-                    })
-                    .then(
-                        message.reply({
-                            embeds: [
-                                new EmbedBuilder()
-                                    .setColor("Green")
-                                    .setTitle("Tag Sent!")
-                                    .setDescription(
-                                        `Tag sent to ${user.tag} \n\n **Tag Content:** \n ${tag.content}`,
-                                    ),
-                            ],
-                        }),
-                     );
-            } */
+            /*
+               else if (
+                           message.content.startsWith("{") &&
+                           message.content.slice(-1) == '}'
+                       ) {
+                           const query = message.content.slice(1, -1);
+                           const tag = tagsCache.get(query);
+                           if (!tag) {
+                               return message.channel.send({
+                                   embeds: [
+                                       new EmbedBuilder()
+                                           .setTitle("Invalid Usage!")
+                                           .setDescription(
+                                               `The tag you provided is not in the database, please check the tag name.`,
+                                           ),
+                                   ],
+                               });
+                           }
+           
+                           if (tag.guild !== message.guild.id) {
+                               return message.channel.send({
+                                   embeds: [
+                                       new EmbedBuilder()
+                                           .setTitle("Invalid Usage!")
+                                           .setDescription(
+                                               `The tag you provided is not in this server, please try agan.`,
+                                           ),
+                                   ],
+                               });
+                           }
+                           if (!tag.enabled) {
+                               return message.channel.send({
+                                   embeds: [
+                                       new EmbedBuilder()
+                                           .setTitle('Invalid Usage!')
+                                           .setDescription(
+                                               "The tag isn't verified by a moderator yet and not ready for use.",
+                                           ),
+                                   ],
+                               });
+                           }
+                           return user
+                               .send({
+                                   allowedMentions: [{ repliedUser: false, everyone: false }],
+                                   embeds: [
+                                       new EmbedBuilder()
+                                           .setAuthor({
+                                               name: message.guild.name,
+                                               iconUrl: message.guild.iconURL,
+                                           })
+                                           .setColor("Green")
+                                           .setDescription(tag.content)
+                                           .setTimestamp(),
+                                   ],
+                               })
+                               .then(
+                                   message.reply({
+                                       embeds: [
+                                           new EmbedBuilder()
+                                               .setColor("Green")
+                                               .setTitle("Tag Sent!")
+                                               .setDescription(
+                                                   `Tag sent to ${user.tag} \n\n **Tag Content:** \n ${tag.content}`,
+                                               ),
+                                       ],
+                                   }),
+                                );
+                       } */
             modmailSchema.findOne(
                 { authorId: message.channel.topic },
                 async (err, data) => {
@@ -415,7 +415,7 @@ module.exports = {
                         } else {
                             data.content.push(`${message.author.tag}: ${message.content}`);
                         }
-                       await data.save();
+                        await data.save();
                     }
                 },
             );

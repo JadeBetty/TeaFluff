@@ -1,5 +1,5 @@
-const {exec} = require('child_process');
-const {EmbedBuilder} = require('discord.js');
+const { exec } = require('child_process');
+const { EmbedBuilder } = require('discord.js');
 
 const { devs } = require("../../../config.json")
 module.exports = {

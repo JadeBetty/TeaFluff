@@ -11,12 +11,12 @@ module.exports = {
         const guilds = []
         client.guilds.cache.forEach(server => guilds.push(server.name))
         const scEmbed = new discord.EmbedBuilder()
-        .setAuthor({
-            name: "Servers that I'm in",
-            iconURL: client.user.displayAvatarURL()
-        })
-        .setDescription(guilds.join("\n"))
-        .setFooter({text: `Currently I'm in ${guilds.length} servers. `})
-        message.channel.send({embeds: [scEmbed]})
+            .setAuthor({
+                name: "Servers that I'm in",
+                iconURL: client.user.displayAvatarURL()
+            })
+            .setDescription(guilds.join("\n"))
+            .setFooter({ text: `Currently I'm in ${guilds.length} servers. ` })
+        message.channel.send({ embeds: [scEmbed] })
     }
 }

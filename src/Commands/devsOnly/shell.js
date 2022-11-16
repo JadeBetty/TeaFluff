@@ -1,5 +1,5 @@
-const {exec} = require('child_process');
-const {EmbedBuilder} = require('discord.js');
+const { exec } = require('child_process');
+const { EmbedBuilder } = require('discord.js');
 const { thankslogs, devs } = require("../../../config.json")
 
 module.exports = {
@@ -25,7 +25,7 @@ module.exports = {
             .addField({
               name: 'Executor',
               value: `${message.author.tag} | ${message.author.id} | <@!${message.author.id}>`,
-      })
+            })
             .addField('Input', `\`\`\`js\n${command}\n\`\`\``),
         ],
       });

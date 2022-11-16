@@ -1,5 +1,5 @@
 const axios = require('axios');
-const {EmbedBuilder} = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 
 module.exports = {
   name: 'mdn',
@@ -45,28 +45,28 @@ module.exports = {
       overflow = true;
     }
 
-    for (let {mdn_url, title, summary} of documents) {
+    for (let { mdn_url, title, summary } of documents) {
       summary = summary.replace(/(\r\n|\n|\r)/gm, '');
-mdnEmbed.addFields(
-    {name: title, value: `${summary}\n[**Link**](https://developer.mozilla.org/${mdn_url})`}
-)
+      mdnEmbed.addFields(
+        { name: title, value: `${summary}\n[**Link**](https://developer.mozilla.org/${mdn_url})` }
+      )
 
 
     }
 
     if (overflow) {
-        mdnEmbed.addFields(
-            {name: `Too many results!`, value: `Visit more results [here!](https://developer.mosilla.org/en-US/search?q=${encodeURIComponent(query)})`}
-        )
-        /*
-      mdnEmbed.addField(
-        'Too many results!',
-        `Visit more results [here!](https://developer.mozilla.org/en-US/search?q=${encodeURIComponent(
-          query,
-        )})`,
-      ); */
+      mdnEmbed.addFields(
+        { name: `Too many results!`, value: `Visit more results [here!](https://developer.mosilla.org/en-US/search?q=${encodeURIComponent(query)})` }
+      )
+      /*
+    mdnEmbed.addField(
+      'Too many results!',
+      `Visit more results [here!](https://developer.mozilla.org/en-US/search?q=${encodeURIComponent(
+        query,
+      )})`,
+    ); */
     }
 
-    message.reply({embeds: [mdnEmbed]});
+    message.reply({ embeds: [mdnEmbed] });
   },
 };

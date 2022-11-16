@@ -3,7 +3,7 @@ const client = require("..")
 client.snipes = new Collection();
 
 module.exports = {
-    event: "messageDelete",
+  event: "messageDelete",
   async run(message) {
     //collect data and add to snipes
 

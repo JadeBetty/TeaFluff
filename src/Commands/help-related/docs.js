@@ -6,7 +6,7 @@ module.exports = {
   usage: 'docs <command>',
   category: 'Help',
   aliases: ['documentation'],
-  run: async ( client, message, args ) => {
+  run: async (client, message, args) => {
     const replaceDisco = str => {
       str
         .replace(/docs\/disco/g, `docs/discord.js/${branch}`)
