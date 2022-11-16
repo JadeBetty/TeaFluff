@@ -5,13 +5,10 @@ const {
     ButtonBuilder,
     ChannelType,
     ButtonStyle,
-    makePlainError,
 } = require("discord.js")
 const { mmcategory, guildId, thankslog } = require("../../config.json")
 const { tagsCache } = require('../utils/Cache');
 const client = require("..")
-const modmailstuff = require("../schema/setup")
-
 module.exports = {
     event: `messageCreate`,
     async run(message) {
@@ -26,17 +23,11 @@ module.exports = {
 
             if (message.author?.bot) return; // if the message.author is a bot it will return
             checkAndSave(message) // don't fucking understand what the fuck is this.
-
-            const checking = !!guild.channels.cache.find(
-                c => c.topic === message.author.id,
-            ) //checking if the guild channel is already have one 
-            //  console.log(checking)
             const mailChannel = guild.channels.cache.find(c => c.topic === message.author.id)
             if (mailChannel) {
                 const mailChannel = await guild.channels.cache.find(
                     ch => ch.topic === message.author.id,
                 );
-                //   if(!message.attachments) return;
 
                 const url = message.attachments.map(url => url.url)
                 if (message.attachments.map(x => x.url).length === 0) {
@@ -69,8 +60,6 @@ module.exports = {
                                     .setTimestamp(),
                             ]
                         })
-
-                        //message.channel.send({attachments: [imgs]})
                     }
                 } else {
                     message.react("✅")
@@ -87,56 +76,6 @@ module.exports = {
                         ]
                     })
                 }
-                /*        
-                                if (message.attachments && !message.content) {
-                
-                                            const user = client.users.cache.get(message.channel.topic); //getting the user
-                                    message.react("✅")
-                                    mailChannel.send({
-                                        embeds: [
-                                            new EmbedBuilder()
-                                                .setAuthor({
-                                                    name: message.author.tag,
-                                                    iconURL: message.author.displayAvatarURL(),
-                                                })
-                                                .setColor("Green")
-                                                .setImage(message.attachments.first().attachment)
-                                                .setTimestamp(),
-                                        ],
-                                    });
-                                } else if (message.attachments && message.content) {
-                                    message.react("✅")
-                                    console.log(user)
-                                    user.send({
-                                        embeds: [
-                                            new EmbedBuilder()
-                                                .setAuthor({
-                                                    name: message.guild.name,
-                                                    iconURL: message.guild.iconURL()
-                                                })
-                                                .setColor("Green")
-                                                .setTimestamp()
-                                                .setImage(thething.attachment)
-                                                .setDescription(message.content)
-                                        ]
-                                    })
-                
-                                } else {
-                                    message.react("✅")
-                                    mailChannel.send({
-                                        embeds: [
-                                            new EmbedBuilder()
-                                                .setAuthor({
-                                                    name: message.author.tag,
-                                                    iconURL: message.author.displayAvatarURL(),
-                                                })
-                                                .setColor("Green")
-                                                .setDescription(message.content)
-                                                .setTimestamp(),
-                                        ],
-                                    });
-                
-                                } */
             } else {
                 message.reply({
                     embeds: [
@@ -314,8 +253,6 @@ module.exports = {
                                 .setTimestamp(),
                         ]
                     })
-
-                    //message.channel.send({attachments: [imgs]})
                 }
             } else {
                 message.react("✅");
@@ -332,77 +269,6 @@ module.exports = {
                     ]
                 })
             }
-
-            //im going to leave by
-
-            /*
-               else if (
-                           message.content.startsWith("{") &&
-                           message.content.slice(-1) == '}'
-                       ) {
-                           const query = message.content.slice(1, -1);
-                           const tag = tagsCache.get(query);
-                           if (!tag) {
-                               return message.channel.send({
-                                   embeds: [
-                                       new EmbedBuilder()
-                                           .setTitle("Invalid Usage!")
-                                           .setDescription(
-                                               `The tag you provided is not in the database, please check the tag name.`,
-                                           ),
-                                   ],
-                               });
-                           }
-           
-                           if (tag.guild !== message.guild.id) {
-                               return message.channel.send({
-                                   embeds: [
-                                       new EmbedBuilder()
-                                           .setTitle("Invalid Usage!")
-                                           .setDescription(
-                                               `The tag you provided is not in this server, please try agan.`,
-                                           ),
-                                   ],
-                               });
-                           }
-                           if (!tag.enabled) {
-                               return message.channel.send({
-                                   embeds: [
-                                       new EmbedBuilder()
-                                           .setTitle('Invalid Usage!')
-                                           .setDescription(
-                                               "The tag isn't verified by a moderator yet and not ready for use.",
-                                           ),
-                                   ],
-                               });
-                           }
-                           return user
-                               .send({
-                                   allowedMentions: [{ repliedUser: false, everyone: false }],
-                                   embeds: [
-                                       new EmbedBuilder()
-                                           .setAuthor({
-                                               name: message.guild.name,
-                                               iconUrl: message.guild.iconURL,
-                                           })
-                                           .setColor("Green")
-                                           .setDescription(tag.content)
-                                           .setTimestamp(),
-                                   ],
-                               })
-                               .then(
-                                   message.reply({
-                                       embeds: [
-                                           new EmbedBuilder()
-                                               .setColor("Green")
-                                               .setTitle("Tag Sent!")
-                                               .setDescription(
-                                                   `Tag sent to ${user.tag} \n\n **Tag Content:** \n ${tag.content}`,
-                                               ),
-                                       ],
-                                   }),
-                                );
-                       } */
             modmailSchema.findOne(
                 { authorId: message.channel.topic },
                 async (err, data) => {
@@ -419,9 +285,6 @@ module.exports = {
                     }
                 },
             );
-            //  if (message.attachment === undefined || null) return;
-            //    const thething = message.attachments.filter()
-
             if (!message.attachments && !message.content) {
                 message.react("✅");
                 const theEmbed = new EmbedBuilder()
@@ -475,9 +338,6 @@ module.exports = {
                 });
             }
         }
-        //   const member = await client.users.cache.get(message.channel.topic)
-        //   if(!member) return console.log("member not found goofy");
-        //       if(message.author.bot) return;
     }
 }
 
@@ -526,20 +386,6 @@ async function sendTranscriptAndDelete(message, channel) {
         async (err, data) => {
             if (err) throw err;
             if (data) {
-                // 	fs.writeFileSync(
-                // 		`../${message.channel.topic}.txt`,
-                // 		data.content.join("\n\n")
-                // 	);
-                // 	let transcriptFile = new MessageAttachment(
-                // 		fs.createReadStream(`../${message.channel.topic}.txt`)
-                // 	);
-                // 	await channel.send({
-                // 		files: [transcriptFile],
-                // 	});
-                // 	fs.unlinkSync(`../${message.channel.name}.txt`);
-                // 	await modmailSchema.findOneAndDelete({
-                // 		authorId: message.channel.topic,
-                // 	});
             }
         },
     );

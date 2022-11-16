@@ -6,6 +6,7 @@ let {
 const moment = require("moment")
 const Discord = require("discord.js")
 const { prefix, devs } = require("./../../config.json")
+const cooldowns = new Map();
 module.exports = {
   event: `messageCreate`,
   async run(message) {
@@ -162,7 +163,7 @@ module.exports = {
       if (command.cooldown) {
         //If cooldowns map doesn't have a command.name key then create one.
         if (!cooldowns.has(command.name)) {
-          cooldowns.set(command.name, new Collection());
+          cooldowns.set(command.name, new Discord.Collection());
         }
 
         const current_time = Date.now();
