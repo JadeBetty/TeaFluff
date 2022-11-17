@@ -2,6 +2,7 @@ const { EmbedBuilder } = require('discord.js');
 const path = require('path');
 const exec = require('child_process').exec;
 const fs = require('fs');
+const { restart } = require('nodemon');
 
 module.exports = {
   name: 'reload',
@@ -36,7 +37,8 @@ module.exports = {
       // id, channel id, guild id and current time must be written to the file
       let data = `${msg.id},${msg.channel.id},${msg.guild.id},${Date.now()}`;
       fs.writeFileSync(file, data);
-      exec('pkill -f -SIGHUP nodemon');
+      console.rs
+      exec('rs');
     }, 10000);
   },
 }

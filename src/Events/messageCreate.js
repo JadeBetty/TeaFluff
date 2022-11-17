@@ -24,11 +24,7 @@ module.exports = {
     if (message.content.includes(text)) {
       message.channel.send("How dare you consider Imagine is not cool?! You gotta get banned <:JimDullerDinglson:974359587136344064>.")
     }
-    if (message.content.toLowerCase().includes(...[`thanks`, `ty`, `thnx`, `thx`, `thankyou`, `thank you`])) {
-      message.channel.send(
-        `Want to thank the person who helped you? Use \`.thanks @user\` and make their day`
-      );
-    }
+
     if (message.content === "<@1033950258637590619>") {
       message.reply({
         embeds: [
@@ -160,6 +156,7 @@ module.exports = {
           return;
         }
       }
+
       if (command.cooldown) {
         //If cooldowns map doesn't have a command.name key then create one.
         if (!cooldowns.has(command.name)) {

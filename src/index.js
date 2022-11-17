@@ -3,7 +3,7 @@ require('dotenv').config();
 const Discord = require("discord.js");
 
 const client = new Discord.Client({
-  intents: ["Guilds", "GuildMessages", "MessageContent", "GuildVoiceStates", "GuildMembers", "DirectMessages", "GuildPresences"],
+  intents: ["Guilds", "GuildMessages", "MessageContent", "GuildVoiceStates", "GuildMembers", "DirectMessages", "GuildPresences", "DirectMessageTyping"],
   partials: [Discord.Partials.Message, Discord.Partials.Channel, Discord.Partials.Reaction],
     
 })
@@ -61,6 +61,7 @@ client.config = {
   },
 
 }
+client.login(process.env.token);
 process.on('unhandledRejection', error => {
 	console.error('Unhandled promise rejection:', error);
 });
@@ -73,5 +74,3 @@ process.on('uncaughtExceptionMonitor', (err, origin) => {
   console.log(err, origin)
 })
 
-
-client.login(process.env.token);
