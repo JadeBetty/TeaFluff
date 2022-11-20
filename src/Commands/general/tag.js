@@ -8,6 +8,8 @@ module.exports = {
   description: "Tag System",
   category: 'General',
   run: async (client, message, args) => {
+    const tag = tagsCache.get(args[0]);
+    
     //console.log(tagsCache.values())
     let guild = await client.guilds.cache.get(guildId)
     if (!args[0]) {
@@ -172,7 +174,7 @@ module.exports = {
       ) {
         TagSchema.deleteOne({
           name: args[1],
-        }).exec();
+        })
 
 
         tagsCache.delete(args[1]);
@@ -195,8 +197,9 @@ module.exports = {
           ],
         });
       }
-
+    }
       if (args[0] === 'edit') {
+        console.log("it works")
         if (!args[1] || !args[2]) {
           return message.channel.send({
             embeds: [
@@ -221,141 +224,132 @@ module.exports = {
             ],
           });
         }
+const tag = tagsCache.get(args[1])
+        if (
+          await TagSchema.findOne({
+            name: args[1],
+            owner: message.author.id,
+            guild: message.guild.id,
+            enabled: true,
+          })
+        ) {
+          // edit from cache
+          await tagsCache.set(args[1], {
+            name: args[1],
+            content: args.slice(2).join(' '),
+            owner: message.author.id,
+            createdAt: new Date().toISOString(),
+            guild: message.guild.id,
+            enabled: true, 
+            verifiedAt: tag.verifiedAt,
+            verifiedBy: tag.verifiedBy,
+            _id: tag._id
+          });
+          await TagSchema.updateOne(
+            { name: args[1] },
+            {
+              $set: {
+                content: args.slice(2).join(' '),
+              },
+            },
+          );
+          return message.channel.send({
+            embeds: [
+              new Discord.EmbedBuilder()
+                .setTitle('Tag Edited!')
+                .setDescription(`The tag **${args[1]}** has been edited!`),
+            ],
+          });
+        } else {
+          return message.channel.send({
+            embeds: [
+              new Discord.EmbedBuilder()
+                .setTitle('Invalid Usage!')
+                .setDescription(
+                  "You don't have permission to edit this tag, please contact the owner of the tag.",
+                ),
+            ],
+          });
+        }
+      }
 
+      if (args[0] === 'list') {
+        const tagsArr = Array.from(
+          require('../../utils/Cache').tagsCache.values(),
+        )
+          .map(a => a.name)
+          .join('\n');
+        let tagsFile = new Discord.AttachmentBuilder(
+          Buffer.from(tagsArr, 'utf-8'), { name: `tags.txt` }
+        );
 
-        TagSchema.deleteOne({
-          name: args[1],
-        }).exec();
-        tagsCache.delete(args[1]);
-        return message.channel.send({
-          embeds: [
-            new Discord.EmbedBuilder()
-              .setTitle('Tag Deleted!')
-              .setDescription(`The tag **${args[1]}** has been deleted.`),
-          ],
+        return message.reply({
+          files: [tagsFile],
+          // embeds: [
+          // 	{
+          // 		title: "Tags list for " + message.guild.name,
+          // 		description: tagsArr,
+          // 		footer: {
+          // 			text: "use tags via -<tagname>",
+          // 			icon_url: message.guild.iconURL(),
+          // 		},
+          // 		color: "BLURPLE",
+          // 	},
+          // ],
         });
       }
-      if (
-        await TagSchema.findOne({
-          name: args[1],
-          owner: message.author.id,
-          guild: message.guild.id,
-          enabled: true,
-        }).exec()
-      ) {
-        // edit from cache
-        tagsCache.set(args[1], {
-          name: args[1],
-          content: args.slice(2).join(' '),
-          owner: message.author.id,
-          createdAt: new Date().toISOString(),
-          guild: message.guild.id,
-        });
-        await TagSchema.updateOne(
-          { name: args[1] },
-          {
-            $set: {
-              content: args.slice(2).join(' '),
-            },
-          },
-        ).exec();
-        return message.channel.send({
-          embeds: [
-            new Discord.EmbedBuilder()
-              .setTitle('Tag Edited!')
-              .setDescription(`The tag **${args[1]}** has been edited and have been submmited for a verification!`),
-          ],
-        });
-      } else {
+
+      
+      if (!tag) {
         return message.channel.send({
           embeds: [
             new Discord.EmbedBuilder()
               .setTitle('Invalid Usage!')
               .setDescription(
-                "You don't have permission to edit this tag, please contact the owner of the tag.",
+                'The tag you provided is not in the database, please check the tag name.',
               ),
           ],
         });
       }
-    }
 
-    if (args[0] === 'list') {
-      const tagsArr = Array.from(
-        require('../../utils/Cache').tagsCache.values(),
-      )
-        .map(a => a.name)
-        .join('\n');
-      let tagsFile = new Discord.AttachmentBuilder(
-        Buffer.from(tagsArr, 'utf-8'), { name: `tags.txt` }
-      );
-
+      if (tag.guild !== message.guild.id) {
+        return message.channel.send({
+          embeds: [
+            new Discord.EmbedBuilder()
+              .setTitle('Invalid Usage!')
+              .setDescription(
+                'The tag you provided is not in this server, please try again.',
+              ),
+          ],
+        });
+      }
+      if (!tag.enabled) {
+        return message.channel.send({
+          embeds: [
+            new Discord.EmbedBuilder()
+              .setTitle('Invalid Usage!')
+              .setDescription(
+                "The tag isn't verified by a moderator yet and not ready for use.",
+              ),
+          ],
+        });
+      }
+      // If the tag is in the database, return the content of the tag
+      // console.log(tag)
       return message.reply({
-        files: [tagsFile],
-        // embeds: [
-        // 	{
-        // 		title: "Tags list for " + message.guild.name,
-        // 		description: tagsArr,
-        // 		footer: {
-        // 			text: "use tags via -<tagname>",
-        // 			icon_url: message.guild.iconURL(),
-        // 		},
-        // 		color: "BLURPLE",
-        // 	},
-        // ],
-      });
-    }
-
-    const tag = tagsCache.get(args[0]);
-    if (!tag) {
-      return message.channel.send({
+        allowedMentions: { repliedUser: false, everyone: false },
         embeds: [
           new Discord.EmbedBuilder()
-            .setTitle('Invalid Usage!')
-            .setDescription(
-              'The tag you provided is not in the database, please check the tag name.',
-            ),
+            .setTitle(`Tag Info`)
+            .addFields(
+              { name: `Name`, value: `\`${tag.name}\`` },
+              { name: `Tag Creator`, value: `<@!${tag.owner}>` },
+              { name: `Creation Date`, value: `${tag.createdAt}` },
+              { name: `Verified at`, value: `\`${tag.verifiedAt}\`` },
+              { name: `Verified by`, value: `<@!${tag.verifiedBy}>` },
+            )
         ],
       });
-    }
 
-    if (tag.guild !== message.guild.id) {
-      return message.channel.send({
-        embeds: [
-          new Discord.EmbedBuilder()
-            .setTitle('Invalid Usage!')
-            .setDescription(
-              'The tag you provided is not in this server, please try again.',
-            ),
-        ],
-      });
     }
-    if (!tag.enabled) {
-      return message.channel.send({
-        embeds: [
-          new Discord.EmbedBuilder()
-            .setTitle('Invalid Usage!')
-            .setDescription(
-              "The tag isn't verified by a moderator yet and not ready for use.",
-            ),
-        ],
-      });
-    }
-    // If the tag is in the database, return the content of the tag
-    // console.log(tag)
-    return message.reply({
-      allowedMentions: { repliedUser: false, everyone: false },
-      embeds: [
-        new Discord.EmbedBuilder()
-          .setTitle(`Tag Info`)
-          .addFields(
-            { name: `Name`, value: `\`${tag.name}\`` },
-            { name: `Tag Creator`, value: `<@!${tag.owner}>` },
-            { name: `Creation Date`, value: `${tag.createdAt}` },
-            { name: `Verified at`, value: `\`${tag.verifiedAt}\`` },
-            { name: `Verified by`, value: `<@!${tag.verifiedBy}>` },
-          )
-      ],
-    });
-
   }
-}

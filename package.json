@@ -4,8 +4,8 @@
   "description": "This is the source code of Cheeka version 2.",
   "main": "src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon src/index.js"
+    "start": "nodemon --ignore *.js src/index.js",
+    "test": "nodemon src/index.js -e js,json,env"
   },
   "repository": {
     "type": "git",

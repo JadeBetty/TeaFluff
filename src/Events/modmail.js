@@ -218,10 +218,8 @@ module.exports = {
                         });
                 }, 5000);
                 return;
-            } else if (message.content.startsWith("$", "//")) {
-                return;
             }
-
+if(message.content.startsWith("-", "//", "$")) return; 
 
             const url = message.attachments.map(url => url.url)
             if (message.attachments.map(x => x.url).length === 0) {

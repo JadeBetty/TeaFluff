@@ -62,8 +62,8 @@ module.exports = {
         .setColor("36393F")
         .setTitle("A Tag Was Accepted")
         .setDescription(
-          `**Accepted By:** ${interaction.member} || |${tag.verifiedBy
-          }|\n**Tag Name:** ${tag.name
+          `**Accepted By:** ${interaction.member} || ||${tag.verifiedBy
+          }||\n**Tag Name:** ${tag.name
           }\n**Accepted At:** ${tag.verifiedAt.toString()}`
         );
 
