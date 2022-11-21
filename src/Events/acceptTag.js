@@ -11,8 +11,9 @@ module.exports = {
 
     if (!interaction.isButton()) return;
     // If the interaction's customId doesn't start with a or d return
+
     if (
-      !interaction.customId.startsWith("a") &&
+      !interaction.customId.startsWith("a") ||
       !interaction.customId.startsWith("d")
     )
       return;
