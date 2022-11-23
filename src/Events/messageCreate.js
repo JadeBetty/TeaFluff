@@ -11,6 +11,7 @@ module.exports = {
   event: `messageCreate`,
   async run(message) {
     //  console.log("it runs bru")
+    if(message.author.bot) return;
     const client = require('..');
     let text = [
       "imagine is not cool",
@@ -21,9 +22,15 @@ module.exports = {
     //   const prefix = client.prefix;
     //     const cooldown = new Discord.Collection();
     //
-    if (message.content.includes(text)) {
+    if (message.content.toLowerCase().includes(...[ "imagine is not cool","imagine is un cool","imagine is stupid","imagine isn't cool"])) {
       message.channel.send("How dare you consider Imagine is not cool?! You gotta get banned <:JimDullerDinglson:974359587136344064>.")
     }
+
+    if(message.content.toLowerCase().includes(...[`thanks`, `ty`, `thnx`, `thx`, `thankyou`, `thank you`, `thank`])){
+      message.channel.send(
+        `Want to thank the person who helped you? Use \`.thanks @user\` and make their day`
+     );
+   }
 
     if (message.content === "<@1033950258637590619>") {
       message.reply({
@@ -227,7 +234,9 @@ module.exports = {
       try {
         await command.run(client, message, args).then(async (res) => {
           if (command.deleteTrigger) {
-            await message.delete().catch((err) => { console.error(err) });
+            setTimeout(async () => {
+              await message.delete().catch((err) => { console.error(err) });
+            }, 1000)
           }
         });
       } catch (err) {

@@ -62,8 +62,8 @@ client.config = {
 
 }
 client.login(process.env.token);
-process.on('unhandledRejection', error => {
-	console.error('Unhandled promise rejection:', error);
+process.on('unhandledRejection', (reason, p) => {
+	console.log(reason, p);
 });
 
 process.on('uncaughtException', (err, origin) => {

@@ -13,3 +13,5 @@ module.exports.rulesCache = new Map();
 module.exports.cBlackListCache = new Map();
 
 module.exports.blackListCache = new Map();
+
+module.exports.wordleCooldownCache = new Map();

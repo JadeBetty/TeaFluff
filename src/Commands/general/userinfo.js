@@ -154,6 +154,15 @@ module.exports = {
             : '0',
           inline: true
         },
+        {
+          name: `Wordle Wins`,
+          value: userCache.has(member.id)
+          ? userCache.get(member.id).wordleWins
+            ? `${userCache.get(member.id).wordleWins}`
+            : '0'
+          : '0',
+          inline: true,
+        },
 
       )
       .setThumbnail(member.displayAvatarURL());
