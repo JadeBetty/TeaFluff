@@ -1,21 +1,12 @@
-const {
-    EmbedBuilder,
-    ActionRowBuilder,
-    SelectMenuBuilder,
-    ComponentType,
-    InteractionCollector
-} = require("discord.js")
-
-
+const { EmbedBuilder, ActionRowBuilder, SelectMenuBuilder, ComponentType } = require("discord.js");
 module.exports = {
-    name: "help",
-    description: "Help command",
-    aliases: ["help", "Help"],
+    name: "shelp",
+    description: "Slash command help menu",
     category: "General",
     cooldown: 60,
     run: async (client, message, args) => {
         const { default: ms } = await import("pretty-ms")
-        let commands = Array.from(client.commands.values())
+        let commands = Array.from(client.slashcommands.values())
 
         let categories = commands.reduce((acc, command) => {
             if (!acc[command.category]) {
@@ -69,19 +60,19 @@ module.exports = {
              //   console.log(client.slashcommands.values())
 
                 let category = m.values[0].split("_")[1];
-                let Ccommands = Array.from(client.commands.values())
+                let Ccommands = Array.from(client.slashcommands.values())
                 let commands = Ccommands.filter((command) => {
                     return command.category === category;
                 })
                 let embed = new EmbedBuilder()
                     .setColor("Blurple")
-                    .setTitle("Help | " + category)
+                    .setTitle("Slash command Help | " + category)
 
                 let toBuildString = "";
                 for (let i = 0; i < commands.length; i++) {
                     let command = commands[i];
                  //   console.log(commands[i])
-                    toBuildString += `**${command.name}** - \`${command.description}\` ${command.permissions ? `\`[${command.permissions.join(", ")}]\`` : ""
+                    toBuildString += `**${command.data.name}** - \`${command.data.description}\` ${command.data.permissions ? `\`[${command.data.permissions.join(", ")}]\`` : ""
                         } ${command.devOnly ? "`[DEV]`" : ""}\n`;
                 }
                 embed.setDescription(toBuildString)
@@ -97,6 +88,6 @@ module.exports = {
             return console.log(e);
         } //console.log(message)
 
-
     }
-} 
+
+}

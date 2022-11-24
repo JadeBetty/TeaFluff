@@ -10,7 +10,6 @@ fs.readdirSync(`./src/slashcommands`).forEach(subfolder => {
 
   for (const file of slashcommandsFiles) {
     const slash = require(`./../slashcommands/${subfolder}/${file}`)
-    // const stuff = require(`./../`)
     slashcommands.push(slash.data.toJSON())
   }
 })

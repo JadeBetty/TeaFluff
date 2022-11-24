@@ -1,6 +1,6 @@
 const { SlashCommandBuilder, EmbedBuilder, Client, PermissionFlagsBits, ChannelType } = require('discord.js');
 module.exports = {
-   
+    category: "Help",
     data: new SlashCommandBuilder()
         .setName('setup')
         .setDescription('Set up mod mail')

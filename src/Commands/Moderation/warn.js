@@ -3,8 +3,9 @@ const warningsSchema = require("../../schema/warnings");
 module.exports = {
     name: "warn",
     description: "Warn a user",
+    category: "Moderation",
     aliases: ["wa"],
-    permissions: "KickMembers",
+    permissions: ["KickMembers"],
     deleteTrigger: true,
     run: async (client, message, args) => {
         const method = args[0]; // ? Checking: Done

@@ -1,6 +1,7 @@
 const { SlashCommandBuilder, EmbedBuilder, Client, PermissionsBitField, PermissionFlagsBits } = require('discord.js');
 const { afkUsers } = require("../../utils/Cache");
 module.exports = {
+    category: "General",
     data: new SlashCommandBuilder()
         .setName('afk')
         .setDescription('Sets a afk status')

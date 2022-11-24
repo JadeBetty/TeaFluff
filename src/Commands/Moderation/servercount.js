@@ -4,7 +4,7 @@ const discord = require('discord.js');
 module.exports = {
     name: "servercount",
     description: "View the number of the servers that the bot is in, and view their names",
-    deeleTrigger: true,
+    deleteTrigger: true,
     category: "Moderation",
     aliases: ["sc"],
     run: async (client, message, args) => {
