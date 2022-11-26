@@ -5,7 +5,7 @@ module.exports = {
   name: "eval",
   category: "Owner",
   devOnly: true,
-  descrition: "Evaulate a JavaScript code.",
+  description: "Evaulate a JavaScript code.",
   run: async (client, message, args) => {
     const noOwnerEmbed = new Discord.EmbedBuilder()
       .setDescription("Only developers of this cheeka can use this command!")
