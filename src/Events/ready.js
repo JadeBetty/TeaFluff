@@ -9,11 +9,13 @@ const {
   userCache,
   blackListCache,
   cBlackListCache,
+  guildCache,
 } = require("../utils/Cache");
 const { BlacklistChannel } = require("../schema/blacklist");
 const fs = require("fs");
 const path = require("path");
 const Blacklist = require("../schema/blacklist");
+const { GuildData } = require("../schema/guild");
 module.exports = {
   event: `ready`,
   async run() {
@@ -56,7 +58,7 @@ module.exports = {
 
     const activities = [
       { name: `Imagine Gaming Play`, type: Discord.ActivityType.Watching }, //[1]
-      { name: `Gentlemen, it is no nut November. I have planted several snipers on each of your positions`, type: Discord.ActivityType.Watching }, //[2]
+      { name: `26 days until Christmas 🎄`, type: Discord.ActivityType.Watching }, //[2]
       { name: `your C: Drive`, type: Discord.ActivityType.Watching }, //[3]
       { name: `IGP in a nutshell`, type: Discord.ActivityType.Watching }, //[4]
     ];
@@ -64,6 +66,7 @@ module.exports = {
     setInterval(() => {
       const status = activities[Math.floor(Math.random() * activities.length)]
       client.user.setActivity(`${status.name}`, { type: status.type },);
+      client.user.setStatus('dnd');
       // client.user.setStatus('invisible');
 
 
@@ -128,6 +131,15 @@ module.exports = {
       }
       data.forEach((de) => {
         userCache.set(de.id, de);
+      });
+    });
+
+    GuildData.find({}, (err, data) => {
+      if (err) {
+        console.error(err);
+      }
+      data.forEach((de) => {
+        guildCache.set(de.id, de);
       });
     });
 

@@ -1,6 +1,7 @@
 const { EmbedBuilder, ModalBuilder, TextInputBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, InteractionCollector, InteractionType, AutoModerationRuleKeywordPresetType } = require("discord.js")
 let { wordleCooldownCache, userCache } = require(`../../utils/Cache`);
 const UserModel = require("../../schema/user");
+const thanks = require("../general/thanks");
 module.exports = {
     name: "wordle",
     description: "Plays wordle in discord!",
@@ -117,6 +118,28 @@ module.exports = {
                 }
 
                 if (result === "🟩🟩🟩🟩🟩") {
+                    var wordleObj = await UserModel.findOne({ id: message.author.id })
+                      
+                      if(!wordleObj){
+                          
+                         wordleObj = await UserModel.create({
+
+                            id: message.author.id,
+                        },{ 
+                            wordleWins: 1 
+                        });
+                        wordleObj.save()
+                      }else{
+                          await UserModel.findOneAndUpdate({
+
+                            id: message.author.id,
+                        },{ 
+                            $inc: {
+                            wordleWins: 1 
+                            }
+                        });
+                      }
+                          
                     gamedesc[tries] = `${result} - ${guess}`;
                     await c.update({
                         embeds: [game.setDescription(`You got the correct word! \n \n ${gamedesc.join('\n')}`)]
@@ -128,22 +151,7 @@ module.exports = {
                     collector.stop()
                     collector2.stop()
 
-                    let wordleWins = userCache.get(message.author.id) || {
-                        wordleWins: 0,
-                        id: message.author.id,
-                    }
-            
-                    wordleWins.wordleWins++;
-                    userCache.set(message.author.id, wordleWins);
-            
-                    await UserModel.updateOne(
-                        {
-                            id: message.author.id,
-                        },
-                        { id: message.author.id, wordleWins: wordleWins.wordleWin },
-                        { upsert: true },
-                    );
-
+                   
                 } else {
                     gamedesc[tries] = `${result} - ${guess}`;
                     tries++

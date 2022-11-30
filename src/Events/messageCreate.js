@@ -26,7 +26,9 @@ module.exports = {
       message.channel.send("How dare you consider Imagine is not cool?! You gotta get banned <:JimDullerDinglson:974359587136344064>.")
     }
 
+
     if(message.content.toLowerCase().includes(...[`thanks`, `ty`, `thnx`, `thx`, `thankyou`, `thank you`, `thank`])){
+      if(message.content === "thanks" || "thank") return;
       message.channel.send(
         `Want to thank the person who helped you? Use \`.thanks @user\` and make their day`
      );

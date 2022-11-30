@@ -1,6 +1,7 @@
 const { EmbedBuilder, Permissions } = require('discord.js');
 const { userCache } = require('../../utils/Cache');
 const moment = require('moment');
+const UserModel = require("../../schema/user");
 //const messageCreate = require('../Events/messageCreate');
 
 const status = {
@@ -46,7 +47,7 @@ module.exports = {
       permissions.push('Manage Messages');
     }
 
-    if (member.permissions.has('MangeChannels')) {
+    if (member.permissions.has('ManageChannels')) {
       permissions.push('Manage Channels');
     }
 
@@ -54,7 +55,7 @@ module.exports = {
       permissions.push('Mention Everyone');
     }
 
-    if (member.permissions.has('MangeNicknames')) {
+    if (member.permissions.has('ManageNicknames')) {
       permissions.push('Manage Nicknames');
     }
 
@@ -62,7 +63,7 @@ module.exports = {
       permissions.push('Manage Roles');
     }
 
-    if (member.permissions.has('MangeWebhooks')) {
+    if (member.permissions.has('ManageWebhooks')) {
       permissions.push('Manage Webhooks');
     }
 
@@ -94,6 +95,8 @@ module.exports = {
 
     //   let memberstats = status[member.presence.status ?? member.presence.status]
     // console.log(memberstats)
+    const wordleWins = await UserModel.findOne({ id: member.id })
+    console.log(wordleWins)
     const embed = new EmbedBuilder()
       .setDescription(`<@${member.user.id}>`)
       .setAuthor({
@@ -147,20 +150,12 @@ module.exports = {
         },
         {
           name: `Thanks`,
-          value: userCache.has(member.id)
-            ? userCache.get(member.id).thanks
-              ? `${userCache.get(member.id).thanks}`
-              : '0'
-            : '0',
+          value: `${wordleWins.thanks}`,
           inline: true
         },
         {
           name: `Wordle Wins`,
-          value: userCache.has(member.id)
-          ? userCache.get(member.id).wordleWins
-            ? `${userCache.get(member.id).wordleWins}`
-            : '0'
-          : '0',
+          value: `${wordleWins.wordleWins || 0}`,
           inline: true,
         },
 

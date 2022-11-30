@@ -63,6 +63,7 @@ module.exports = {
         let thanks = userCache.get(user.id) || {
             thanks: 0,
             id: user.id,
+            
         }
 
         thanks.thanks++;
