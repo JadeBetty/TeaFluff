@@ -4,7 +4,7 @@ const {
 module.exports = {
   name: "snipe",
   category: "Moderation",
-  description: "Snipe a message",
+  description: "Snipe a deleted or edited message",
   //   deleteTrigger: true,
   run: async (client, message, args) => {
     const channel =
@@ -15,7 +15,7 @@ module.exports = {
     const snipes = client.snipes.get(channel.id);
     let eSnipe = client.eSnipe.get(channel.id);
     if (!snipes && !eSnipe)
-      return message.channel.send(`Nothing to snipe in ${channel}`);
+      return message.channel.send(`No deleted or edited messages to snipe in ${channel}`);
     // Check for the snipe in eSnipe
     let embeds;
 
