@@ -2,7 +2,7 @@
 const { EmbedBuilder } = require("discord.js");
 module.exports = {
   name: "ping",
-  description: "Check for the bot legacy",
+  description: "Check for the bot latency",
   aliases: ["pong"],
   category: "Administrator",
   permissions: ["Administrator"],
