@@ -17,7 +17,7 @@ module.exports = {
       .setColor('Blurple')
       .setTitle(`:ping_pong: Ping Information`)
       .addFields(
-        { name: 'Latency Information', value: `${botPing}ms`, inline: true },
+        { name: 'Latency Info', value: `${botPing}ms`, inline: true },
         { name: "API's latency", value: `${apiPing}ms`, inline: true },
         {
           name: "Bot's uptime",
