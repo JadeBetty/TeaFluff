@@ -1,0 +1,6 @@
+.env
+/node_modules
+config.json
+restart.txt
+package-lock.json
+wordleWords.txt
