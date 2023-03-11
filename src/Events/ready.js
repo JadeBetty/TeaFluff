@@ -41,7 +41,7 @@ module.exports = {
         const ServerCount = client.guilds.cache.size > 1000 ? (client.guilds.cache.size / 1000).toFixed(1) : client.guilds.cache.size;
         setInterval(() => {
             client.user.setActivity(`in ${ServerCount} servers | /help`, { type: Discord.ActivityType.Playing })
-        }, 100)
+        }, 1000)
 
         client.commands.set("Slash Commands", ({ category: "Slash Commands" }))
     }

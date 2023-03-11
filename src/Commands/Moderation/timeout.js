@@ -65,7 +65,6 @@ module.exports = {
         if (args[1]) {
             reason = args[1]
         }
-        console.log(reason)
 
         const timeoutDuration = Math.round((Date.now() + timeoutDurationMS) / 1000)
         await message.channel.send({
@@ -75,7 +74,7 @@ module.exports = {
                     .setColor("#f09999")
             ]
         })
-
+        await member.timeout(timeoutDurationMs, reason)
         await member.send({
             embeds: [
                 new EmbedBuilder()

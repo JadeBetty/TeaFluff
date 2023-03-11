@@ -49,7 +49,6 @@ module.exports = {
             ]
         })
         try {
-        
             await member.send({
                 embeds: [
                     new EmbedBuilder()
@@ -64,6 +63,7 @@ module.exports = {
                     .setColor("#f09999")
                 ]
         })
+        await member.kick()
         } catch (e) {
             client.errorLogger.send({
                 embeds: [

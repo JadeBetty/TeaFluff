@@ -62,7 +62,7 @@ module.exports = {
             })
         });
 
-        //await member.ban({reason: reason});'
+        await member.ban({reason: reason});
         let serverCase = Guild.case;
         serverCase++;
         await GuildSchema.updateOne({ guild: message.guild.id }, { case: serverCase });
