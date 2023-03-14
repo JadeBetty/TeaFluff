@@ -1,4 +1,4 @@
-const { EmbedBuilder, time } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 const GuildSchema = require("../../Schema/Guild").GuildData;
 
 module.exports = {
@@ -20,7 +20,7 @@ module.exports = {
                     .setColor("#f09999")
             ]
         })
-        if (!member.bannable) return message.channel.send({
+        if (!member.kickable) return message.channel.send({
             embeds: [
                 new EmbedBuilder()
                     .setTitle("Invalid Permissions!")
@@ -74,7 +74,7 @@ module.exports = {
                     .setColor("#f09999")
             ]
         })
-        await member.timeout(timeoutDurationMs, reason)
+        await member.timeout(timeoutDurationMS, reason)
         await member.send({
             embeds: [
                 new EmbedBuilder()
@@ -89,8 +89,15 @@ module.exports = {
                     .setTimestamp()
                     .setColor("#f09999")
             ]
-        }).catch(async err => {
-            console.log(err);
+        }).catch(async e => {
+            client.errorLogger.send({
+                embeds: [
+                    new EmbedBuilder()
+                        .setTitle("New DiscordAPI encounted")
+                        .setDescription(`\`\`\`${e.stack}\`\`\``)
+                        .setColor("#f09999")
+                ]
+            })
             await message.reply({
                 embeds: [
                     new EmbedBuilder()
@@ -118,7 +125,7 @@ module.exports = {
 
         if (!Guild.channel) return;
         const channel = client.channels.cache.get(Guild.channel);
-        let msg = await channel.send({
+        channel.send({
             embeds: [
                 new EmbedBuilder()
                     .setAuthor({ name: message.guild.name, iconURL: message.guild.iconURL() })
@@ -154,16 +161,16 @@ module.exports = {
             channel.send({
                 embeds: [
                     new EmbedBuilder()
-                    .setAuthor({ name: message.guild.name, iconURL: message.guild.iconURL() })
-                    .setColor("#a8f1b0")
-                    .setTimestamp()
-                    .addFields(
-                        { name: `User`, value: `<@!${member.user.id}> | ${member.user.id} ` },
-                        { name: `Moderator`, value: `<@!${message.author.id}> | ${message.author.id}` },
-                        { name: `Case`, value: `${serverCase} | Timeout Expire`, inline: true },
-                        { name: `Expires`, value: `<t:${timeoutDuration}:R>`, inline: true },
-                        { name: `Reason`, value: `${reason}` }
-                    )
+                        .setAuthor({ name: message.guild.name, iconURL: message.guild.iconURL() })
+                        .setColor("#a8f1b0")
+                        .setTimestamp()
+                        .addFields(
+                            { name: `User`, value: `<@!${member.user.id}> | ${member.user.id} ` },
+                            { name: `Moderator`, value: `<@!${message.author.id}> | ${message.author.id}` },
+                            { name: `Case`, value: `${serverCase} | Timeout Expire`, inline: true },
+                            { name: `Expires`, value: `<t:${timeoutDuration}:R>`, inline: true },
+                            { name: `Reason`, value: `${reason}` }
+                        )
                 ]
             })
         }, timeoutDurationMS)

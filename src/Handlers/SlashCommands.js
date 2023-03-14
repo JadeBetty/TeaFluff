@@ -15,18 +15,13 @@ fs.readdirSync(`./src/SlashCommands`).forEach(subfolder => {
 })
 
 const rest = new REST({ version: "10" }).setToken(process.env.token)
-
-module.exports = async function createSlash() {
+module.exports = async (client, createSlash) => {
     try {
-        await rest.put(
-            Routes.applicationCommands(clientId), {
-            body: slashcommands
-        }
-        )
-        await rest.put(
+        const data = await rest.put(
             Routes.applicationCommands(clientId),
             { body: slashcommands }
         )
+        client.slashId = new Map(data.map((e) => [e.name, e.id]))
         require("colors")
         { console.log("╔═════════════════════════════════╗".brightGreen) }
         { console.log("║                                 ║".brightGreen) }

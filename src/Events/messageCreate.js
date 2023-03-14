@@ -87,7 +87,7 @@ module.exports = {
         afkUsers.delete(message.author.id);
         message.reply({
           embeds: [
-            new Discord.EmbedBuilder()
+            new Discord.EmbedBuilder() 
               .setTitle("Afk Status Removed")
               .setColor("#a8f1b0")
               .setDescription(

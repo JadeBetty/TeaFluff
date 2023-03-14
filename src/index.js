@@ -15,6 +15,7 @@ client.events = new Discord.Collection();
 client.aliases = new Discord.Collection();
 client.slashcommands = new Discord.Collection();
 client.devsCommands = new Discord.Collection();
+client.slashId = new Discord.Collection();
 ["Commands", "Events", "SlashCommands", "MongoConnection"].forEach(handler => {
     require(`./Handlers/${handler}`)(client, Discord);
 })
@@ -33,22 +34,8 @@ fs.readdirSync(`./src/SlashCommands`).forEach(subfolder => {
     }
 })
 
-const distube = new DisTube(client, {
-    leaveOnStop: false,
-    leaveOnFinish: true,
-    emitNewSongOnly: true,
-    emitAddSongWhenCreatingQueue: false,
-    emitAddListWhenCreatingQueue: false,
-    plugins: [
-        new SpotifyPlugin({
-            emitEventsAfterFetching: true,
-        }),
-        new SoundCloudPlugin()
-    ],
-});
-client.player = distube;
 
-const errorChannel = new Discord.WebhookClient({url: process.env.errorLogWebhook})
+const errorChannel = new Discord.WebhookClient({ url: process.env.errorLogWebhook })
 client.errorLogger = errorChannel;
 client.login(process.env.token);
 
@@ -56,20 +43,20 @@ process.on('unhandledRejection', async (reason, p) => {
     errorChannel.send({
         embeds: [
             new Discord.EmbedBuilder()
-            .setTitle("New unhandledRejection encounted")
-            .setDescription(`\`\`\`${reason.stack}\`\`\``)
-            .setColor("#f09999")
+                .setTitle("New unhandledRejection encounted")
+                .setDescription(`\`\`\`${reason.stack}\`\`\``)
+                .setColor("#f09999")
         ]
     })
 });
 process.on('uncaughtException', (reason, origin) => {
-    
+
     errorChannel.send({
         embeds: [
             new Discord.EmbedBuilder()
-            .setTitle("New uncaughtExpection encounted")
-            .setDescription(`\`\`\`${reason.stack}\`\`\``)
-            .setColor("#f09999")
+                .setTitle("New uncaughtExpection encounted")
+                .setDescription(`\`\`\`${reason.stack}\`\`\``)
+                .setColor("#f09999")
         ]
     })
 });
@@ -77,25 +64,10 @@ process.on('uncaughtExceptionMonitor', (reason, origin) => {
     errorChannel.send({
         embeds: [
             new Discord.EmbedBuilder()
-            .setTitle("New uncaughtExceptionMonitor encounted")
-            .setDescription(`\`\`\`${reason.stack}\`\`\``)
-            .setColor("#f09999")
+                .setTitle("New uncaughtExceptionMonitor encounted")
+                .setDescription(`\`\`\`${reason.stack}\`\`\``)
+                .setColor("#f09999")
         ]
     })
 })
-distube.on('error', (channel, reason) => {
-    errorChannel.send({
-        embeds: [
-            new Discord.EmbedBuilder()
-            .setTitle("New error encounted")
-            .setDescription(`\`\`\`${reason.stack}\`\`\``)
-            .setColor("#f09999")
-        ]
-    })
-})
-distube.on("finish", queue => queue.textChannel.send("Queue ended, leaving voice channel...").then(msg => {
-    setTimeout(() => {
-        msg.delete()
-    }, 5000)
-}));
 

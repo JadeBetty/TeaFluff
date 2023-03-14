@@ -19,7 +19,7 @@ module.exports = {
                     .setColor("#f09999")
             ]
         })
-        if (!member.bannable) return message.channel.send({
+        if (!member.kickable) return message.channel.send({
             embeds: [
                 new EmbedBuilder()
                     .setTitle("Invalid Permissions!")
@@ -69,7 +69,7 @@ module.exports = {
         Guild.cases.push({
             userId: member.user.id,
             reason: reason,
-            case: serverCase + "banAdd",
+            case: `${serverCase} banAdd`,
             mod: message.author.id,
             timestamp: Date.now()
         })

@@ -4,6 +4,7 @@ module.exports = {
     name: "vote",
     description: "Vote for TeaFluff",
     category: "General",
+    voteTrue: VoteTrue,
     aliases: ["vo", "v"],
     run: async (client, message, args) => {
         if(!VoteTrue) return message.channel.send({embeds: [

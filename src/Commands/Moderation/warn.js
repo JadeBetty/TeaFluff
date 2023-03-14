@@ -65,7 +65,7 @@ module.exports = {
             mod: message.author.id,
             timestamp: Math.round(Date.now() / 1000)
         })
-        await GuildSchema.updateOne({guild: message.guild.id}, {cases: guild.cases})
+        await GuildSchema.updateOne({ guild: message.guild.id }, { cases: guild.cases })
         const channelLog = client.channels.cache.get(guild.channel);
         if (!channelLog) return;
         channelLog.send({

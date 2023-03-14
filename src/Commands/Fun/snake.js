@@ -6,7 +6,6 @@ module.exports = {
     category: "Fun",
     deleteTrigger: true,
     run: async (client, message, args) => {
-        console.log(message)
         const game = new gamecord.Snake({
             message: message,
             isSlashGame: false,

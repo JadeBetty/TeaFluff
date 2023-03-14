@@ -28,7 +28,7 @@ module.exports = {
         { name: 'Server ID', value: `${message.guild.id}`, inline: true },
         {
           name: 'Server Owner',
-          value: `<@${message.guild.ownerId}>`,
+          value: `<@!${message.guild.ownerId}>`,
           inline: true,
         },
         {
@@ -71,7 +71,7 @@ module.exports = {
         },
         {
           name: 'Created At',
-          value: `${message.guild.createdAt.toDateString()}`,
+          value: `${message.guild.createdAt.toDateString()} <t:${Math.floor(message.guild.createdAt/1000)}:D> `,
           inline: true,
         },
         {

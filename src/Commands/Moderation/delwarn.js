@@ -3,7 +3,7 @@ const { EmbedBuilder } = require("discord.js");
 
 module.exports = {
     name: "delwarn",
-    description: "Warn a member",
+    description: "Delete a warning of a specific user.",
     category: "Moderation",
     permissions: ["KickMembers"],
     deleteTrigger: true,
@@ -32,17 +32,17 @@ module.exports = {
         const index = guild.cases.findIndex((c) => {
             return typeof c.case === "string" && c.case.split(" ")[0] === caseNumber;
         })
-        if(!index) return message.channel.send({
+        if (!index) return message.channel.send({
             embeds: [
                 new EmbedBuilder()
-                .setTitle("Invalid warning case!")
-                .setDescription(`The warning case you provided is invalid!`)
-                .setColor("#f09999")
+                    .setTitle("Invalid warning case!")
+                    .setDescription(`The warning case you provided is not in the DataBase!`)
+                    .setColor("#f09999")
             ]
         })
         const theWarningObject = guild.cases[index];
         guild.cases.splice(index, 1);
-        await GuildSchema.updateOne({ guild: message.guild.id }, {cases: guild.cases})
+        await GuildSchema.updateOne({ guild: message.guild.id }, { cases: guild.cases })
         const user = client.users.cache.get(theWarningObject.userId);
         const oldMod = client.users.cache.get(theWarningObject.mod)
         const oldReason = theWarningObject.reason;

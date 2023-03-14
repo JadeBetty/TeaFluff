@@ -31,7 +31,8 @@ module.exports = {
             ["Moderation", "🛠️"],
             ["General", "⚙️"],
             ["Fun", "🎮"],
-            ["Slash Commands", "<:slash:1082844035355529286>"]
+            ["Slash Commands", "<:slash:1082844035355529286>"],
+            ["Bot Development", "<:chatbot:1084457407561871360>"]
         ])
         let cat = Object.keys(categories).map(category => {
             if (!category) category = `Default`;

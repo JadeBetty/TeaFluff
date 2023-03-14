@@ -29,7 +29,7 @@ module.exports = {
             reason = args.join(" ");
         }
 
-        if (!member.bannable) {
+        if (!member.kickable) {
             return message.channel.send({
                 embeds: [
                     new EmbedBuilder()
@@ -81,7 +81,7 @@ module.exports = {
         Guild.cases.push({
             userId: member.user.id,
             reason: reason,
-            case: serverCase + "kickAdd",
+            case: `${serverCase} kickAdd`,
             mod: message.author.id,
             timestamp: Date.now()
         })

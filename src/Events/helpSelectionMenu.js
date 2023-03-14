@@ -20,7 +20,7 @@ module.exports = {
                     });
                 let category = interaction.values[0].split("_")[1];
                 if (category === "Slash Commands") {
-                    return interaction.reply("No slash commands that are avaliable on this bot!");
+                    // return interaction.reply("No slash commands that are avaliable on this bot!");
                     let commands = Array.from(client.slashcommands.values())
 
                     let categories = commands.reduce((acc, command) => {
@@ -37,11 +37,19 @@ module.exports = {
                         .setDescription(
                             'Please select a category from the select menu given below to view the commands.'
                         )
+                        const emojies = new Map([
+                            ["Moderation", "🛠️"],
+                            ["General", "⚙️"],
+                            ["Fun", "🎮"],
+                            ["Slash Commands", "<:slash:1082844035355529286>"],
+                            ["Bot Development", "<:chatbot:1084457407561871360>"]
+                        ])
                     let cat = Object.keys(categories).map(category => {
                         if (!category) category = `Default`;
                         return {
                             label: category,
                             value: 'shelp_' + category,
+                            emoji: emojies.get(category)
                         }
                     })
                     let menu = new ActionRowBuilder().addComponents(
@@ -102,8 +110,9 @@ module.exports = {
                 let toBuildString = "";
                 for (let i = 0; i < commands.length; i++) {
                     let command = commands[i];
+                    const theSlashCommandThing = client.slashId.get(command.data.name);
                     //   console.log(commands[i])
-                    toBuildString += `**/${command.data.name}** - ${command.data.description} ${command.devOnly ? "| Developer Only." : ""}\n`;
+                    toBuildString += `</${command.data.name}:${theSlashCommandThing}> - ${command.data.description} ${command.devOnly ? "| Developer Only." : ""}\n`;
                 }
                 embed.setDescription(toBuildString)
                 await interaction.update({

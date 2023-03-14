@@ -6,6 +6,7 @@ module.exports = {
     description: "Plays wordle in discord!",
     category: 'Fun',
     deleteTrigger: true,
+    activeGames: activeGames,
     aliases: ["w"],
     run: async (client, message, args) => {
         if(activeGames.includes(message.author.id)) {

@@ -9,7 +9,7 @@ module.exports = async (client) => {
             client.commands.set(command.name, command);
         });
     });
-    
+
     fs.readdirSync(`./src/Developers`).forEach(file => {
         const command = require(`./../Developers/${file}`);
         client.devsCommands.set(command.name, command)
