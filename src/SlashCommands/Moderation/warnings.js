@@ -39,7 +39,7 @@ module.exports = {
                     new EmbedBuilder()
                         .setAuthor({ name: `${member.user.tag} has ${userWarnings.length} warnings!`, iconURL: member.user.displayAvatarURL() })
                         .setTimestamp()
-                        .setDescription(`${message.author.tag} has ${userWarnings.length} warnings!`)
+                        .setDescription(`${member.user.tag} has ${userWarnings.length} warnings!`)
                         .setColor("#f09999")
                 ]
             })

@@ -44,5 +44,6 @@ module.exports = {
         }, 1000)
 
         client.commands.set("Slash Commands", ({ category: "Slash Commands" }))
+        client.slashcommands.set("Prefix Commands", ({category: "Prefix Commands"}))
     }
 }

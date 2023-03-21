@@ -33,7 +33,7 @@ module.exports = {
 				],
 			});
             const file = path.join(__dirname, "../../../restart.txt");
-			let data = `${msg.id},${msg.channeL.id},${Date.now()}`;
+			let data = `${msg.id},${Date.now()}`;
 			fs.writeFileSync(file, data);
 			exec("pkill -f -SIGHUP nodemon");
 		}, 10000); 
