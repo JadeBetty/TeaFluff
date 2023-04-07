@@ -14,18 +14,14 @@ module.exports = {
         .setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
     async run(client, interaction) {
         const channel = interaction.options.getChannel("channel");
-        let c = await GuildSchema.findOne({ guild: interaction.guild.id });
-        if(!c) {
-            c = await GuildSchema.create({ guild: interaction.guild.id, channel: channel.id })
-        } else {
-            await GuildSchema.findOneAndUpdate({
-                guild: interaction.guild.id
-            }, {
-                channel: channel.id
-            })
-        }
-        interaction.reply({
-            content: `This server moderation log has been set to ${channel}`, ephemeral: true
+        await GuildSchema.findOneAndUpdate({ guild: interaction.guild.id }, { channel: channel.id });
+        return interaction.reply({
+            embeds: [
+                new EmbedBuilder()
+                .setDescription(`Successfully changed server moderation channel logs to ${channel}!`)
+                .setColor("#a8f1b0")
+            ],
+            ephemeral: true
         })
     }
 }

@@ -2,8 +2,8 @@ const { EmbedBuilder, ButtonBuilder, ActionRowBuilder, ButtonStyle } = require("
 const GuildSchema = require("../../Schema/Guild").GuildData;
 const config = require("../../../config.json");
 module.exports = {
-    name: "bug-report",
-    description: "Bug report command for sending bugs to the developers.",
+    name: "report",
+    description: "Report command for sending bugs to the developers.",
     category: "Bot Development",
     deleteTrigger: true,
     aliases: ["bg", "bugs-report", "bugsreport", "bugreport"],

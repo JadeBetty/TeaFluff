@@ -7,9 +7,6 @@ const client = new Discord.Client({
 });
 
 const fs = require("fs");
-const { DisTube } = require("distube");
-const { SpotifyPlugin } = require("@distube/spotify");
-const { SoundCloudPlugin } = require("@distube/soundcloud");
 client.commands = new Discord.Collection();
 client.events = new Discord.Collection();
 client.aliases = new Discord.Collection();
@@ -40,7 +37,7 @@ client.errorLogger = errorChannel;
 client.login(process.env.token);
 
 process.on('unhandledRejection', async (reason, p) => {
-    errorChannel.send({
+    return errorChannel.send({
         embeds: [
             new Discord.EmbedBuilder()
                 .setTitle("New unhandledRejection encounted")
@@ -50,8 +47,7 @@ process.on('unhandledRejection', async (reason, p) => {
     })
 });
 process.on('uncaughtException', (reason, origin) => {
-
-    errorChannel.send({
+    return errorChannel.send({
         embeds: [
             new Discord.EmbedBuilder()
                 .setTitle("New uncaughtExpection encounted")
@@ -61,7 +57,7 @@ process.on('uncaughtException', (reason, origin) => {
     })
 });
 process.on('uncaughtExceptionMonitor', (reason, origin) => {
-    errorChannel.send({
+    return errorChannel.send({
         embeds: [
             new Discord.EmbedBuilder()
                 .setTitle("New uncaughtExceptionMonitor encounted")

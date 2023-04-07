@@ -16,7 +16,7 @@ module.exports = async (client) => {
     const event = require(ev);
     if (!event?.event || !event?.run) return table.addRow(event.event, '⛔ -> missing event/run')
     client.on(event.event, event.run);
-    table.addRow(event.event, '✅')
+    table.addRow(event.event, "Registered")
   })
 
   console.log(chalk.greenBright(table.toString()));

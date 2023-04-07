@@ -3,7 +3,7 @@ const {
     ActionRowBuilder,
     StringSelectMenuBuilder,
 } = require("discord.js")
-
+const GuildSchema = require("../../Schema/Guild").GuildData;
 
 module.exports = {
     name: "help",
@@ -12,6 +12,12 @@ module.exports = {
     category: "General",
     deleteTrigger: true,
     run: async (client, message, args) => {
+
+        let Guild = await GuildSchema.findOne({ guild: message.guild.id });
+        if (!Guild) Guild = await GuildSchema.create({ guild: message.guild.id })
+        Guild.save();
+
+
         let commands = Array.from(client.commands.values())
 
         let categories = commands.reduce((acc, command) => {
@@ -25,7 +31,7 @@ module.exports = {
             .setColor("#a8f1b0")
             .setTitle("Select category")
             .setDescription(
-                'Please select a category from the select menu given below to view the commands.'
+                `Please select a category from the select menu given below to view the commands. This server prefix is ${Guild.prefix}`
             )
         const emojies = new Map([
             ["Moderation", "🛠️"],

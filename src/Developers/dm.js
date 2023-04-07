@@ -12,5 +12,6 @@ module.exports = {
         if(!user) return message.author.send("Please enter a user to send a mesasage to!");
         if(!Themessage) return message.author.send("Please enter a message to send to a user!");
         user.send(Themessage);
+        message.author.send(`Sucessfully sent a dm to ${user} DM Content: ${Themessage}`)
     }
 }
