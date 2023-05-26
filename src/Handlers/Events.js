@@ -15,7 +15,7 @@ module.exports = async (client) => {
   eventFiles.forEach((ev) => {
     const event = require(ev);
     if (!event?.event || !event?.run) return table.addRow(event.event, '⛔ -> missing event/run')
-    client.on(event.event, event.run);
+    client.on(event.event, (...args) => event.run(...args, client));
     table.addRow(event.event, "Registered")
   })
 

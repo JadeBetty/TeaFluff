@@ -12,10 +12,8 @@ module.exports = {
     category: "General",
     deleteTrigger: true,
     run: async (client, message, args) => {
-
-        let Guild = await GuildSchema.findOne({ guild: message.guild.id });
-        if (!Guild) Guild = await GuildSchema.create({ guild: message.guild.id })
-        Guild.save();
+        const Guild = await GuildSchema.findOne({ guild: message.guild.id });
+        const prefix = Guild.prefix;
 
 
         let commands = Array.from(client.commands.values())
@@ -31,7 +29,9 @@ module.exports = {
             .setColor("#a8f1b0")
             .setTitle("Select category")
             .setDescription(
-                `Please select a category from the select menu given below to view the commands. This server prefix is ${Guild.prefix}`
+                `Global Prefix: \`.\`
+                Server Prefix: \`${prefix}\`
+                Choose a category from the select menu given below to view the commands. `
             )
         const emojies = new Map([
             ["Moderation", "🛠️"],

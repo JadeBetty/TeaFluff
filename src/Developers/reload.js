@@ -32,10 +32,10 @@ module.exports = {
 						}),
 				],
 			});
-            const file = path.join(__dirname, "../../restart.txt");
-			let data = `${msg.id},${Math.floor(Date.now()/1000)},${message.author.id}`;
+            const file = path.join(__dirname, "../../restart.txt")
+			let data = `${msg.id},${Date.now()},${message.author.id}`;
 			fs.writeFileSync(file, data);
 			exec("pkill -f -SIGHUP nodemon");
-		}, 10000); 
+		}, 1000); 
 	},
 };

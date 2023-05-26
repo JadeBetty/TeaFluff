@@ -1,8 +1,7 @@
 const { EmbedBuilder } = require("discord.js");
-const client = require("..");
 module.exports = {
     event: "guildDelete",
-    async run(guild) {
+    async run(guild, client) {
         client.channels.cache.get("1084095045784846376").send({
             embeds: [
                 new EmbedBuilder()

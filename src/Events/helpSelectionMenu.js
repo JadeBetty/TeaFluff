@@ -3,11 +3,10 @@ const {
     ActionRowBuilder,
     StringSelectMenuBuilder
 } = require('discord.js');
-const client = require('..');
 const GuildSchema = require('../Schema/Guild').GuildData;
 module.exports = {
     event: 'interactionCreate',
-    async run(interaction) {
+    async run(interaction, client) {
         const Guild = await GuildSchema.findOne({ guild: interaction.guild.id });
         const prefix = Guild.prefix;
         if (interaction.isStringSelectMenu()) {
@@ -35,7 +34,9 @@ module.exports = {
                         .setColor("#a8f1b0")
                         .setTitle("Select category")
                         .setDescription(
-                            'Please select a category from the select menu given below to view the commands.'
+                            `Global Prefix: \`.\`
+                            Server Prefix: \`${prefix}\` || \`/\`
+                            Select a category from the select menu given below to view the commands.`
                         )
                         const emojies = new Map([
                             ["Moderation", "🛠️"],
@@ -114,7 +115,9 @@ module.exports = {
                         .setColor("#a8f1b0")
                         .setTitle("Select category")
                         .setDescription(
-                            `Please select a category from the select menu given below to view the commands. This server prefix is ${prefix}`
+                            `Global Prefix: \`.\`
+                            Server Prefix: \`${prefix}\` || \`/\`
+                            Select a category from the select menu given below to view the commands.`
                         )
                     const emojies = new Map([
                         ["Moderation", "🛠️"],
@@ -162,6 +165,7 @@ module.exports = {
                     for (let i = 0; i < commands.length; i++) {
                         let command = commands[i];
                         const theSlashCommandThing = client.slashId.get(command.data.name);
+                        console.log(client.slashId)
                         toBuildString += `</${command.data.name}:${theSlashCommandThing}> - ${command.data.description} ${command.devOnly ? "| Developer Only." : ""}\n`;
                     }
                     embed.setDescription(toBuildString)

@@ -21,7 +21,8 @@ module.exports = async (client, createSlash) => {
             Routes.applicationCommands(clientId),
             { body: slashcommands }
         )
-        client.slashId = new Map(data.map((e) => [e.name, e.id]))
+        
+        client.slashId = new Map(data.map((e) => [e.name, e.id]));
         require("colors")
         { console.log("╔═════════════════════════════════╗".brightGreen) }
         { console.log("║                                 ║".brightGreen) }

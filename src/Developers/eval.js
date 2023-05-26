@@ -1,4 +1,5 @@
 const { EmbedBuilder } = require("discord.js");
+const config = require("../../config.json");
 module.exports = {
     name: "eval",
     category: "Developers",
@@ -30,13 +31,19 @@ module.exports = {
             message.author.send(`\`ERROR\` \`\`\`xl\n${err}\n\`\`\``).catch(r => { });
         }
 
-        client.channels.cache.get("1079312331298832426").send({
+        client.channels.cache.get(config.msgc).send({
             embeds: [
                 new EmbedBuilder()
                     .setTitle("Eval Command Used")
-                    .setDescription(`${message.author.tag} used a eval command \n Code: ${args.join(" ")}`)
-                    .setColor("#f09999")
+                    .addFields(
+                        { name: "Command", value: "eval" },
+                        { name: "Command Context", value: message.content },
+                        { name: "User", value: `${message.author.tag} || ${message.author.id}` }
+                    )
+                    .setColor("#a8f1b0")
+                    .setTimestamp()
             ]
+
         })
 
     }

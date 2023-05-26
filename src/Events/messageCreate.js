@@ -3,14 +3,14 @@ const Discord = require("discord.js")
 const config = require("./../../config.json")
 const GuildSchema = require("../Schema/Guild").GuildData;
 const coolDownMap = new Map();
-const client = require("..");
+const BLGuild = require("../Schema/Blacklist")
+const BLUser = require("../Schema/Blacklist").bluser
 // const TagSchema = require("../Schema/Tag")
 const afkUsers = require("../Commands/General/afk").afk
-
+const imports = require("../imports/embed");
 module.exports = {
   event: "messageCreate",
-  run: async (message) => {
-
+  run: async (message, client) => {
 
     if (message.channel.type === Discord.ChannelType.DM) {
       if (message.author.bot) return;
@@ -35,10 +35,10 @@ module.exports = {
           .setColor("#f09999")
       } else if (message.attachments.size > 0) {
         messageDMEmbed = new Discord.EmbedBuilder()
-        .setAuthor({ name: message.author.tag, iconURL: message.author.displayAvatarURL() })
-        .setTitle("New message DM")
-        .setColor("#f09999")
-        .setImage(message.attachments.first().url)
+          .setAuthor({ name: message.author.tag, iconURL: message.author.displayAvatarURL() })
+          .setTitle("New message DM")
+          .setColor("#f09999")
+          .setImage(message.attachments.first().url)
       }
       let channel = client.channels.cache.get("1080108826088448092");
       return channel.send({
@@ -87,7 +87,7 @@ module.exports = {
         afkUsers.delete(message.author.id);
         message.reply({
           embeds: [
-            new Discord.EmbedBuilder() 
+            new Discord.EmbedBuilder()
               .setTitle("Afk Status Removed")
               .setColor("#a8f1b0")
               .setDescription(
@@ -136,20 +136,100 @@ module.exports = {
       client.devsCommands.get(cmd) ||
       client.devsCommands.find(a => a.aliases && a.aliases.includes(cmd));
     if (!command) {
-      // const tag = await TagSchema.findOne({ name: message.content.slice(prefix.length).split(/ +/)[0] })
-      // if (!tag) return;
-      // if (!tag.enabled) return message.reply("This tag hasn't been verified by a moderator yet!")
-      // if (tag.guild !== message.guild.id) {
-      //   return message.reply("This tag is not in this server!")
-      // }
-      // if (tag && tag.enabled) {
-      //   await message.reply({
-      //     content: tag.content
-      //   });
-      // }
       return;
     }
+    const gdata = await BLGuild.find()
+    let BlGStatus;
+    gdata.forEach((element) => {
+      if (element.guildId === message.guild.id) {
+        BlGStatus = true;
+      }
+    })
+    const udata = await BLUser.find();
+    let BlUStatus;
+    udata.forEach((element) => {
+      if (element.userId === message.author.id) {
+        BlUStatus = true;
+      }
+    })
+    // .some(entry => entry.guildId === message.guild.id);
+    if (BlGStatus) {
+      if (command.name === "help") {
+        try {
+          return await command.run(client, message, args).then(async (res) => {
+            if (command.deleteTrigger || command.deletetrigger) {
+              setTimeout(async () => {
+                await message.delete().catch((err) => { console.error(err) });
+              }, 1000)
+            }
+          });
+        } catch (err) {
+          client.errorLogger.send({
+            embeds: [
+              new Discord.EmbedBuilder()
+                .setTitle("New DiscordAPI encounted")
+                .setDescription(`\`\`\`${err.stack}\`\`\``)
+                .setColor("#f09999")
+            ]
+          })
+        }
+      } else {
+        await message.delete().catch(err => {
+          client.errorLogger.send({
+            embeds: [
+              new Discord.EmbedBuilder()
+                .setTitle("New DiscordAPI encounted")
+                .setDescription(`\`\`\`${err.stack}\`\`\``)
+                .setColor("#f09999")
+            ]
+          })
+        })
+        return message.channel.send({
+          embeds: [
+            imports.BLG
+          ]
+        })
+      }
+    }
+    if (BlUStatus) {
+      if (command.name === "help") {
+        try {
+          return await command.run(client, message, args).then(async (res) => {
+            if (command.deleteTrigger || command.deletetrigger) {
+              setTimeout(async () => {
+                await message.delete().catch((err) => { console.error(err) });
+              }, 1000)
+            }
+          });
+        } catch (err) {
+          client.errorLogger.send({
+            embeds: [
+              new Discord.EmbedBuilder()
+                .setTitle("New DiscordAPI encounted")
+                .setDescription(`\`\`\`${err.stack}\`\`\``)
+                .setColor("#f09999")
+            ]
+          })
+        }
 
+      } else {
+        await message.delete().catch(err => {
+          client.errorLogger.send({
+            embeds: [
+              new Discord.EmbedBuilder()
+                .setTitle("New DiscordAPI encounted")
+                .setDescription(`\`\`\`${err.stack}\`\`\``)
+                .setColor("#f09999")
+            ]
+          })
+        })
+        return message.channel.send({
+          embeds: [
+            imports.BLU
+          ]
+        })
+      }
+    }
     if (command.cooldown) {
       if (config.devs.includes(message.author.id)) return;
       if (!coolDownMap.has(command.name)) {
@@ -185,7 +265,12 @@ module.exports = {
       command.roles.length > 0 &&
       !member.roles.cache.has((r) => command.roles.includes(r.name))
     ) {
-      message.reply("You do not have the required roles to use this command!");
+      message.delete();
+      return message.channel.send({
+        embeds: [
+          imports.IPE
+        ]
+      })
     }
 
     if (command.devOnly || command.devsOnly && !config.devs.includes(member.id)) {
@@ -193,17 +278,43 @@ module.exports = {
     }
 
     if (command.ownerOnly) {
-      return message.reply("This command can only be used by the owner!");
+      message.delete()
+      return message.channel.send({
+        embeds: [
+          imports.IPE
+        ]
+      })
     }
 
     if (command.permissions && command.permissions.length > 0) {
-      if (!member.permissions.has(command.permissions))
-        return message.reply(
-          "You don't have the required permissions to use this command!"
-        );
+      if (!member.permissions.has(command.permissions)) {
+        message.delete()
+        return message.channel.send({
+          embeds: [
+            imports.IPE
+          ]
+        })
+      }
+
     }
 
-    if (command) console.log(`Command : ${command.name} Channel : ${message.channel.name} Guild : ${message.guild.name} By: ${message.author.tag}`);
+    if (command) {
+      const channel = client.channels.cache.get(config.msgc);
+      channel.send({
+        embeds: [
+          new Discord.EmbedBuilder()
+            .setTitle("Command Used")
+            .addFields(
+              { name: "Command", value: command.name },
+              { name: "Command Context", value: message.content },
+              { name: "User", value: `${message.author.tag} || ${message.author.id}` },
+              { name: "Guild", value: `${message.guild.name} || ${message.guild.id}`}
+            )
+            .setColor("#a8f1b0")
+            .setTimestamp()
+        ]
+      })
+    }
 
     try {
       await command.run(client, message, args).then(async (res) => {
@@ -214,7 +325,14 @@ module.exports = {
         }
       });
     } catch (err) {
-      console.log(err);
+      client.errorLogger.send({
+        embeds: [
+          new Discord.EmbedBuilder()
+            .setTitle("New DiscordAPI encounted")
+            .setDescription(`\`\`\`${err.stack}\`\`\``)
+            .setColor("#f09999")
+        ]
+      })
     }
   }
 }

@@ -1,10 +1,13 @@
 const { SlashCommandBuilder, EmbedBuilder, ActionRowBuilder, StringSelectMenuBuilder } = require('discord.js');
+const GuildSchema = require("../../Schema/Guild").GuildData;
 module.exports = {
     category: "General",
     data: new SlashCommandBuilder()
         .setName('help')
         .setDescription('General Help Command'),
     async run(client, interaction) {
+        const Guild = await GuildSchema.findOne({ guild: interaction.guild.id });
+        const prefix = Guild.prefix;
         let commands = Array.from(client.slashcommands.values())
 
         let categories = commands.reduce((acc, command) => {
@@ -19,7 +22,9 @@ module.exports = {
             .setColor("#a8f1b0")
             .setTitle("Select category")
             .setDescription(
-                'Please select a category from the select menu given below to view the commands.'
+                `Global Prefix: \`.\`
+                Server Prefix: \`${prefix}\` || \`/\`
+                Select a category from the select menu given below to view the commands.`
             )
         const emojies = new Map([
             ["Moderation", "🛠️"],

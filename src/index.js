@@ -1,10 +1,7 @@
 require("dotenv").config();
 
 const Discord = require("discord.js");
-const client = new Discord.Client({
-    intents: ["Guilds", "GuildMessages", "MessageContent", "GuildVoiceStates", "GuildMembers", "GuildPresences", "DirectMessages"],
-    partials: [Discord.Partials.Message, Discord.Partials.Channel, Discord.Partials.Reaction],
-});
+const client = require("../src/imports/client");
 
 const fs = require("fs");
 client.commands = new Discord.Collection();
@@ -16,7 +13,8 @@ client.slashId = new Discord.Collection();
 ["Commands", "Events", "SlashCommands", "MongoConnection"].forEach(handler => {
     require(`./Handlers/${handler}`)(client, Discord);
 })
-module.exports = client;
+
+// exports.client = client
 
 console.log(`————————————————— Slash Commands ———————————————————`)
 
@@ -42,6 +40,7 @@ process.on('unhandledRejection', async (reason, p) => {
             new Discord.EmbedBuilder()
                 .setTitle("New unhandledRejection encounted")
                 .setDescription(`\`\`\`${reason.stack}\`\`\``)
+                .setFooter({ text: client.user.tag })
                 .setColor("#f09999")
         ]
     })
@@ -52,6 +51,7 @@ process.on('uncaughtException', (reason, origin) => {
             new Discord.EmbedBuilder()
                 .setTitle("New uncaughtExpection encounted")
                 .setDescription(`\`\`\`${reason.stack}\`\`\``)
+                .setFooter({ text: client.user.tag })
                 .setColor("#f09999")
         ]
     })
@@ -62,8 +62,10 @@ process.on('uncaughtExceptionMonitor', (reason, origin) => {
             new Discord.EmbedBuilder()
                 .setTitle("New uncaughtExceptionMonitor encounted")
                 .setDescription(`\`\`\`${reason.stack}\`\`\``)
+                .setFooter({ text: client.user.tag })
                 .setColor("#f09999")
         ]
     })
 })
 
+module.exports = client;

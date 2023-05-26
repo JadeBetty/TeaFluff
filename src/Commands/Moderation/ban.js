@@ -4,7 +4,7 @@ const GuildSchema = require("../../Schema/Guild").GuildData;
 module.exports = {
     name: `ban`,
     description: `Ban a member from the guild.`,
-    permissions: ["BanMember"],
+    permissions: ["BanMembers"],
     aliases: ["b"],
     category: 'Moderation',
     deleteTrigger: true,

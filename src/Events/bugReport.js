@@ -4,13 +4,10 @@ const {
     ButtonStyle,
     ButtonBuilder
 } = require('discord.js');
-const client = require('..');
 const GuildSchema = require('../Schema/Guild').GuildData;
 module.exports = {
     event: 'interactionCreate',
-    async run(interaction) {
-        const Guild = await GuildSchema.findOne({ guild: interaction.guild.id });
-        const prefix = Guild.prefix;
+    async run(interaction, client) {
         if (interaction.isButton()) {
             if (interaction.customId === "a-bugreport") {
                 await interaction.reply({

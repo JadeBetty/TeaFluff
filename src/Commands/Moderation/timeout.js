@@ -28,7 +28,7 @@ module.exports = {
                     .setColor("#f09999")
             ]
         });
-        if (member.user.id === message.author.id) {
+        if (member.user.id === message.author.id || member.user.id === client.user.id || member.user.bot) {
             return message.channel.send({
                 embeds: [
                     new EmbedBuilder()

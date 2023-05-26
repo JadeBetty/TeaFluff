@@ -3,13 +3,11 @@ const Discord = require("discord.js")
 const config = require("../../config.json")
 const GuildSchema = require("../Schema/Guild").GuildData;
 const coolDownMap = new Map();
-const client = require("..");
-// const TagSchema = require("../Schema/Tag")
 const afkUsers = require("../Commands/General/afk").afk;
 
 module.exports = {
   event: "messageUpdate",
-  run: async (oldMessage, message) => {
+  run: async (oldMessage, message, client) => {
     if(oldMessage.content === message.content) return;
     if (oldMessage?.author?.bot) return;
     let Guild = await GuildSchema.findOne({ guild: message.guild.id });
