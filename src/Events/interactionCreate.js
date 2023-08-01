@@ -7,6 +7,7 @@ module.exports = {
     async run(interaction, client) {
         if (interaction.isCommand()) {
             const command = client.slashcommands.get(interaction.commandName);
+            console.log(command)
             if (!command) return;
 
             const gdata = await BLGuild.find()

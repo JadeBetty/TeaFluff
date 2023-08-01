@@ -300,13 +300,14 @@ module.exports = {
 
     if (command) {
       const channel = client.channels.cache.get(config.msgc);
+      console.log(message)
       channel.send({
         embeds: [
           new Discord.EmbedBuilder()
             .setTitle("Command Used")
             .addFields(
               { name: "Command", value: command.name },
-              { name: "Command Context", value: message.content },
+              { name: "Command Context", value: `${message.content}` },
               { name: "User", value: `${message.author.tag} || ${message.author.id}` },
               { name: "Guild", value: `${message.guild.name} || ${message.guild.id}`}
             )
