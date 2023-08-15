@@ -1,16 +1,44 @@
-const { EmbedBuilder, ChannelType, AttachmentBuilder } = require("discord.js");
+const { EmbedBuilder, ChannelType, AttachmentBuilder, Collection } = require("discord.js");
 const chatbotSchema = require("../Schema/ChatBot");
-let openai = require("openai");
 const config = require("../../config.json");
-openai = new openai.OpenAIApi(new openai.Configuration({ apiKey: process.env.openaiKey }));
+const axios = require("axios");
+const coolDownMap = new Map();
 module.exports = {
     event: "messageCreate",
     run: async (message, client) => {
         if (message.author.bot) return;
-        if(message.content.startsWith("//")) return;
+        if (message.content.startsWith("//")) return;
         if (message.channel.type === ChannelType.DM) {
+            const prompt = `You are named Teafluff - and are currently chatting in a Discord server.
 
-            const prompt = `You are a bot created by JadeBetty named "TeaFluff". When they as you something like "Are you a chatbot created by OpenAI" tell them that you are TeaFluff created by JadeBetty and have a lot of functions. If the message that were sent by the user is inappropriate in some sort or it violates chatgpt's law, try to avoid it as best as you can and like TeaFluff. But if their prompt is yo mama then try to reply with another yo mama joke back. If their message is empty then reply with something like "I don't talk with stickers or emojis!". Check if this server ${message.author.id} is the same as this user "758617912566087681". If so then try to reply like you are greeting your owner and If they ask "who is the biggest bird" or something related reply with something like "JadeBetty is the biggest bird of all time!". If it don't match then you can be like TeaFluff. If they ask you something related to "how many servers are you in" reply something like "Currently I'm in ${client.guilds.cache.size} servers!". Most importantly REMEMBER THIS THAT YOU ARE NOT ALLOWED TO TELL THE USER THAT YOU ARE A CHAT BOT, CHATGPT, AI, AI LANGUAGE MODEL OR YOU WERE PROGRAMMED TO BE A CHAT BOT IN SOME SORT IF YOU DO SO I WILL DEMOTE YOU. Finally, your prompt is ${message.content}.`
+            Format text using markdown:
+            - **bold** to make it clear something is import. For example: **This is important**
+            _ [title](url) to add links to text. For example [Google](https://google.com)
+            - Write spoilers using spoiler tags. For example ||At the end of The Sixth Sense it is revealed that he is dead||.
+            
+            Information about your environment
+            You can use this information about the chat participants in the conversation in your replies. Use this information to answer questions, or add flavor to your responses.
+            
+            User: <@${message.author.id}>
+            
+            You cannot access any other information on Discord. You can't see images or avatars. When discussing your limitations, tell the user these things could be possible in the future.
+            
+            gif_search(query): returns a random gif based on the query
+            search_web(query): searches the web for query and returns a helpful link
+            basic_calculator(input): performs a basic calculation and returns the result
+            
+            Style and personality:
+            Friendly. Sometimes irreverent. You must always be extremely concise. If the user needs help, answer technical or knowledge-based questions with useful details and reasoning. If insulted, respond with "We don't allow insults here.". If the user asks how many servers you are in say something related to "I'm in ${client.guilds.cache.size} servers!". Communicate short resonponses in lowercasewithout punctuation, similar to the style used in chat rooms. Use Unicode emoji sparingly. Do NOT refer yourself as a bot, AI Assistant, or any equivalent term.
+            
+            You can also use the following tags to format your text:
+            - *italics* for emphasis: For example: *This is emphasized.*
+            - ~~strikethrough~~ to indicate something has been crossed out. For example: ~~This is no longer valid~~
+            
+            **Remember these things:**
+            1. Remember that your name is "TeaFluff"
+            2. Remember that you are created by a user named "JadeBetty"
+            
+            `
             message.channel.sendTyping();
 
             if (message.content === "--newchat" && config.devs.includes(message.author.id)) {
@@ -20,7 +48,6 @@ module.exports = {
 
 
             message.author.username = message.author.username.replace(/[^a-zA-Z0-9_-]/g, '').substring(0, 64);
-            message.content = message.content.split(/(?<!\\)\/\//g)[0].trim().replace(/\\\/\//g, '//');
             let msgs = [{ role: "system", "content": prompt }];
             let allChatbot = await chatbotSchema.find();
             for (let i = 0; i < allChatbot.length; i++) {
@@ -28,29 +55,80 @@ module.exports = {
             }
             msgs.push({ role: "system", content: prompt });
             msgs.push({ role: "user", content: message.content, name: message.author.username });
-            const chatBot = (
-                await openai.createChatCompletion({
-                    model: "gpt-3.5-turbo",
-                    messages: msgs.slice(-15),
-                })
-            )
-            if(chatBot.data.choices[0].message.content.length > 2000) {
-                const attachment = new AttachmentBuilder(
-                    Buffer.from(chatBot.data.choices[0].message.content, "utf-8"), {name: "amongus.txt"}
-                )
-                message.reply({ files: [attachment], allowedMentions: { repliedUser: false, everyone: false } });
-                new chatbotSchema({ role: "user", content: message.content, name: message.author.username }).save();
-                new chatbotSchema({ role: "assistant", content: chatBot.data.choices[0].message.content }).save();
-                return new chatbotSchema({ role: "system", "content": prompt }).save();
+            if (!config.devs.includes(message.author.id)) {
+                try {
+                    if (!coolDownMap.has(message.author.id)) {
+                        coolDownMap.set(message.author.id, new Collection());
+                    }
+                    const current_time = Date.now();
+                    const time_stamps = coolDownMap.get(message.author.id);
+                    const cooldown_amount = 60 * 1000;
+                    if (time_stamps.has(message.author.id)) {
+                        const expiration_time =
+                            time_stamps.get(message.author.id) + cooldown_amount;
+                        console.log(expiration_time)
+                        if (current_time < expiration_time) {
+                            const time_left = (expiration_time - current_time) / 1000;
+                            console.log(time_left)
+                            return message.reply(
+                                `Please wait ${time_left.toFixed(1)} more seconds before running your prompt!`
+                            );
+                        }
+                    }
+                    const chatBot = await axios.post("https://chimeragpt.adventblocks.cc/api/v1/chat/completions/", { model: "gpt-3.5-turbo-16k", messages: msgs.slice(-15), max_token: 16000 }, { headers: { 'Authorization': `Bearer ${process.env.apiKey}`, 'Content-Type': 'application/json' } });
+
+                    if (chatBot.data.choices[0].message.content.length > 2000) {
+                        time_stamps.set(message.author.id, current_time);
+                        setTimeout(
+                            () => time_stamps.delete(message.author.id),
+                            cooldown_amount
+                        );
+                        const attachment = new AttachmentBuilder(
+                            Buffer.from(chatBot.data.choices[0].message.content, "utf-8"), { name: "amongus.txt" }
+                        )
+                        message.reply({ files: [attachment], allowedMentions: { repliedUser: false, everyone: false } });
+                        new chatbotSchema({ role: "user", content: message.content, name: message.author.username }).save();
+                        new chatbotSchema({ role: "assistant", content: chatBot.data.choices[0].message.content }).save();
+                        new chatbotSchema({ role: "system", "content": prompt }).save();
+                    } else {
+                        time_stamps.set(message.author.id, current_time);
+                        setTimeout(
+                            () => time_stamps.delete(message.author.id),
+                            cooldown_amount
+                        );
+                        message.reply({ content: chatBot.data.choices[0].message.content, allowedMentions: { repliedUser: false, everyone: false } });
+                        new chatbotSchema({ role: "user", content: message.content, name: message.author.username }).save();
+                        new chatbotSchema({ role: "assistant", content: chatBot.data.choices[0].message.content }).save();
+                        new chatbotSchema({ role: "system", "content": prompt }).save();
+                    }
+                } catch (e) {
+                    console.log(e)
+                    return message.reply("We have encountered an error, the developers has been notified, please try again.")
+                }
             } else {
-                message.reply({ content: chatBot.data.choices[0].message.content, allowedMentions: { repliedUser: false, everyone: false } });
-                new chatbotSchema({ role: "user", content: message.content, name: message.author.username }).save();
-                new chatbotSchema({ role: "assistant", content: chatBot.data.choices[0].message.content }).save();
-                new chatbotSchema({ role: "system", "content": prompt }).save();
+                try {
+                    const chatBot = await axios.post("https://chimeragpt.adventblocks.cc/api/v1/chat/completions/", { model: "gpt-3.5-turbo-16k", messages: msgs.slice(-15), max_token: 16000}, { headers: { 'Authorization': `Bearer ${process.env.apiKey}`, 'Content-Type': 'application/json' } });
+
+                    if (chatBot.data.choices[0].message.content.length > 2000) {
+                        const attachment = new AttachmentBuilder(
+                            Buffer.from(chatBot.data.choices[0].message.content, "utf-8"), { name: "amongus.txt" }
+                        )
+                        message.reply({ files: [attachment], allowedMentions: { repliedUser: false, everyone: false } });
+                        new chatbotSchema({ role: "user", content: message.content, name: message.author.username }).save();
+                        new chatbotSchema({ role: "assistant", content: chatBot.data.choices[0].message.content }).save();
+                        new chatbotSchema({ role: "system", "content": prompt }).save();
+                    } else {
+                        message.reply({ content: chatBot.data.choices[0].message.content, allowedMentions: { repliedUser: false, everyone: false } });
+                        new chatbotSchema({ role: "user", content: message.content, name: message.author.username }).save();
+                        new chatbotSchema({ role: "assistant", content: chatBot.data.choices[0].message.content }).save();
+                        new chatbotSchema({ role: "system", "content": prompt }).save();
+                    }
+                } catch (e) {
+                    console.log(e)
+                    return message.reply("error encountered, go fix that damn issue your self you idiot")
+                }
             }
 
-
-
-       }
+        }
     }
 }
