@@ -3,7 +3,7 @@ const axios = require("axios");
 module.exports = {
     name: "compile",
     description: "Compile a code!",
-    cateogry: "Bot Development",
+    category: "Bot Development",
     run: async (client, message, args) => {
         const cmd = message.content.replace(/^!/, ""); // used to check for the compile command
         const regex1 = /compile\s+```([a-zA-Z]+)\s+([\s\S]+?)```/; //compile `language \n code`

@@ -34,38 +34,45 @@ const errorChannel = new Discord.WebhookClient({ url: process.env.errorLogWebhoo
 client.errorLogger = errorChannel;
 client.login(process.env.token);
 
-// process.on('unhandledRejection', async (reason, p) => {
-//     return errorChannel.send({
-//         embeds: [
-//             new Discord.EmbedBuilder()
-//                 .setTitle("New unhandledRejection encounted")
-//                 .setDescription(`\`\`\`${reason.stack}\`\`\``)
-//                 .setFooter({ text: client.user.tag })
-//                 .setColor("#f09999")
-//         ]
-//     })
-// });
-// process.on('uncaughtException', (reason, origin) => {
-//     return errorChannel.send({
-//         embeds: [
-//             new Discord.EmbedBuilder()
-//                 .setTitle("New uncaughtExpection encounted")
-//                 .setDescription(`\`\`\`${reason.stack}\`\`\``)
-//                 .setFooter({ text: client.user.tag })
-//                 .setColor("#f09999")
-//         ]
-//     })
-// });
-// process.on('uncaughtExceptionMonitor', (reason, origin) => {
-//     return errorChannel.send({
-//         embeds: [
-//             new Discord.EmbedBuilder()
-//                 .setTitle("New uncaughtExceptionMonitor encounted")
-//                 .setDescription(`\`\`\`${reason.stack}\`\`\``)
-//                 .setFooter({ text: client.user.tag })
-//                 .setColor("#f09999")
-//         ]
-//     })
-// })
+process.on('unhandledRejection', async (reason, p) => {
+    console.log(reason)
+    return errorChannel.send({
+        embeds: [
+            new Discord.EmbedBuilder()
+                .setTitle("New unhandledRejection encounted")
+                .setDescription(`\`\`\`${reason.stack}\`\`\``)
+                .setFooter({ text: client.user.tag })
+                .setColor("#f09999")
+        ]
+    })
+});
+process.on('uncaughtException', (reason, origin) => {
+    console.log(reason)
+    return errorChannel.send({
+        embeds: [
+            new Discord.EmbedBuilder()
+                .setTitle("New uncaughtExpection encounted")
+                .setDescription(`\`\`\`${reason.stack}\`\`\``)
+                .setFooter({ text: client.user.tag })
+                .setColor("#f09999")
+        ]
+    })
+});
+process.on('uncaughtExceptionMonitor', (reason, origin) => {
+    console.log(reason)
+    return errorChannel.send({
+        embeds: [
+            new Discord.EmbedBuilder()
+                .setTitle("New uncaughtExceptionMonitor encounted")
+                .setDescription(`\`\`\`${reason.stack}\`\`\``)
+                .setFooter({ text: client.user.tag })
+                .setColor("#f09999")
+        ]
+    })
+})
+
+process.on("exit", () => {
+    client.user.setActivity("Bot crashed, Please report this to the devs.", {type: Discord.ActivityType.Custom})
+})
 
 module.exports = client;

@@ -7,9 +7,9 @@ const GuildSchema = require('../Schema/Guild').GuildData;
 module.exports = {
     event: 'interactionCreate',
     async run(interaction, client) {
-        const Guild = await GuildSchema.findOne({ guild: interaction.guild.id });
-        const prefix = Guild.prefix;
         if (interaction.isStringSelectMenu()) {
+            const Guild = await GuildSchema.findOne({ guild: interaction.guild.id });
+            const prefix = Guild.prefix;
             if (interaction.customId.startsWith("help_")) {
                 let owner_id = interaction.customId.split("_")[1];
                 if (interaction.member.id !== owner_id)

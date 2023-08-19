@@ -10,11 +10,11 @@ module.exports = {
     run: async (client, message, args) => {
         const { default: ms } = await import("pretty-ms");
         const command = args[0];
-        if (!command) return message.author.send({
+        if (!command || command !== "guild" || command !== "user") return message.author.send({
             embeds: [
                 imports.NCMD
             ]
-        })
+        }).catch(e => console.log(e))
         if (command.toLowerCase() === "guild") {
             args.shift();
             const guild = client.guilds.cache.get(args[0]);
@@ -90,9 +90,10 @@ module.exports = {
                 ]
             })
             await BLUser.create({
-                guildId: user.id,
+                userId: user.id,
                 reason: reason
-            })
+            }).then(e => console.log(e))
+            console.log("Sending the autothing")
             return message.author.send({
                 embeds: [
                     new EmbedBuilder()

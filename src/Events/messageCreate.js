@@ -299,8 +299,8 @@ module.exports = {
     }
 
     if (command) {
+      console.log(`User: ${message.author.username} - ${message.author.id} Guild: ${message.guild.name} - ${message.guild.id} Channel ID and Name ${message.channel.name} - ${message.channel.id}`);
       const channel = client.channels.cache.get(config.msgc);
-      console.log(message)
       channel.send({
         embeds: [
           new Discord.EmbedBuilder()

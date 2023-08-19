@@ -2,13 +2,45 @@ const { EmbedBuilder, ChannelType, AttachmentBuilder, Collection } = require("di
 const chatbotSchema = require("../Schema/ChatBot");
 const config = require("../../config.json");
 const axios = require("axios");
+const BLGuild = require("../Schema/Blacklist")
+const BLUser = require("../Schema/Blacklist").bluser
 const coolDownMap = new Map();
+const imports = require("../imports/embed.js");
 module.exports = {
     event: "messageCreate",
     run: async (message, client) => {
         if (message.author.bot) return;
         if (message.content.startsWith("//")) return;
         if (message.channel.type === ChannelType.DM) {
+            const gdata = await BLGuild.find()
+            let BlGStatus;
+            gdata.forEach((element) => {
+                if (element.guildId === message.guild.id) {
+                    BlGStatus = true;
+                }
+            })
+            const udata = await BLUser.find();
+            let BlUStatus;
+            udata.forEach((element) => {
+                if (element.userId === message.author.id) {
+                    BlUStatus = true;
+                }
+            })
+            // .some(entry => entry.guildId === message.guild.id);
+            if (BlGStatus) {
+                    return message.channel.send({
+                        embeds: [
+                            imports.BLG
+                        ]
+                    })
+            }
+            if (BlUStatus) {
+                    return message.channel.send({
+                        embeds: [
+                            imports.BLU
+                        ]
+                    })
+            }
             const prompt = `You are named Teafluff - and are currently chatting in a Discord server.
 
             Format text using markdown:
@@ -41,9 +73,9 @@ module.exports = {
             `
             message.channel.sendTyping();
 
-            if (message.content === "--newchat" && config.devs.includes(message.author.id)) {
-                await chatbotSchema.deleteMany({});
-                return message.reply("i have started a new chat")
+            if (message.content === "--newchat") {
+                await chatbotSchema.deleteMany({ name: message.author.username });
+                return message.reply("Successfully created a new chat.")
             }
 
 
@@ -102,12 +134,13 @@ module.exports = {
                         new chatbotSchema({ role: "system", "content": prompt }).save();
                     }
                 } catch (e) {
-                    console.log(e)
+                    console.log(e.stack.split("\n")[0]);
+                    if (e.stack.startsWith("AxiosError: Request failed with status code 403")) return message.reply(`An error has occured: Reason for error: Request failed with status code 403`);
                     return message.reply("We have encountered an error, the developers has been notified, please try again.")
                 }
             } else {
                 try {
-                    const chatBot = await axios.post("https://chimeragpt.adventblocks.cc/api/v1/chat/completions/", { model: "gpt-3.5-turbo-16k", messages: msgs.slice(-15), max_token: 16000}, { headers: { 'Authorization': `Bearer ${process.env.apiKey}`, 'Content-Type': 'application/json' } });
+                    const chatBot = await axios.post("https://chimeragpt.adventblocks.cc/api/v1/chat/completions/", { model: "gpt-3.5-turbo-16k", messages: msgs.slice(-15), max_token: 16000 }, { headers: { 'Authorization': `Bearer ${process.env.apiKey}`, 'Content-Type': 'application/json' } });
 
                     if (chatBot.data.choices[0].message.content.length > 2000) {
                         const attachment = new AttachmentBuilder(
@@ -124,7 +157,8 @@ module.exports = {
                         new chatbotSchema({ role: "system", "content": prompt }).save();
                     }
                 } catch (e) {
-                    console.log(e)
+                    console.log(e.stack.split("\n")[0]);
+                    if (e.stack.startsWith("AxiosError: Request failed with status code 403")) return message.reply(`An error has occured: Reason for error: Request failed with status code 403`);
                     return message.reply("error encountered, go fix that damn issue your self you idiot")
                 }
             }

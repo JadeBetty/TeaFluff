@@ -2,6 +2,8 @@ const Discord = require("discord.js");
 const axios = require("axios")
 module.exports = {
     name: "ex",
+    devsOnly: true,
+    deleteTrigger: true,
     run: async (client, message, args) => {
         const axios = require('axios');
         message.channel.send(`[a](https://youtube.com)`);
