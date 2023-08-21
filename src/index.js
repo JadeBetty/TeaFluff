@@ -41,7 +41,7 @@ process.on('unhandledRejection', async (reason, p) => {
             new Discord.EmbedBuilder()
                 .setTitle("New unhandledRejection encounted")
                 .setDescription(`\`\`\`${reason.stack}\`\`\``)
-                .setFooter({ text: client.user.tag })
+                .setFooter({ text: `TeaFluff` })
                 .setColor("#f09999")
         ]
     })
@@ -53,7 +53,7 @@ process.on('uncaughtException', (reason, origin) => {
             new Discord.EmbedBuilder()
                 .setTitle("New uncaughtExpection encounted")
                 .setDescription(`\`\`\`${reason.stack}\`\`\``)
-                .setFooter({ text: client.user.tag })
+                .setFooter({ text: `TeaFluff` })
                 .setColor("#f09999")
         ]
     })
@@ -65,7 +65,7 @@ process.on('uncaughtExceptionMonitor', (reason, origin) => {
             new Discord.EmbedBuilder()
                 .setTitle("New uncaughtExceptionMonitor encounted")
                 .setDescription(`\`\`\`${reason.stack}\`\`\``)
-                .setFooter({ text: client.user.tag })
+                .setFooter({ text: `TeaFluff` })
                 .setColor("#f09999")
         ]
     })

@@ -52,6 +52,7 @@ module.exports = {
             You can use this information about the chat participants in the conversation in your replies. Use this information to answer questions, or add flavor to your responses.
             
             User: <@${message.author.id}>
+            Name: ${message.author.username}
             
             You cannot access any other information on Discord. You can't see images or avatars. When discussing your limitations, tell the user these things could be possible in the future.
             
