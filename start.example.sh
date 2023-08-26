@@ -1,6 +1,7 @@
 #! /bin/bash
-git config --global user.name ""
-git config --global user.password "
+source /TeaFluff/.env
+git config --global user.name $user
+git config --global user.password $passwd
 cd TeaFluff
 # git init
 # git fetch
