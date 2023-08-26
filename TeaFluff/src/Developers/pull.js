@@ -1,6 +1,6 @@
 const { EmbedBuilder } = require("discord.js");
 const exec = require("child_process").exec;
-reuqire("dotenv").config();
+require("dotenv").config();
 module.exports = {
     name: "pull",
     category: "Developers",
