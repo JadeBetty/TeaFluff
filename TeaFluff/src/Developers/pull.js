@@ -14,7 +14,7 @@ module.exports = {
             if (error) return console.log(error);
             exec(process.env.user, async (error, stdout, stderr) => {
                 if(error) return console.log(error)
-                exec(process.env.pwd, async (error, stdout, stderr) => {
+                exec(process.env.passwd, async (error, stdout, stderr) => {
                     let res = stdout || stderr;
                     message.channel.send({
                         embeds: [
