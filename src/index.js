@@ -70,7 +70,3 @@ process.on('uncaughtExceptionMonitor', (reason, origin) => {
         ]
     })
 })
-
-
-
-module.exports = client;
