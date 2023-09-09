@@ -1,6 +1,5 @@
 .env
-TeaFluff/node_modules
+node_modules
 config.json
 restart.txt
 package-lock.json
-start.sh
