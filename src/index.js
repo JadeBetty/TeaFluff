@@ -71,8 +71,6 @@ process.on('uncaughtExceptionMonitor', (reason, origin) => {
     })
 })
 
-process.on("exit", () => {
-    client.user.setActivity("Bot crashed, Please report this to the devs.", {type: Discord.ActivityType.Custom})
-})
+
 
 module.exports = client;
