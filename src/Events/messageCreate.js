@@ -326,7 +326,7 @@ module.exports = {
     }
 
     if (command) {
-      logger.info(`User: ${mesage.author.username} - ${message.author.id}\nGuild: ${message.guild.name} - ${message.guild.id}\nChannel: ${message.channel.name} - ${message.channel.id}`);
+      logger.info(`User: ${message.author.username} - ${message.author.id}\nGuild: ${message.guild.name} - ${message.guild.id}\nChannel: ${message.channel.name} - ${message.channel.id}`);
       const channel = client.channels.cache.get(config.msgc);
       channel.send({
         embeds: [
