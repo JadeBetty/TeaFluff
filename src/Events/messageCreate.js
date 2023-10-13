@@ -8,6 +8,7 @@ const BLUser = require("../Schema/Blacklist").bluser
 // const TagSchema = require("../Schema/Tag")
 const afkUsers = require("../Commands/General/afk").afk
 const imports = require("../imports/embed");
+const {logger} = require("console-wizard");
 module.exports = {
   event: "messageCreate",
   run: async (message, client) => {
