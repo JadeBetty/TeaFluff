@@ -28,11 +28,11 @@ fs.readdirSync(`./src/SlashCommands`).forEach(subfolder => {
         const slash = require(`./SlashCommands/${subfolder}/${file}`)
         client.slashcommands.set(slash.data.name, slash);
     }
-    logger.info(`${client.slashcommands.size} has been loaded`)
+
 })
 
 
-
+logger.info(`${client.slashcommands.size} slashcommands has been loaded`);
 
 client.login(process.env.token);
 

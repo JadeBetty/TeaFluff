@@ -8,7 +8,7 @@ const BLUser = require("../Schema/Blacklist").bluser
 // const TagSchema = require("../Schema/Tag")
 const afkUsers = require("../Commands/General/afk").afk
 const imports = require("../imports/embed");
-const {logger} = require("console-wizard");
+const { logger } = require("console-wizard");
 module.exports = {
   event: "messageCreate",
   run: async (message, client) => {
@@ -163,7 +163,7 @@ module.exports = {
     //   }
     // }
 
-    if(config.maintainence && !config.devs.includes(message.author.id)) return;
+    if (config.maintainence && !config.devs.includes(message.author.id)) return;
 
     const gdata = await BLGuild.find()
     let BlGStatus;
@@ -336,7 +336,7 @@ module.exports = {
               { name: "Command", value: command.name },
               { name: "Command Context", value: `${message.content}` },
               { name: "User", value: `${message.author.tag} || ${message.author.id}` },
-              { name: "Guild", value: `${message.guild.name} || ${message.guild.id}`}
+              { name: "Guild", value: `${message.guild.name} || ${message.guild.id}` }
             )
             .setColor("#a8f1b0")
             .setTimestamp()
