@@ -138,6 +138,32 @@ module.exports = {
     if (!command) {
       return;
     }
+
+    // if(config.maintainence && !config.devs.includes(message.author.id)) {
+    //   try {
+    //     await command.run(client, message, args).then(async (res) => {
+    //       if (command.deleteTrigger || command.deletetrigger) {
+    //         setTimeout(async () => {
+    //           await message.delete().catch((err) => { console.error(err) });
+    //         }, 1000)
+    //       }
+    //     });
+    //     return;
+    //   } catch (err) {
+    //     console.log(err)
+    //     // client.errorLogger.send({
+    //     //   embeds: [
+    //     //     new Discord.EmbedBuilder()
+    //     //       .setTitle("New DiscordAPI encounted")
+    //     //       .setDescription(`\`\`\`${err.stack}\`\`\``)
+    //     //       .setColor("#f09999")
+    //     //   ]
+    //     // })
+    //   }
+    // }
+
+    if(config.maintainence && !config.devs.includes(message.author.id)) return;
+
     const gdata = await BLGuild.find()
     let BlGStatus;
     gdata.forEach((element) => {
@@ -326,14 +352,15 @@ module.exports = {
         }
       });
     } catch (err) {
-      client.errorLogger.send({
-        embeds: [
-          new Discord.EmbedBuilder()
-            .setTitle("New DiscordAPI encounted")
-            .setDescription(`\`\`\`${err.stack}\`\`\``)
-            .setColor("#f09999")
-        ]
-      })
+      console.log(err)
+      // client.errorLogger.send({
+      //   embeds: [
+      //     new Discord.EmbedBuilder()
+      //       .setTitle("New DiscordAPI encounted")
+      //       .setDescription(`\`\`\`${err.stack}\`\`\``)
+      //       .setColor("#f09999")
+      //   ]
+      // })
     }
   }
 }

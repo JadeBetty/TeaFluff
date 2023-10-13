@@ -2,8 +2,10 @@ require("dotenv").config();
 
 const Discord = require("discord.js");
 const client = require("../src/imports/client");
-
 const fs = require("fs");
+const handleError = require("./imports/handleError");
+const { logger } = require("console-wizard");
+
 client.commands = new Discord.Collection();
 client.events = new Discord.Collection();
 client.aliases = new Discord.Collection();
@@ -16,7 +18,7 @@ client.slashId = new Discord.Collection();
 
 // exports.client = client
 
-console.log(`————————————————— Slash Commands ———————————————————`)
+logger.info("Slashcommands are loading")
 
 fs.readdirSync(`./src/SlashCommands`).forEach(subfolder => {
 
@@ -24,49 +26,22 @@ fs.readdirSync(`./src/SlashCommands`).forEach(subfolder => {
 
     for (const file of slashcommandsFiles) {
         const slash = require(`./SlashCommands/${subfolder}/${file}`)
-        console.log(`Slash Commands - ${file} loaded.`)
-        client.slashcommands.set(slash.data.name, slash)
+        client.slashcommands.set(slash.data.name, slash);
     }
+    logger.info(`${client.slashcommands.size} has been loaded`)
 })
 
 
-const errorChannel = new Discord.WebhookClient({ url: process.env.errorLogWebhook })
-client.errorLogger = errorChannel;
+
+
 client.login(process.env.token);
 
-process.on('unhandledRejection', async (reason, p) => {
-    console.log(reason)
-    return errorChannel.send({
-        embeds: [
-            new Discord.EmbedBuilder()
-                .setTitle("New unhandledRejection encounted")
-                .setDescription(`\`\`\`${reason.stack}\`\`\``)
-                .setFooter({ text: `TeaFluff` })
-                .setColor("#f09999")
-        ]
-    })
+process.on('unhandledRejection', async (error) => {
+    handleError(error)
 });
-process.on('uncaughtException', (reason, origin) => {
-    console.log(reason)
-    return errorChannel.send({
-        embeds: [
-            new Discord.EmbedBuilder()
-                .setTitle("New uncaughtExpection encounted")
-                .setDescription(`\`\`\`${reason.stack}\`\`\``)
-                .setFooter({ text: `TeaFluff` })
-                .setColor("#f09999")
-        ]
-    })
+process.on('uncaughtException', (error) => {
+    handleError(error)
 });
-process.on('uncaughtExceptionMonitor', (reason, origin) => {
-    console.log(reason)
-    return errorChannel.send({
-        embeds: [
-            new Discord.EmbedBuilder()
-                .setTitle("New uncaughtExceptionMonitor encounted")
-                .setDescription(`\`\`\`${reason.stack}\`\`\``)
-                .setFooter({ text: `TeaFluff` })
-                .setColor("#f09999")
-        ]
-    })
+process.on('uncaughtExceptionMonitor', (error) => {
+    handleError(error)
 })

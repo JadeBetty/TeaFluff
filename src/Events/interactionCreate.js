@@ -2,14 +2,16 @@ const { EmbedBuilder } = require("discord.js");
 const BLGuild = require("../Schema/Blacklist");
 const BLUser = require("../Schema/Blacklist").bluser;
 const imports = require("../imports/embed");
+const config  = require("../../config.json");
 module.exports = {
     event: "interactionCreate",
     async run(interaction, client) {
         if (interaction.isCommand()) {
             const command = client.slashcommands.get(interaction.commandName);
-            console.log(command)
             if (!command) return;
-
+            if(config.maintainence && !config.devs.includes(interaction.user.id)) {
+                return
+            } 
             const gdata = await BLGuild.find()
             let BlGStatus;
             gdata.forEach((element) => {

@@ -1,6 +1,8 @@
+const { logger } = require("console-wizard");
+
 module.exports = async (client) => {
     const fs = require('fs');
-    const commandFolders = fs.readdirSync('./src/Commands').forEach(folder => {
+    fs.readdirSync('./src/Commands').forEach(folder => {
         let commands = fs
             .readdirSync(`./src/Commands/${folder}`)
             .filter(file => file.endsWith('.js'));
@@ -14,5 +16,6 @@ module.exports = async (client) => {
         const command = require(`./../Developers/${file}`);
         client.devsCommands.set(command.name, command)
     })
-    console.log(`Successfully loaded ${client.commands.size} commands and ${client.devsCommands.size} developers commands!`);
+
+    logger.info(`Loaded ${client.commands.size} commands and ${client.devsCommands.size} developer commands!`);
 }

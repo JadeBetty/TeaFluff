@@ -1,13 +1,12 @@
 const Discord = require("discord.js");
-const user = require("../Schema/Users");
 const fs = require("fs");
 const path = require("path");
-const { GuildData } = require("../Schema/Guild");
-
+const config = require("../../config.json");
+const { logger } = require("console-wizard")
 module.exports = {
     event: "ready",
     async run(client) {
-        console.log(`Logged in as ${client.user.tag}`)
+        logger.info(`Logged in as ${client.user.tag}`)
         fs.readFile(path.join(__dirname, "../../restart.txt"), (err, data) => {
             if (err) {
                 return;
@@ -34,11 +33,21 @@ module.exports = {
                 });
             }
         })
-        // Ready Event Part
-        const ServerCount = client.guilds.cache.size > 1000 ? (client.guilds.cache.size / 1000).toFixed(1) : client.guilds.cache.size;
-        client.user.setActivity(`in ${ServerCount} servers | /help`, { type: Discord.ActivityType.Playing })
 
-        client.commands.set("Slash Commands", ({ category: "Slash Commands" }))
-        client.slashcommands.set("Prefix Commands", ({ category: "Prefix Commands" }))
+        client.commands.set("Slash Commands", ({ category: "Slash Commands" }));
+        client.slashcommands.set("Prefix Commands", ({ category: "Prefix Commands" }));
+
+        if(config.maintainence) {
+            client.user.setPresence({
+                activities: [{
+                    name: "An error has occured",
+                    type: Discord.ActivityType.Custom
+                }],
+                status: "idle"
+            });
+        } else {
+            const ServerCount = client.guilds.cache.size > 1000 ? (client.guilds.cache.size / 1000).toFixed(1) : client.guilds.cache.size;
+            client.user.setActivity(`Currently in ${ServerCount} servers | /help`, { type: Discord.ActivityType.Custom })
+        }
     }
 }
