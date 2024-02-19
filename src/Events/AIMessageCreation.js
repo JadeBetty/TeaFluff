@@ -1,3 +1,4 @@
+const { default: axios } = require("axios");
 const config = require("../../config.json");
 const BLGuild = require("../Schema/Blacklist");
 const BLUser = require("../Schema/Blacklist").bluser;
@@ -107,19 +108,19 @@ ${message.content}
           cooldown_amount
         );
         try {
-          const chat = await fetch(config.link, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              question: prompt,
-            }),
-          }).then((res) => res.json());
-
+          const chat = await axios.post(config.link,{question: prompt}, {headers: {"Content-Type": "application/json"}});
           message.reply(chat.answer);
-
-
+        } catch (e) {
+          console.log(e);
+          time_stamps.delete(message.author.id)
+          return message.reply(
+            "lol that did not work, contact the devs (will not be fixed)"
+          );
+        }
+      } else {
+        try {
+          const chat = await axios.post(config.link,{question: prompt}, {headers: {"Content-Type": "application/json"}});
+          message.reply(chat.answer);
         } catch (e) {
           console.log(e);
           time_stamps.delete(message.author.id)
