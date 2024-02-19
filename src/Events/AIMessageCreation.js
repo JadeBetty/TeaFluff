@@ -109,7 +109,7 @@ ${message.content}
         );
         try {
           const chat = await axios.post(config.link,{question: prompt}, {headers: {"Content-Type": "application/json"}});
-          message.reply(chat.answer);
+          message.reply(chat.data.answer);
         } catch (e) {
           console.log(e);
           time_stamps.delete(message.author.id)
@@ -120,7 +120,7 @@ ${message.content}
       } else {
         try {
           const chat = await axios.post(config.link,{question: prompt}, {headers: {"Content-Type": "application/json"}});
-          message.reply(chat.answer);
+          message.reply(chat.data.answer);
         } catch (e) {
           console.log(e);
           time_stamps.delete(message.author.id)
