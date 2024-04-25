@@ -8,7 +8,6 @@ const h = ["1137619631985664001"];
 module.exports = {
   event: "messageUpdate",
   run: async (oldMessage, message, client) => {
-    console.log(message);
     if (h.includes(message.guild.id)) {
       client.channels.cache
         .get("1079312331298832426")
