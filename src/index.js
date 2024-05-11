@@ -34,6 +34,28 @@ fs.readdirSync(`./src/SlashCommands`).forEach(subfolder => {
 
 logger.info(`${client.slashcommands.size} slashcommands has been loaded`);
 
+
+const { DisTube } = require("distube");
+const { SpotifyPlugin } = require("@distube/spotify");
+const { SoundCloudPlugin } = require("@distube/soundcloud");
+const { YtDlpPlugin } = require("@distube/yt-dlp");
+let distube = new DisTube(client, {
+    leaveOnStop: false,
+    leaveOnFinish: true,
+    emitNewSongOnly: true,
+    emitAddSongWhenCreatingQueue: false,
+    emitAddListWhenCreatingQueue: false,
+    plugins: [
+        new SpotifyPlugin({
+            emitEventsAfterFetching: true,
+        }),
+        new SoundCloudPlugin(),
+        new YtDlpPlugin(),
+    ],
+});
+client.player = distube
+
+
 client.login(process.env.token);
 
 process.on('unhandledRejection', async (error) => {
@@ -45,3 +67,9 @@ process.on('uncaughtException', (error) => {
 process.on('uncaughtExceptionMonitor', (error) => {
     handleError(error)
 })
+
+distube.on("finish", queue => queue.textChannel.send("Queue ended, leaving voice channel...").then(msg => {
+    setTimeout(() => {
+      msg.delete()
+    }, 5000) 
+  }));

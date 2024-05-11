@@ -325,6 +325,10 @@ module.exports = {
 
     }
 
+    if (command.voicechannel) {
+      if (!message?.member?.voice?.channelId) return message.reply(`Please connect to a voice channel first before using the ${command.name} command!`);
+  }
+
     if (command) {
       logger.info(`User: ${message.author.username} - ${message.author.id}\nGuild: ${message.guild.name} - ${message.guild.id}\nChannel: ${message.channel.name} - ${message.channel.id}`);
       const channel = client.channels.cache.get(config.msgc);
