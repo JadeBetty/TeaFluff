@@ -8,8 +8,8 @@ module.exports = {
     voicechannel: true,
     run: async (client, message, args) => {
       const queue = client.player.getQueue(message.guild.id);
-      if (!queue || !queue.playing) return interaction.reply({ content: `No music is currently playing.`}).catch(e => { })
+      if (!queue) return message.reply({ content: `No music is currently playing.`}).catch(e => { console.log(e)})
       const success = queue.resume();
-      return message.reply({ content: success ? `**${queue.songs[0].name}** - music resumed.` : `Something went wrong!`,  }).catch(e => { })
+      return message.reply({ content: success ? `**${queue.songs[0].name}** - music resumed.` : `Something went wrong!`,  }).catch(e => { console.log(e)})
     }
 }

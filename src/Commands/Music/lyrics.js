@@ -8,7 +8,9 @@ module.exports = {
     devsOnly: true,
     deleteTrigger: true,
     run: async (client, message, args) => {
-        let songTitle = args.join(" ");
+        const queue = client.player.getQueue(message.guild.id);
+        if(!Array.isArray(args) || !queue) return message.reply("enter a lyrics name")
+        let songTitle = args.join(" ") || queue.songs[0].name;
         songTitle = songTitle.replace(
             /lyrics|lyric|lyrical|official music video|\(official music video\)|audio|official|official video|official video hd|official hd video|offical video music|\(offical video music\)|extended|hd|(\[.+\])/gi,
             ""
@@ -25,4 +27,4 @@ module.exports = {
             ]
         })
     }
-}
+} 
